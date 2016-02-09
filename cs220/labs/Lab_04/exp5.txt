@@ -1,0 +1,3 @@
+set x 5; set sum 0;
+while x { set sum sum + x; set x x - 1 };
+sum

@@ -1,0 +1,2 @@
+b getString
+run <testhex.txt

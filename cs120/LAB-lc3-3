@@ -1,0 +1,9 @@
+if(R0 > R1)
+	R2 = R2 + 7;
+
+NOT R3, R1		;set r3 to 1's comp of r1
+ADD R3, R3, #1		;add 1 to r3 to make it 2's comp
+ADD R3, R0, R2		;add r0 to negative r1
+BRNZ SKIP		;if sum is not positive, go to skip	
+ADD R2, R2, #7		;set r2 to r2 + 7
+SKIP

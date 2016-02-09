@@ -1,0 +1,19 @@
+RPS Strategy
+
+Need to keep track of:
+	wins
+	frequency of throws
+	
+
+
+Runs recognition:
+	If opponent throws multiple of the same in a row, lower chance next throw is the same.
+
+Defend against long runs players (eg. RRRRRRRSSSSSSRRRRRPPPPP)
+
+If they win, they're likely to play the same. So switch to the one that beats them.
+
+If they lose, they're likely to switch to so switch to the one they just threw.
+
+Strategy checking?
+	Recognize common strategies and counter.
