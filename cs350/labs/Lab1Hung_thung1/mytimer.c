@@ -6,15 +6,15 @@
 
 struct timeval tv1, tv2;
 
-void start_timer(void) {
+void start_timer() {
     gettimeofday(&tv1, NULL);
 }
 
-void stop_timer(void) { 
+void stop_timer() { 
     gettimeofday(&tv2, NULL);
 }
 
-void print_elapsed(void) {   
+void print_elapsed() {   
     fprintf(
         stderr, 
         "Run time elapsed: %f seconds.\n", 

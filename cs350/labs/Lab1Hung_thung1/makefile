@@ -10,4 +10,4 @@ $(EXECUTABLE): $(OBJECTS)
 	$(CC) $(OBJECTS) -o $@
 
 clean: 
-	rm $(OBJECTS) *~ *.swp
+	rm $(OBJECTS) *~ *.swp lab1

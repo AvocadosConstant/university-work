@@ -10,6 +10,15 @@ int intcmp(const void * a, const void * b) {
     return ( *(int*)a - *(int*)b );
 }
 
+void print_usage_string() {
+    char c;
+    FILE *file = fopen("res/usage.txt", "rt");
+    while((c = getc(file)) != EOF) {
+        printf("%c",c);   
+    }
+    fclose(file);
+}
+
 void sort_mode(FILE *istream, FILE *ostream, FILE *cstream, int num, int min, int max) {
     int next_int = 0;
     fscanf(istream, "%d\n", &next_int);  //  size of input data set
@@ -75,12 +84,7 @@ int main(int argc, char **argv) {
 	while((opt = getopt(argc, argv, "ugn:m:M:s:i:o:c:")) != -1) {
 		switch(opt) {
 			case 'u':{      //  prints the usage string
-                char c;
-                FILE *file = fopen("res/usage.txt", "rt");
-                while((c = getc(file)) != EOF) {
-                    printf("%c",c);   
-                }
-				fclose(file);
+                print_usage_string();
                 return 0;
             }
             case 'g':
@@ -126,7 +130,7 @@ int main(int argc, char **argv) {
                 }
 				break;
 			default:
-				printf("default\n");
+                print_usage_string();
 				return 0;		
 		}
 	}
