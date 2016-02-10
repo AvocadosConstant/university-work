@@ -8,6 +8,7 @@
 \usepackage{tikz}
 \usepackage[plain]{algorithm}
 \usepackage{algpseudocode}
+\usepackage{enumerate}
 
 \usetikzlibrary{automata,positioning}
 
@@ -90,7 +91,7 @@
 \newcommand{\hmwkDueDate}{February 12, 2016}
 \newcommand{\hmwkClass}{CS 375}
 \newcommand{\hmwkClassInstructor}{Professor Lei Yu}
-\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkClassTime}{Section B1}
 \newcommand{\hmwkAuthorName}{Tim Hung}
 
 %
@@ -101,7 +102,7 @@
     \vspace{2in}
     \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
     \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 2:20pm}\\
-    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
     \vspace{1in}\large{
         I have done this assignment completely on my own. I have not copied it, nor have I given my solution to anyone else. I understand that if I am involved in plagiarism or cheating I will have to sign an official form that I have cheated and that this form will be stored in my official university record. I also understand that I will receive a grade of 0 for the involved assignment for my first offense and that I will receive a grade of “F” for the course for any additional offense.
     }
@@ -144,7 +145,7 @@
 
 \pagebreak
 
-\begin{homeworkProblem}
+\begin{homeworkProblem} 
 (10 points) Given the pseudo code below for bubble sort:
 
     \begin{algorithm}[]
@@ -181,29 +182,93 @@ My solution here.
 
 \end{homeworkProblem}
 
-\pagebreak
-
 \begin{homeworkProblem}
-2. (28 points) Fill in all the missing values. For the f(n) column, you need to compute the sums and fill in the exact format of f(n) for the last two rows. For the last three columns, you need to fill in each cell with either yes or no.
+    2. (28 points) Fill in all the missing values. For the f(n) column, you need to compute the sums and fill in the exact format of f(n) for the last two rows. For the last three columns, you need to fill in each cell with either yes or no.
 
-\begin{center}
-\begin{tabular}{ | c | c || c | c | c |}
-\hline
-$f(n)$ & $g(n)$ & $f(n) = O(g(n))$ & $f(n) = \Omega(g(n))$ & $f(n) = \Theta(g(n))$\\ 
-\hline 
-\hline
-$n^{2.125}$ & $n^2lg(n)$ & yes & no & no\\\hline
-$\sqrt{n}$ & $n$  & yes & no & no \\\hline
-$n!$  & $(n+1)!$ & yes & yes & yes \\\hline
-$2^{n/2}$  & $2^{n}$  &   &   &   \\\hline
-$\sum_{i=1}^{n}i = $ & $n^{2}$  &   &   &   \\\hline
-$\sum_{i=0}^{n-1}4^{i} = $ & $n4^{(n-1)}$  &   &   &   \\\hline
-\end{tabular}
-\end{center}
-
+    \begin{center}
+        \begin{tabular}{ | c | c || c | c | c |}\hline
+        $f(n)$ & $g(n)$ & $f(n) = O(g(n))$ & $f(n) = \Omega(g(n))$ & $f(n) = \Theta(g(n))$\\\hline\hline
+        $n^{2.125}$ & $n^2lg(n)$ & yes & no & no\\\hline
+        $\sqrt{n}$ & $n$  & yes & no & no \\\hline
+        $n!$  & $(n+1)!$ & yes & yes & yes \\\hline
+        $2^{n/2}$  & $2^{n}$  &   &   &   \\\hline
+        $\sum_{i=1}^{n}i = $ & $n^{2}$  &   &   &   \\\hline
+        $\sum_{i=0}^{n-1}4^{i} = $ & $n4^{(n-1)}$  &   &   &   \\\hline
+        \end{tabular}
+    \end{center}
 
 \end{homeworkProblem}
 
-\pagebreak
+\begin{homeworkProblem}
+    (10 points) Order the functions below by increasing growth rates (no justification required).
+    \begin{center}
+        \begin{tabular}{ c c c c c c c c }
+        $n^{n}$&
+        $n\ln{n}$&
+        $n^{\epsilon} (0 < \epsilon < 1)$&
+        $2^{\lg{n}}$&
+        $\ln{n}$&
+        $10$&
+        $n!$&
+        $2^{n}$
+        \end{tabular}
+    \end{center}
+    Let $g_{i}(n)$ be the $ith$ function from the left after the ordering (the leftmost function has the slowest growth rate). In the order, $g_{i}(n)$  should satisfy $g_{i}(n) \in O(g_{i+1}(n))$.\\ 
+
+    \textbf{Solution}
+    \begin{center}
+        \begin{tabular}{ c c c c c c c c }
+        $10$&
+        $\ln{n}$&
+        $n^{\epsilon} (0 < \epsilon < 1)$&
+        $n\ln{n}$&
+        $2^{\lg{n}}$&
+        $2^{n}$&
+        $n!$&
+        $n^{n}$
+        \end{tabular}
+    \end{center}
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    (12 points) Let $f(n)$ and $g(n)$ be asymptotically positive functions. Prove or show a counter example for each of the following conjectures.
+
+    \begin{enumerate}[a)]
+        \item
+            $f(n) \in O(g(n))$ implies $2^{f(n)} \in O(2^{g(n)})$.
+        \item
+            $f(n) \in O(g(n))$ implies $g(n) \in \Omega(f(n))$.
+    \end{enumerate}
+
+    \textbf{Solution a}\\
+    my proof
+    \\
+
+    \textbf{Solution b}\\
+    my proof
+    \\
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+(10 points) Prove $n^{2}-3n-20 \in \Theta(n^{2})$ using the original definition of $\Theta$.\\
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+(10 points) Disprove $n^{3} \in O(n^{2})$ using the original definition of O.\\
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+(10 points) Prove $n=\Omega(\lg{n^{2}})$ using limit.\\
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+(10 points) Prove $n^{a} = \Omega(\lg^{k}{n})$, where $k>0, a>0$ using limit.\\
+
+\end{homeworkProblem}
 
 \end{document}
