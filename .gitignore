@@ -1,5 +1,13 @@
+#   Compile crap
 *~
 *.swp
 *.o
+
+#   Tar crap
 *.gz
 *.tar
+
+#   Latex crap
+*.aux
+*.log
+*.dvi

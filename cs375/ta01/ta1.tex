@@ -1,0 +1,209 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage[plain]{algorithm}
+\usepackage{algpseudocode}
+
+\usetikzlibrary{automata,positioning}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+        \setcounter{homeworkProblemCounter}{#1}
+    \fi
+        \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+}{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Theory Assignment\ \#1}
+\newcommand{\hmwkDueDate}{February 12, 2016}
+\newcommand{\hmwkClass}{CS 375}
+\newcommand{\hmwkClassInstructor}{Professor Lei Yu}
+\newcommand{\hmwkClassTime}{}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 2:20pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor}}\\
+    \vspace{1in}\large{
+        I have done this assignment completely on my own. I have not copied it, nor have I given my solution to anyone else. I understand that if I am involved in plagiarism or cheating I will have to sign an official form that I have cheated and that this form will be stored in my official university record. I also understand that I will receive a grade of 0 for the involved assignment for my first offense and that I will receive a grade of “F” for the course for any additional offense.
+    }
+    \vspace{1in}
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+(10 points) Given the pseudo code below for bubble sort:
+
+    \begin{algorithm}[]
+    \begin{algorithmic}[1]
+    \Function{BubbleSort}{$A$}
+        \For{$i = 1$ to $(length[A]-1)$}
+        \Comment{store next smallest element in A$[i]$}
+            \For{$j = length[A]$ downto $(i+1)$}
+                \If{$A[j] < A[j-1]$}
+                    \State{swap $A[j]$ and $A[j-1]$}
+                \EndIf{}
+            \EndFor{}
+        \EndFor{}
+    \EndFunction{}
+    \end{algorithmic}
+    \end{algorithm}
+
+\textbf{a)} (5 points) Let length[A] = n. What is the count for BubbleSort(A)? Show the steps necessary to derive your final answer. This question requires you to use the instruction count method from the textbook (also introduced in lecture 2 slides). Answers using asymptotic notations will receive 0 point.
+\\
+
+\textbf{Solution}
+\\
+
+My Solution here.
+\\
+
+\textbf{b)} (5 points) Show the worse case and best case time complexity in term of instruction counts.
+\\
+
+\textbf{Solution}
+\\
+
+My solution here.
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+2. (28 points) Fill in all the missing values. For the f(n) column, you need to compute the sums and fill in the exact format of f(n) for the last two rows. For the last three columns, you need to fill in each cell with either yes or no.
+
+\begin{center}
+\begin{tabular}{ | c | c || c | c | c |}
+\hline
+$f(n)$ & $g(n)$ & $f(n) = O(g(n))$ & $f(n) = \Omega(g(n))$ & $f(n) = \Theta(g(n))$\\ 
+\hline 
+\hline
+$n^{2.125}$ & $n^2lg(n)$ & yes & no & no\\\hline
+$\sqrt{n}$ & $n$  & yes & no & no \\\hline
+$n!$  & $(n+1)!$ & yes & yes & yes \\\hline
+$2^{n/2}$  & $2^{n}$  &   &   &   \\\hline
+$\sum_{i=1}^{n}i = $ & $n^{2}$  &   &   &   \\\hline
+$\sum_{i=0}^{n-1}4^{i} = $ & $n4^{(n-1)}$  &   &   &   \\\hline
+\end{tabular}
+\end{center}
+
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\end{document}
