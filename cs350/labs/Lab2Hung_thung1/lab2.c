@@ -28,7 +28,7 @@ void child_process(int level, int num_children) {
         for(int i = 0; i < level; i++) fprintf(stderr, "\t");
         fprintf(stderr, "Level %d Child process created.\n", level);
         pid_t pid; /* for a child process */
-        if(level > 1) {
+        if(level > 0) {
             for(int i = 0; i < num_children; i++) {
                 pid = fork();
                 if(pid < 0) { /* error */
@@ -42,6 +42,9 @@ void child_process(int level, int num_children) {
                     parent_process(level, num_children);
                 }
             }
+        }
+        else {  //  Leaf node
+            
         }
         //for(int i = 0; i < level; i++) fprintf(stderr, "\t");
         execl("/bin/bash","c","echo \"\"",NULL);
@@ -111,7 +114,7 @@ int main(int argc, char **argv) {
         return 1;
     }
     if(pid == 0) { /* child process */
-        child_process(num_levels, num_children);
+        child_process(num_levels - 1, num_children);
     }
     else { /* parent process */
         parent_process(num_levels, num_children);
