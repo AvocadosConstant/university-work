@@ -1,0 +1,1 @@
+lab2 [-u] [-N <num-levels>] [-M <num-children>] [-p] [-s <sleep-time>]
