@@ -7,7 +7,7 @@ import java.util.TreeSet;
     This code is ugly and terrible and sad
     don't judge me pls it's for class
 */
-public class Hung_p1 {
+public class hung_p1 {
     
     public static ArrayList<Integer[]> states;
     public static ArrayList<Integer[]> transitions;
