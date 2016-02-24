@@ -11,3 +11,6 @@
 *.aux
 *.log
 *.dvi
+
+#   I don't even know
+*#
