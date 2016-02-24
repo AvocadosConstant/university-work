@@ -158,221 +158,66 @@
             $T(n)=5T(\frac{n}{2})+n^2$
     \end{enumerate}
 
-\textbf{a)} (5 points) Let length[A] = n. What is the count for BubbleSort(A)? Show the steps necessary to derive your final answer. This question requires you to use the instruction count method from the textbook (also introduced in lecture 2 slides). Answers using asymptotic notations will receive 0 point.
-\\
-
-\textbf{Solution}
-\\
-    \begin{algorithm}[]
-    \begin{algorithmic}[1]
-    \Function{BubbleSort}{$A$}
-        \For{$i = 1$ to $(length[A]-1)$}
-        \Comment{$c_2$    $n$}
-            \For{$j = length[A]$ downto $(i+1)$}
-            \Comment{$c_3$    $n-1$}
-                \If{$A[j] < A[j-1]$}
-                \Comment{$c_4$    $\sum_{j=2}^{n}t_j$}
-                    \State{swap $A[j]$ and $A[j-1]$}
-                    \Comment{$c_5$    $\sum_{j=2}^{n}t_j$}
-                \EndIf{}
-            \EndFor{}
-        \EndFor{}
-    \EndFunction{}
-    \end{algorithmic}
-    \end{algorithm}
-\\
-
-\textbf{b)} (5 points) Show the worse case and best case time complexity in term of instruction counts.
-\\
-
 \textbf{Solution}\\
 
-Best Case: $n$. (Sorted array)\\
-Worst Case: $n^2$ (Reversed array).
+\end{homeworkProblem}
 
+\begin{homeworkProblem}
+(20 points) Solve the recurrence 
+\begin{equation}
+    T(n) =
+        \begin{cases}
+            \Theta(1) &\text{for}\ n\leq1\\
+            T(\frac{n}{4}) + T(\frac{3n}{4}) + n &\text{otherwise}
+        \end{cases}
+    \end{equation}
+using the recursion tree method. Draw the recursion tree and show the aggregate instruction counts for the following levels (0th, 1st, and last levels), and derive the $\Theta$ growth class for $T(n)$ with justifications.
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+(10 points) Use the substitution method to prove that $T(n) = T(n–1) + n \in O(n^2)$. You can assume $T(1) = 1$.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+(21 points) Assume that you are given an array of $n(n\geq1)$ elements sorted in non-descending order. Design a ternary search function that searches the array for a given element x by applying the divide and conquer strategy. Hint: extend the binary search example introduced in the class - divide the array into three subarrarys where each subarray has $\frac{n}{3}$ (or almost $\frac{n}{3}$) elements). \\
+
+Your answer should contain four parts:\\
+
+a) Briefly describe the divide, conquer, and combine steps\\
+b) Clearly define the recursive function ternarySearch(x, A, left, right), where x is the element to search for in the array A with starting index left and ending index right\\
+c) Clearly define the recursive time complexity function T(n) for ternarySearch(x, A, left, right)\\
+d) Solve the recursive T(n) by the master theorem\\
 \end{homeworkProblem}
 
 \pagebreak
 
 \begin{homeworkProblem}
-    (28 points) Fill in all the missing values. For the f(n) column, you need to compute the sums and fill in the exact format of f(n) for the last two rows. For the last three columns, you need to fill in each cell with either yes or no.
+(25 points) The median of a list of numbers is its 50th percentile: half the numbers are bigger than it, and half are smaller. For instance, the median of [45, 1, 10, 30, 25] is 25, since this is the middle element when the numbers are arranged in order. If the list has even length, there are two choices for what the middle element could be, in which case we pick the smaller of the two. For example, the median of [45, 1, 10, 30] is 10.\\
 
-    \begin{center}
-        \begin{tabular}{ | c | c || c | c | c |}\hline
-        $f(n)$ & $g(n)$ & $f(n) = O(g(n))$ & $f(n) = \Omega(g(n))$ & $f(n) = \Theta(g(n))$\\\hline\hline
-        $n^{2.125}$ & $n^2lg(n)$ & yes & no & no\\\hline
-        $\sqrt{n}$ & $n$  & yes & no & no \\\hline
-        $n!$  & $(n+1)!$ & yes & no & no \\\hline
-        $2^{n/2}$  & $2^{n}$  & yes & yes & yes \\\hline
-        $\sum_{i=1}^{n}i = \frac{n^2+n}{2} $ & $n^{2}$  & yes & yes & yes \\\hline
-        $\sum_{i=0}^{n-1}4^{i} = \frac{4^n-1}{3}$ & $n4^{(n-1)}$  & yes & no & no \\\hline
-        \end{tabular}
-    \end{center}
+Computing the median of n numbers is easy: just sort them. The drawback of this approach is that this takes O(n log n) time, whereas we would ideally like something linear. We have reason to be hopeful, because sorting is doing far more work than what we really need - we just want the middle element and don't care about the relative ordering of the rest of them. Can we develop a recursive solution for deciding the median of a list of numbers?\\
+When looking for a recursive solution, it is paradoxically often easier to work with a more general version of the problem. In our case, the generalization we will consider is selection.\\
 
-\end{homeworkProblem}
+SELECTION\\
+Input: A list of numbers S; an integer k\\
+Output: The kth smallest element of S\\
+For instance, if k = 1, the minimum of S is sought, whereas if k = ceiling(|S|/2), it is the median.\\
 
-\begin{homeworkProblem}
-    (10 points) Order the functions below by increasing growth rates (no justification required).
-    \begin{center}
-        \begin{tabular}{ c c c c c c c c }
-        $n^{n}$&
-        $n\ln{n}$&
-        $n^{\epsilon} (0 < \epsilon < 1)$&
-        $2^{\lg{n}}$&
-        $\ln{n}$&
-        $10$&
-        $n!$&
-        $2^{n}$
-        \end{tabular}
-    \end{center}
-    Let $g_{i}(n)$ be the $ith$ function from the left after the ordering (the leftmost function has the slowest growth rate). In the order, $g_{i}(n)$  should satisfy $g_{i}(n) \in O(g_{i+1}(n))$.\\ 
+Develop a divide-and-conquer approach to selection (and hence a solution for the finding median problem). Hint: for any number v, imagine splitting list S into three categories: elements smaller than v, those equal to v (there might be duplicates), and those greater than v. \\
 
-    \textbf{Solution}
-    \begin{center}
-        \begin{tabular}{ c c c c c c c c }
-        $10$&
-        $\ln{n}$&
-        $n^{\epsilon} (0 < \epsilon < 1)$&
-        $n\ln{n}$&
-        $2^{\lg{n}}$&
-        $2^{n}$&
-        $n!$&
-        $n^{n}$
-        \end{tabular}
-    \end{center}
+In your answer, show the following:\\
 
+a) Briefly describe the divide, conquer, and combine steps\\
+b) Clearly define the recursive function for selection(S, k); (note: this is not the function for the time complexity of the selection function.)\\
+c) Analyze the best case and worst case time complexity of this approach given input size n.\\
 \end{homeworkProblem}
 
 \pagebreak
 
 \begin{homeworkProblem}
-    (12 points) Let $f(n)$ and $g(n)$ be asymptotically positive functions. Prove or show a counter example for each of the following conjectures.
-
-    \begin{enumerate}[a)]
-        \item
-            $f(n) \in O(g(n))$ implies $2^{f(n)} \in O(2^{g(n)})$.
-        \item
-            $f(n) \in O(g(n))$ implies $g(n) \in \Omega(f(n))$.
-    \end{enumerate}
-
-    \textbf{Solution a}\\
-    This conjecture is true.
-    \\
-    For example, let $f(n) = n$ and $g(n) = n^2$. \\
-    $f(n) \in O(g(n)) \Rightarrow n \in O(n^2)$ is true.\\
-    If $2^{f(n)} \in O(2^{g(n)})$, then $2^{n} \in O(2^{n^2})$, which is true as well.
-    \\
-
-    \textbf{Solution b}\\
-    This conjecture is true.
-    \\
-    Definition: $O(g(n)) =  f(n) : $ there exist positive constants $c$ and $n_{0}$ such that $0 \leq f(n) \leq cg(n) \forall n \geq n_{0} $.
-    Definition: $\Omega(g(n)) =  f(n) : $ there exist positive constants $c$ and $n_{0}$ such that $0 \leq cg(n) \leq f(n) \forall n \geq n_{0} $.
-    Therefore, if $f(n) \in O(g(n))$, then by definition, $g(n) \in \Omega(f(n))$ must be true as well.
-\end{homeworkProblem}
- 
-\begin{homeworkProblem}
-(10 points) Prove $n^{2}-3n-20 \in \Theta(n^{2})$ using the original definition of $\Theta$.\\
-
-    \textbf{Solution}\\
-
-    Definition: $\Theta(g(n)) =  f(n) : $ there exist positive constants $c_{1}$, $c_{2}$, and $n_{0}$ such that $0 \leq c_{1}g(n) \leq f(n) \leq c_{2}g(n) \forall n \geq n_{0} $.
-    \[
-        \begin{subequations}
-        \begin{aligned}
-        0   &\leq   c_1g(n) &&\leq   n^2-3n-20   &&&= c_2g(n) 
-        \\
-        0   &\leq   c_1n^2  &&\leq   n^2-3n-20   &&&= c_2n^2 
-        \\
-        0   &\leq   c_1     &&\leq   1-\frac{3}{n}-\frac{20}{n^2}   &&&= c_2 
-        \\
-        & &&\text{We can take $c_1$ to be $\frac{1}{2}$ and $c_2$ to be $1$.}&&&
-        \\
-        & &&\text{Therefore, $n_0$ is $10$.}&&&
-        \\
-        0   &\leq   \frac{1}{2} &&\leq   1-\frac{3}{10}-\frac{20}{100}   &&&= 1 
-        \\
-        0   &\leq   \frac{1}{2} &&\leq   \frac{100}{100}-\frac{30}{100}-\frac{20}{100}   &&&= 1 
-        \\
-        0   &\leq   \frac{1}{2} &&\leq   \frac{1}{2}   &&&= 1 
-        \\
-        \end{aligned}
-        \end{subequations}
-    \]
-
-\end{homeworkProblem}
-
-\pagebreak
-
-\begin{homeworkProblem}
-(10 points) Disprove $n^{3} \in O(n^{2})$ using the original definition of O.\\
-
-    \textbf{Solution}\\
-
-    Definition: $O(g(n)) =  f(n) : $ there exist positive constants $c$ and $n_{0}$ such that $0 \leq f(n) \leq cg(n) \forall n \geq n_{0} $.
-    \[
-        \begin{subequations}
-        \begin{aligned}
-        0   &\leq   n^3     &&\leq cg(n) 
-        \\
-        0   &\leq   n^3     &&\leq cn^2 
-        \\
-        0   &\leq   n       &&\leq c &&&\text{We can take $c$ to be $0$.}
-        \\
-        0   &\leq   n       &&\leq 0
-        \\
-        0   &\leq   0       &&\leq 0    &&&\text{Therefore, $n_0$ is $0$.}
-        \\
-        \end{aligned}
-        \end{subequations}
-    \]
-\end{homeworkProblem}
-
-\begin{homeworkProblem}
-(10 points) Prove $n=\Omega(\lg{n^{2}})$ using limit.\\
-
-    Definition: $\Omega(g(n)) =  f(n) : $ there exist positive constants $c$ and $n_{0}$ such that $0 \leq cg(n) \leq f(n) \forall n \geq n_{0} $.
-    \[
-        \begin{subequations}
-        \lim_{n \to \infty}\frac{f(n)}{g(n)} 
-        = \lim_{n \to \infty}\frac{n}{\lg{n^2}} 
-        = \lim_{n \to \infty}\frac{1}{\frac{1}{2n}} 
-        = \lim_{n \to \infty}2n = \infty  
-        \\
-        \end{subequations}
-    \]
-    \\
-    \text{Therefore, f(n) grows faster than g(n).}
-
-\end{homeworkProblem}
-
-\begin{homeworkProblem}
-(10 points) Prove $n^{a} = \Omega(\lg^{k}{n})$, where $k>0, a>0$ using limit.\\
-
-    Definition: $\Omega(g(n)) =  f(n) : $ there exist positive constants $c$ and $n_{0}$ such that $0 \leq cg(n) \leq f(n) \forall n \geq n_{0} $.
-    \[
-        \begin{subequations}
-        \lim_{n \to \infty}\frac{f(n)}{g(n)} 
-        = \lim_{n \to \infty} \frac{n^a}{\lg^k{n}} 
-        = \lim_{n \to \infty} \frac{an^{a-1}}{\frac{k\lg^{k-1}{n}}{n}} 
-        = \lim_{n \to \infty} \frac{a^1n^{a}}{k\lg^{k-1}{n}} 
-        = \lim_{n \to \infty} \frac{a^2n^{a}}{k(k-1)\lg^{k-2}{n}} 
-        \\
-        \end{subequations}
-    \]
-    \[
-        \begin{subequations}
-        = \ldots
-        = \lim_{n \to \infty} \frac{a^kn^{a}}{k!\lg^{k-k}{n}} 
-        = \lim_{n \to \infty} \frac{a^k}{k!}n 
-        = \frac{a^k}{k!}\lim_{n \to \infty}n 
-        = \frac{a^k}{k!}\infty 
-        = \infty
-        \end{subequations}
-    \]
-    \\
-    \text{Therefore, f(n) grows faster than g(n).}
-
+\textbf{Bonus Question} (20 points):\\
+We know that the master theorem does not apply to the recursive function T(n) = 2T(n/2) + n / lg n.
+Use the recursion tree method to solve this recursion. Draw the recursion tree and show the aggregate instruction counts for the following levels (0th, 1st, and last levels), and derive the Θ growth class for T(n) with justifications.
 \end{homeworkProblem}
 
 \end{document}
