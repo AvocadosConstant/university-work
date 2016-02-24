@@ -154,6 +154,25 @@
             $T(n)=3T(\frac{n}{4})+n$
         \item
             $T(n)=2T(\frac{n}{4})+\sqrt{n}\lg{n}$
+
+            \textbf{Solution}
+            \[
+                \begin{aligned}
+                    a = 2 &, && b = 4, && f(n) = \sqrt{n}\log(n)\\
+                \end{aligned}\\
+            \]
+            \[
+                f(n)  \in \Theta(n^{\log_{b}a}\log^{k}n)
+            \]
+            \[
+                n^{\log_{b}a} = n^{\log_{4}2} = n^{\frac{1}{2}} = \sqrt{n}
+            \]
+            \[
+                \sqrt{n}\log(n) \in \Theta(\sqrt{n}\log^{1}n)
+            \]
+            \[
+                T(n) = \Theta(\sqrt{n}\log^{1+1}n) = \Theta(\sqrt{n}\log^{2}n)
+            \]
         \item
             $T(n)=5T(\frac{n}{2})+n^2$
     \end{enumerate}
