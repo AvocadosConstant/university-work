@@ -10,6 +10,8 @@
 \usepackage{algpseudocode}
 \usepackage{enumerate}
 \usepackage{mathtools}
+\usepackage{forest}
+\usepackage{adjustbox}
 
 \usetikzlibrary{automata,positioning}
 
@@ -89,7 +91,7 @@
 %
 
 \newcommand{\hmwkTitle}{Theory Assignment\ \#2}
-\newcommand{\hmwkDueDate}{February 24, 2016}
+\newcommand{\hmwkDueDate}{February 26, 2016}
 \newcommand{\hmwkClass}{CS 375}
 \newcommand{\hmwkClassInstructor}{Professor Lei Yu}
 \newcommand{\hmwkClassTime}{Section B1}
@@ -152,34 +154,39 @@
     \begin{enumerate}[a)]
         \item
             $T(n)=3T(\frac{n}{4})+n$
+
+            \textbf{Solution}\\
+            Consider $T(n)=3T(\frac{n}{4})+n$.\\
+            We have $a=3$, $b=4$, and $f(n) = n$\\
+            $\log_{b}a = \log_{4}3$. Since $1 = \log_{4}4$, $\varepsilon = \log_{4}4 - \log_{4}3 > 0$.\\
+            $\rightarrow f(n) = n = n^{\log_{4}3 + \varepsilon} \in \Omega(n^{\log_{4}3 + \varepsilon})$\\
+            $af(\frac{n}{b}) = 3f(\frac{n}{4}) = 3(\frac{n}{4}) = 3\frac{n}{4} \leq cn$ for $c=\frac{3}{4} < 1$\\
+            According to Case 3 of the Master Theorem\\
+            $\rightarrow T(n) = \Theta(n)$\\
         \item
             $T(n)=2T(\frac{n}{4})+\sqrt{n}\lg{n}$
 
-            \textbf{Solution}
-            \[
-                \begin{aligned}
-                    a = 2 &, && b = 4, && f(n) = \sqrt{n}\log(n)\\
-                \end{aligned}\\
-            \]
-            \[
-                f(n)  \in \Theta(n^{\log_{b}a}\log^{k}n)
-            \]
-            \[
-                n^{\log_{b}a} = n^{\log_{4}2} = n^{\frac{1}{2}} = \sqrt{n}
-            \]
-            \[
-                \sqrt{n}\log(n) \in \Theta(\sqrt{n}\log^{1}n)
-            \]
-            \[
-                T(n) = \Theta(\sqrt{n}\log^{1+1}n) = \Theta(\sqrt{n}\log^{2}n)
-            \]
+            \textbf{Solution}\\
+            Consider $T(n)=2T(\frac{n}{4})+\sqrt{n}\lg{n}$.\\
+            We have $a=5$, $b=2$, and $f(n) = \sqrt{n}\log(n)$\\
+            Since $n^{\log_{b}a} = n^{\log_{4}2} = n^{\frac{1}{2}} = \sqrt{n}$, $f(n)=n^{\log_{4}2}\log(n)$.\\
+            We use Case 2 of the Master Theorem with $k=1$\\
+            $\rightarrow T(n) = \Theta(\sqrt{n}\log^{1+1}n) = \Theta(\sqrt{n}\log^{2}n)$\\
         \item
             $T(n)=5T(\frac{n}{2})+n^2$
+
+            \textbf{Solution}\\
+            Consider $T(n)=5T(\frac{n}{2})+n^2$.\\
+            We have $a=5$, $b=2$.\\
+            Since $\log_{b}a = \log_{2}5 > \log_{2}4, \varepsilon = \log_{2}5 - \log_{2}4 > 0.$\\
+            Since $f(n) = n^2 = n^{\log_{2}5 - \varepsilon} \in O(n^{\log_{2}5 - \varepsilon}),$\\
+            according to Case 1 of the Master Theorem\\
+            $\rightarrow T(n) = \Theta(n^{\log_{2}5})$\\
     \end{enumerate}
 
-\textbf{Solution}\\
-
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
 (20 points) Solve the recurrence 
@@ -190,12 +197,57 @@
             T(\frac{n}{4}) + T(\frac{3n}{4}) + n &\text{otherwise}
         \end{cases}
     \end{equation}
-using the recursion tree method. Draw the recursion tree and show the aggregate instruction counts for the following levels (0th, 1st, and last levels), and derive the $\Theta$ growth class for $T(n)$ with justifications.
+using the recursion tree method. Draw the recursion tree and show the aggregate instruction counts for the following levels (0th, 1st, and last levels), and derive the $\Theta$ growth class for $T(n)$ with justifications.\\
 
+\textbf{Solution}
+
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [Recursion Tree for $T(\frac{n}{4}) + T(\frac{3n}{4}) + n$[cn
+        [$c\frac{n}{4}$
+            [$c\frac{n}{4^2}$
+                [...
+                    [c]
+                    [c]]]
+            [$c\frac{3n}{4^2}$
+                [...
+                    [c]
+                    [c]]]
+        ]
+        [$c\frac{3n}{4}$
+            [$c\frac{3n}{4^2}$
+                [...
+                    [c]
+                    [c]]]
+            [$c\frac{3^2n}{4^2}$
+                [...
+                    [c]
+                    [c]]]]]]
+    \end{forest}
+\end{adjustbox}\qquad
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [depth[0[1[2[...[k]]]]]]
+    \end{forest}
+\end{adjustbox}
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [nodes[$2^0$[$2^1$[$2^2$[...[$2^k$]]]]]]
+    \end{forest}
+\end{adjustbox}
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [$T(n)$[cn[cn[cn[...[cn]]]]]]
+    \end{forest}
+\end{adjustbox}
+\\
+\[
+    T(n) = (k+1)(cn) = (\log(n)+1)(cn) = \Theta(n\log(n))
+\]
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
-(10 points) Use the substitution method to prove that $T(n) = T(n–1) + n \in O(n^2)$. You can assume $T(1) = 1$.
+(10 points) Use the substitution method to prove that $T(n) = T(n-1) + n \in O(n^2)$. You can assume $T(1) = 1$.
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
