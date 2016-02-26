@@ -247,32 +247,97 @@ using the recursion tree method. Draw the recursion tree and show the aggregate 
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
-(10 points) Use the substitution method to prove that $T(n) = T(n-1) + n \in O(n^2)$. You can assume $T(1) = 1$.
-\end{homeworkProblem}
+(10 points) Use the substitution method to prove that $T(n) = T(n-1) + n \in O(n^2)$. You can assume $T(1) = 1$.\\
 
-\begin{homeworkProblem}
-(21 points) Assume that you are given an array of $n(n\geq1)$ elements sorted in non-descending order. Design a ternary search function that searches the array for a given element x by applying the divide and conquer strategy. Hint: extend the binary search example introduced in the class - divide the array into three subarrarys where each subarray has $\frac{n}{3}$ (or almost $\frac{n}{3}$) elements). \\
+\textbf{Solution}\\
+We want to show that $T(n) \leq cn^2 \forall n\geq n_0$.\\
 
-Your answer should contain four parts:\\
+We assume $T(k) \leq ck^2 \forall k < n$.
 
-a) Briefly describe the divide, conquer, and combine steps\\
-b) Clearly define the recursive function ternarySearch(x, A, left, right), where x is the element to search for in the array A with starting index left and ending index right\\
-c) Clearly define the recursive time complexity function T(n) for ternarySearch(x, A, left, right)\\
-d) Solve the recursive T(n) by the master theorem\\
+\begin{equation} \label{eq1}
+    \begin{aligned}
+        T(n)    & = (n-1) + n   &&\leq c(n-1)^2 + n\\
+                &               &&= cn^2 - 2cn + c + n \\
+                &               &&= cn^2 - 2cn + n + c\\
+                &               &&= cn^2 - 2cn + n + c      &&&\leq cn^2\\
+                &&&\text{provided that $ -2cn + n + c \leq 0$. }
+    \end{aligned}
+\end{equation}
+
+For $ -2cn + n + c \leq 0$ to hold, we need $c(2n - 1) \geq n$\\
+which can be satisfied when $c \geq \frac{n}{2n-1}$ for all $n\geq2$.\\
+$\rightarrow c \geq 1$ and $n \geq 2$.\\
+
 \end{homeworkProblem}
 
 \pagebreak
 
 \begin{homeworkProblem}
-(25 points) The median of a list of numbers is its 50th percentile: half the numbers are bigger than it, and half are smaller. For instance, the median of [45, 1, 10, 30, 25] is 25, since this is the middle element when the numbers are arranged in order. If the list has even length, there are two choices for what the middle element could be, in which case we pick the smaller of the two. For example, the median of [45, 1, 10, 30] is 10.\\
+(21 points) Assume that you are given an array of $n$ $(n\geq1)$ elements sorted in non-descending order. Design a ternary search function that searches the array for a given element x by applying the divide and conquer strategy. Hint: extend the binary search example introduced in the class - divide the array into three subarrarys where each subarray has $\frac{n}{3}$ (or almost $\frac{n}{3}$) elements). \\
 
-Computing the median of n numbers is easy: just sort them. The drawback of this approach is that this takes O(n log n) time, whereas we would ideally like something linear. We have reason to be hopeful, because sorting is doing far more work than what we really need - we just want the middle element and don't care about the relative ordering of the rest of them. Can we develop a recursive solution for deciding the median of a list of numbers?\\
+Your answer should contain four parts:
+
+\begin{enumerate}[a)]
+\item
+Briefly describe the divide, conquer, and combine steps
+\item
+Clearly define the recursive function ternarySearch(x, A, left, right), where x is the element to search for in the array A with starting index left and ending index right
+\item
+Clearly define the recursive time complexity function T(n) for ternarySearch(x, A, left, right)
+\item
+Solve the recursive T(n) by the master theorem\\
+\end{enumerate}
+
+
+\textbf{Solution}
+
+    \begin{enumerate}[a)]
+        \item
+        Divide: Check element at the $\frac{1}{3}$\textsuperscript{rd} position. If needed, also check element at the $\frac{2}{3}$\textsuperscript{rd} position.\\
+        Conquer: Recursively search one subarray of size approximately $\frac{1}{3}n$.\\
+        Combine: Trivial.
+
+        \item
+    \begin{verbatim}
+    ternarySearch(x, A, left, right)
+        part1 = left + (right - left) / 3
+        part2 = left + 2*(right - left) / 3
+        if A[part1] == x 
+            return true
+        if A[part2] == x
+            return true
+        if x < A[part1]
+            return ternarySearch (x, A, left, part1 - 1)
+        if x < A[part2]
+            return ternarySearch (x, A, part1, part2)
+        if x > A[part2]
+            return ternarySearch (x, A, part2 + 1, right)
+\end{verbatim}
+
+        \item
+        $T(n) = T(\frac{n}{3}) + \Theta(1)$\\
+        Reasoning: 1 subproblem chosen, each subarray of size $\frac{1}{3}$, and trivial constant time for dividing and combining.
+
+        \item
+                Consider $T(n) = T(\frac{n}{3}) + \Theta(1)$\\
+                We have $a=1$, $b=3$, and $f(n) = 1$\\
+                Since $n^{\log_{b}a} = n^{\log_{3}1} = n^0$, $f(n)=n^0\log^{0}(n)$.\\
+                We use Case 2 of the Master Theorem with $k=0$\\
+                $\rightarrow T(n) = \Theta(n^{\log_{3}1}\log^{(0+1)}n) = \Theta(n^0\log^1n) = \Theta(\log n)$
+\end{enumerate}
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}
+(25 points) Computing the median of n numbers is easy: just sort them. The drawback of this approach is that this takes O(n log n) time, whereas we would ideally like something linear. We have reason to be hopeful, because sorting is doing far more work than what we really need - we just want the middle element and don't care about the relative ordering of the rest of them. Can we develop a recursive solution for deciding the median of a list of numbers?\\
 When looking for a recursive solution, it is paradoxically often easier to work with a more general version of the problem. In our case, the generalization we will consider is selection.\\
 
 SELECTION\\
 Input: A list of numbers S; an integer k\\
 Output: The kth smallest element of S\\
-For instance, if k = 1, the minimum of S is sought, whereas if k = ceiling(|S|/2), it is the median.\\
+For instance, if k = 1, the minimum of S is sought, whereas if k = ceiling($\frac{\vert S\vert}{2}$), it is the median.\\
 
 Develop a divide-and-conquer approach to selection (and hence a solution for the finding median problem). Hint: for any number v, imagine splitting list S into three categories: elements smaller than v, those equal to v (there might be duplicates), and those greater than v. \\
 
@@ -281,14 +346,107 @@ In your answer, show the following:\\
 a) Briefly describe the divide, conquer, and combine steps\\
 b) Clearly define the recursive function for selection(S, k); (note: this is not the function for the time complexity of the selection function.)\\
 c) Analyze the best case and worst case time complexity of this approach given input size n.\\
+
+\textbf{Solution}
+
+\begin{enumerate}[a)]
+    \item
+        Divide: Use the partition method from QUICKSORT about a randomly chosen pivot point to divide into two subarrays.\\
+        Conquer: Select from the one chosen subarray recursively.\\
+        Combine: Trivial.
+    \item
+        \begin{verbatim}
+            SELECT(A, k, left, right)
+                if left < right
+                    pivot = PARTITION(A, left, right)
+                    if k < pivot - left
+                        SELECT(A, k, left, pivot)
+                    else if k > pivot
+                        SELECT(A, k, pivot, right)
+                    else
+                        return A[0]
+        \end{verbatim}
+    \item
+        Best case: $O(n)$ (Only have to select from one subarray, as opposed to quicksort which has to subsequently sort each subarray.)\\
+        Worst case: $O(n^2)$\\
+\end{enumerate}
 \end{homeworkProblem}
 
 \pagebreak
 
 \begin{homeworkProblem}
 \textbf{Bonus Question} (20 points):\\
-We know that the master theorem does not apply to the recursive function T(n) = 2T(n/2) + n / lg n.
-Use the recursion tree method to solve this recursion. Draw the recursion tree and show the aggregate instruction counts for the following levels (0th, 1st, and last levels), and derive the Θ growth class for T(n) with justifications.
+We know that the master theorem does not apply to the recursive function $T(n) = 2T(\frac{n}{2}) + \frac{n}{\log n}$.
+Use the recursion tree method to solve this recursion. Draw the recursion tree and show the aggregate instruction counts for the following levels (0\textsuperscript{th}, 1\textsuperscript{st}, and last levels), and derive the Θ growth class for T(n) with justifications.\\
+
+\textbf{Solution}
+
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [Recursion Tree
+        [c$\frac{n}{\log n}$
+            [$c\frac{n}{2\log(\frac{n}{2})}$
+                [$c\frac{n}{2^2\log(\frac{n}{2^2})}$
+                    [...
+                        [$c\frac{n}{\log(n)}$
+                        ]
+                    ]
+                ]
+                [$c\frac{n}{2^2\log(\frac{n}{2^2})}$
+                    [...
+                        [$c\frac{n}{\log(n)}$
+                        ]
+                    ]
+                ]
+            ]
+            [$c\frac{n}{2\log(\frac{n}{2})}$
+                [$c\frac{n}{2^2\log(\frac{n}{2^2})}$
+                    [...
+                        [$c\frac{n}{\log(n)}$
+                        ]
+                    ]
+                ]
+                [$c\frac{n}{2^2\log(\frac{n}{2^2})}$
+                    [...
+                        [$c\frac{n}{\log(n)}$
+                        ]
+                    ]
+                ]
+            ]
+        ]
+    ]
+    \end{forest}
+\end{adjustbox}\qquad
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [depth[0[1[2[...[k]]]]]]
+    \end{forest}
+\end{adjustbox}
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [nodes[$2^0$[$2^1$[$2^2$[...[$2^k$]]]]]]
+    \end{forest}
+\end{adjustbox}
+\begin{adjustbox}{valign=t}
+    \begin{forest}
+    [$T(n)$
+        [c$\frac{n}{\log(n)}$
+            [c$\frac{n}{\log(\frac{n}{2})}$
+                [c$\frac{n}{\log(\frac{n}{2^2})}$
+                    [...
+                        [c$\frac{n}{\log(\frac{n}{2^k})}$
+                    ]]]]]]
+    \end{forest}
+\end{adjustbox}
+\\
+\[
+    T(n) 
+        = \sum\limits_{i=0}^k\frac{n}{\log(\frac{n}{2^i})} 
+        = \sum\limits_{i=0}^k\frac{n}{\log({n}) - \log({2^i})}
+        = \sum\limits_{i=0}^k\frac{n}{\log({n}) - i\log({2})}
+        = \sum\limits_{i=0}^k\frac{n}{\log({n}) - i}
+        = ?
+\]
 \end{homeworkProblem}
 
 \end{document}
