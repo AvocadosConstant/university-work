@@ -1,0 +1,106 @@
+Chapters 13, 15, 16, 18, 20.
+
+13  Address Spaces
+    
+    Multiprogramming
+        machines running multiple processes at a given time
+        increased effective utilization of CPU
+    
+    Time Sharing
+        Running a process for a short time, then saving and stopping its state to a disk
+        Problems: Slow
+
+    Address Space:   Easy to use abstraction of physical memory
+        Program Code
+            instructions, actual code
+        Heap
+            dynamically allocated user managed memory
+        Stack
+            function call chain, local variables, pass parameters, return values
+
+    Goals of Virtual Memory
+        transparency
+            The OS should implement virtual memory in a way that is invisible to the running program
+        efficiency
+            The OS should strive to make the virtualization as efficient as possible, both in terms of time and space
+        protection
+            The OS should make sure to protect processes from one another as well as the OS itself from processes
+
+        We have seen the introduction of a major OS subsystem: virtual memory.
+        The VM system is responsible for providing the illusion of a large,
+        sparse, private address space to programs, which hold all of their instructions
+        and data therein. The OS, with some serious hardware help, will
+        take each of these virtual memory references, and turn them into physical
+        addresses, which can be presented to the physical memory in order to
+        fetch the desired information. The OS will do this for many processes at
+        once, making sure to protect programs from one another, as well as protect
+        the OS. The entire approach requires a great deal of mechanism (lots
+        of low-level machinery) as well as some critical policies to work; we’ll
+        start from the bottom up, describing the critical mechanisms first. And
+        thus we proceed!
+
+15  Address Translation
+    Limited Direct Execution
+        Let program run on hardware, but at certain times involve the OS and make sure the right thing happens
+        Allows running program to has freedom but OS can maintain control by interposing
+
+    Address Translation:
+        OS can control each and every memory access from a process, ensuring the accesses stay within the bounds of the address space
+        Hardware transforms memory accesses by changing the virtual address to a physical address
+        OS must manage memory to keep track of free and used memory
+        IT'S AN ILLUSION
+
+    Base and Bounds (Dynamic relocation)
+        Form of virtualization. Efficient and offers protection.
+        Need pair of registers per CPU to support address translation and bounds checks
+
+    Internal Fragmentation
+        Space inside allocated units isn't all used and is wasted
+        Attempt at a solution is segmentation.
+
+16  Segmentation
+    Segmentation
+        Base and bounds pair for each logical segment of address space and place in different parts of memory
+        Helps build more effective virtualization of memory
+        Supports sparse address spaces
+        Fast, minimal overhead
+        Allows for code sharing between multiple running programs
+
+    Problems
+        External fragmentation
+            Free memory chopped up into odd sized pieces, can be hard to satisfy mem allocation
+        Inflexibility
+            
+18  Introduction to Paging
+    Pros
+        Does not lead to external fragmentation (because it divides memory into fixed-sized units)
+        Flexible (Enable sparse use of virtual address spaces)
+    Cons
+        Poor implementation leads to a 
+            slow machine (many extra mem accesses to page table)
+            memory waste (memory fileld with page tables over app data)
+
+    Page Table
+        Can get very large
+        Data structure that is used to map virtual addresses to physical addresses (Any data structure could work)
+        e.g. Linear Page Table: Array
+
+20  Advanced Page Tables
+    Problem: Page tables are too big and thus consume too much memory
+
+    Simple Solution: Bigger Pages
+
+    Hybrid Approach: Paging and Segments
+        instead of having a single page table for
+        the entire address space of the process, why not have one per logical segment?
+        In this example, we might thus have three page tables, one for the
+        code, heap, and stack parts of the address space
+
+    Multi-level Page Tables
+        Tree like page table
+        Popular and effective, many modern systems employ it (x86)
+        Use a page directory
+
+    Inverted Page Tables
+
+    Built with more complex data structures
