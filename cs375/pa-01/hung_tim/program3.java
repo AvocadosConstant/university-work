@@ -3,17 +3,23 @@ import java.io.PrintWriter;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Scanner;
+import java.util.Arrays;
 
 /**
  * @author  Tim Hung <thung1@binghamton.edu>
  * 
- * Recursive, non-memoized, non-dynamic approach to the least common subsequence problem.
+ * Recursive, memoized, top-down dynamic approach to the least common subsequence problem.
  * 
  * Developed for CS 375 (Design and Analysis of Algorithms) Spring 2016 at Binghamton University.
- * Programming Assignment 1: Task 2
+ * Programming Assignment 1: Task 3
  */
-public class program2 {
-    
+public class program3 {
+  
+    /** 
+     * Memoization matrix used to store lengths of longest common subsequences of subproblems.
+     */
+    public static int[][] memo;
+
     /**
      * Returns first line of file from given filename
      *
@@ -38,8 +44,26 @@ public class program2 {
      */
     public static int lcs(char[] x, char[] y, int i, int j) {
         if(x.length == 0 || y.length == 0 || i < 0 || j < 0) return 0;
-        if(x[i] == y[j]) return (i == 0 && j == 0) ? 1 : lcs(x, y, i-1, j-1) + 1; 
-        return Math.max(lcs(x, y, i-1, j), lcs(x, y, i, j-1));
+
+        //  Checks memo to see if this subproblem has already been solved. If so, just return the answer!
+        if(program3.memo[i][j] > -1) return program3.memo[i][j];
+
+        else if(x[i] == y[j]) program3.memo[i][j] = (i == 0 && j == 0) ? 1 : lcs(x, y, i-1, j-1) + 1; 
+        else program3.memo[i][j] = Math.max(lcs(x, y, i-1, j), lcs(x, y, i, j-1));
+        return program3.memo[i][j]; 
+    }
+
+    /**
+     * Prints out an integer matrix.
+     *
+     * @param m Matrix to be printed
+     */
+    public static void printMatrix(int[][] m) {
+        System.err.println();
+        for(int i = 0; i < m.length; i++) {
+            for(int j = 0; j < m[0].length; j++) System.err.printf("%d\t",m[i][j]);
+            System.err.println();
+        }
     }
 
     public static void main(String[] args) throws IOException{
@@ -56,17 +80,24 @@ public class program2 {
             System.exit(1);
         }
 
+        //  Initialize memoization matrix. Fill with -1 indicating an untouched cell.
+        program3.memo = new int[seqX.length][seqY.length];
+        for(int[] row : program3.memo) Arrays.fill(row, -1);
+
         //  Print out read char arrays for debugging
         System.err.printf("%nString from %s: ", args[0]);
         for(char c : seqX) System.err.print(c); 
         System.err.printf("%nString from %s: ", args[1]);
         for(char c : seqY) System.err.print(c); System.err.println();
 
+
         //  Find LCS length and time the execution
         long startTime = System.nanoTime();
         int lcsLength = lcs(seqX, seqY, seqX.length - 1, seqY.length - 1);
         long endTime = System.nanoTime();
         double duration = (endTime - startTime) / 1000000.0;    //In milliseconds
+
+        printMatrix(program3.memo);
 
         System.err.printf("%nLCS is length %d. Execution took %f ms.%nWriting into file %s.%n%n", lcsLength, duration, args[2]);
         
