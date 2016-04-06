@@ -1,0 +1,20 @@
+Width of page table = width of frame?
+
+Inverted Page table
+    One page table for the whole system
+    As many entries as there are frames of memory
+    Shared by everybody
+    Must have in it the process that currently has a page in this frame and the page number in this process.
+    
+Multi-level Page tables
+    Goals: Whole thing doesn't have to be in memory
+
+    Structure
+        Index
+
+Working set
+    (of a process)
+    What are the pages that this process needs to have in memory (what pages is it working on)
+
+Lock
+
