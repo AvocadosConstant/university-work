@@ -170,7 +170,6 @@ where each element of set S represents (item, weight, profit). Find an optimal s
             4 & 10 & \$80  & 8  \\\hline
         \end{tabular}
     \end{center}
-
     \begin{center}
         \begin{tabular}{| c | c | c | c |}\hline
             Item    &   Quantity &  Total Value &   Capacity\\\hline\hline
@@ -178,8 +177,10 @@ where each element of set S represents (item, weight, profit). Find an optimal s
             4 & 10 & \$130 & 15\\\hline
             2 & 15 & \$235 & 0 \\\hline
         \end{tabular}
-
     \end{center}
+
+Optimal value is \$235.
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
@@ -211,19 +212,19 @@ where each element of set S represents (item, weight, profit). Find an optimal s
 
 \begin{verbatim}
 DFS(G)
-    for each u in V(G)
+    for each u in V(G)          //  Color all vertices WHITE
         u.color = WHITE
-    for each u in V(G)
+    for each u in V(G)          //  DFS-VISIT on each WHITE vertex
         if u.color == WHITE
             DFS-VISIT(G, u)
 
 DFS-VISIT(G, u)
-    u.color = GREY
+    u.color = GREY              //  Color GREY to mark
     for each v in Adj(u)
-        if v.color == WHITE
+        if v.color == WHITE     //  If WHITE, then DFS-VISIT
             DFS-VISIT(G, v)
-        else if v.color == GREY
-            print "There's a cycle woah!!!!"
+        else if v.color == GREY                 //  *** About to visit an already marked vertex
+            print "There's a cycle woah!!!!"    //  i.e. there's a cycle 
     u.color = BLACK
 
 \end{verbatim}
@@ -236,15 +237,16 @@ DFS-VISIT(G, u)
 (15 points) In graph theory, a connected component of an undirected graph is a subgraph in which any two vertices are reachable to each other (i.e., connected by at least one path), but the subgraph is not connected to any additional vertices in the supergraph. Briefly describe how to extend the breadth first search (BFS) algorithm to determine the number of connected components in an undirected graph (You may give a sketch of pseudo code and highlight the lines that are different from the original BFS algorithm. Comment your pseudo code to make it easy to understand).
 
 \begin{verbatim}
-int components = 0
+int components = 0      //  Tracks number of components
 BFS(G)
-    for each u in V(G)
-        u.color = WHITE
-    for each u in V(G)
+    for each u in V(G)          //  Color all vertices white
+        u.color = WHITE     
+    for each u in V(G)          //  For all white vertices, BFS-VISIT
         if u.color == WHITE
-            components++
+            components++        //  *** If the vertex is WHITE, it must be part of a new component
             BFS-VISIT(G, u)
-BFS(G, u)
+
+BFS(G, u)       //  Color every vertex
     u.color = GREY
     Queue q;
     q.enqueue(u)
@@ -255,12 +257,11 @@ BFS(G, u)
                 w.color = gray
                 q.enqueue(w)
         v.color = black
+
 printf("Graph has %d components!", components)
 \end{verbatim}
 
 \end{homeworkProblem}
-
-\pagebreak
 
 \begin{homeworkProblem}
 (10 points) Enumerate the nodes in the following graph in (a) BFS order and (b) DFS order, starting from node 1. 
@@ -289,37 +290,55 @@ printf("Graph has %d components!", components)
 \end{figure}
 
 \textbf{Solution}
-
     \begin{enumerate}[a)]
         \item
             BFS: 1, 2, 3, 4, 5, 6, 7
         \item  
             DFS: 1, 2, 5, 6, 3, 7, 4
     \end{enumerate}
-
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
 (25 points) For each node u in an undirected graph $G(V, E)$, let sDegree(u) be the sum of the degrees of the neighbors of u, that is, $sDegree(u) = \sum_{(u,v)\in E}{Degree(v)}$. Given an adjacency-list implementation of a graph $G(V, E)$, provide pseudo code (comment your pseudo code to make it easy to understand) for an $O(|V|+|E|)$ algorithm that outputs for each node u its sDegree(u) (20 points), and  briefly analyze the time complexity of your algorithm to justify it is $O(|V|+|E|)$. (5 points)  
 
 \begin{verbatim}
-degrees = int[V(G).size()]
-degrees = 0
+degrees = int[V(G).size()]          //  int array to store degree of each vertex
+degrees = 0                         //  initialize all to 0
 
-for i; i < adjList.size(); i++
-    degrees[i] = adjList[i].size()
+for i; i < adjList.size(); i++      //  for each vertex in the adjList
+    degrees[i] = adjList[i].size()  //  degrees[i] is how many vertices connected to current vertex i
+                                    //  O(|V|+|E|) Loop through every vertex and edge
 
-for i; i < adjList.size(); i++
-    int sDeg = 0
-    for each u in adjList[i]
+for i; i < adjList.size(); i++      //  loop through each vertex in adjList again
+    int sDeg = 0                    
+    for each u in adjList[i]        //  for each adjacent vertex, add together their degrees
         sDeg = degrees[u]
-    printf("sDegree(node %d) = %d", i, sDeg)
+                                    //  O(|V|+|E|) Loops through every vertex and edge
+    printf("sDegree(node %d) = %d", i, sDeg)    //  output the sDegree of current node
 \end{verbatim}
 
+Total time complexity is $O(|V|+|E|)$.
 
 \end{homeworkProblem}
-
+\pagebreak
 \begin{homeworkProblem}
-Bonus
+(Bonus 30 points)
+Consider a modification to the activity selection problem in which each activity $a_i$ has, in addition to a start and finish time, a value $v_i$. The objective is no longer to maximize the number of compatible activities scheduled, but instead to maximize the total value of the compatible activities scheduled. This is called the weighted activity selection problem. Develop a bottom-up dynamic programming solution for this problem. Your solution should have a time complexity in $O(n^2)$, where n is the total number of activities in the input.\\
+
+(a 10 points) Clearly define the recursive function c[j] which represents the optimal value for the subproblem including activities ending when aj finishes. c[n] represents the optimal value for the original problem.\\
+\\
+(b 10 points Demonstrate your solution on the following problem instance. Provide your solution steps in a table that contains optimal values for all subproblems. \\
+
+    \begin{center}
+        \begin{tabular}{ | c || c | c | c | c | c |}\hline
+            & $a_{1}$ & $a_{2}$ & $a_{3}$ & $a_{4}$ & $a_{5}$ \\\hline\hline
+        Start time  & 0 & 1 & 3 & 5 & 7\\\hline
+        Finish time & 2 & 4 & 5 & 8 & 11\\\hline
+        Value       & 20 & 70 & 30 & 50 & 60\\\hline
+        \end{tabular}
+    \end{center}
+(c 10 points) Briefly analyze and justify the time complexity of your solution.
+
+
 \end{homeworkProblem}
 \end{document}
