@@ -11,6 +11,11 @@
 *.aux
 *.log
 *.dvi
+*.out
+*.snm
+*.bib
+*.toc
+*.nav
 
 #   I don't even know
 *#

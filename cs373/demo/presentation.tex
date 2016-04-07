@@ -1,0 +1,137 @@
+\documentclass{beamer}
+\usepackage{apacite}
+\usepackage{filecontents}
+\usepackage{graphicx}
+
+\title{CS 373 Presentation}
+\subtitle{A proof of a context free language construction}
+\author{Tim Hung}
+\institute{Binghamton University}
+\date{April 6, 2016}
+
+\usetheme{Copenhagen}
+\setbeamertemplate{itemize items}[default]
+\setbeamertemplate{enumerate items}[default]
+
+\setbeamertemplate{section page}
+{
+  \begin{centering}
+    \begin{beamercolorbox}[sep=12pt,center]{part title}
+      \usebeamerfont{section title}\insertsection\par
+    \end{beamercolorbox}
+  \end{centering}
+}
+\setbeamertemplate{caption}{\raggedright\insertcaption\par}
+
+\begin{document}
+\frame{\titlepage}
+\section{Overview}\frame{\sectionpage}
+\begin{frame}{Overview}
+  Let A be a regular language and B a context free language. \\
+  Is $A\cap∩ B$ a context free language?
+\end{frame}
+
+\section{Solution}\frame{\sectionpage}
+\subsection{Overview}
+\begin{frame}{Solution}
+    \begin{itemize}
+        \item \textbf{Yes, $A\cap∩ B$ is a context free language}
+        \item How will we prove it?
+        \begin{itemize}
+            \item We will construct a PDA that simulates the action of a FA and a PDA
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\subsection{Proof}
+\begin{frame}{Construction}
+    \begin{itemize}
+    \item Let $M_A$ be a DFA such that $L(M_A) = A$
+        \begin{itemize}
+            \item $M_A = (Q_A, \Sigma, \delta_A, q_{A0}, F_A)$
+        \end{itemize}
+    \item Let $M_B$ be a PDA such that $L(M_B) = B$\\
+        \begin{itemize}
+            \item $M_B = (Q_B, \Sigma, \Gamma, \delta_B, q_{B0}, F_B)$.
+        \end{itemize}
+
+    \item Define PDA $M = (Q_A\times Q_B, \Sigma, \Gamma, \delta, (q_{A0}, q_{B0}), F_A\times F_B)$
+    \end{itemize}
+    
+    \[
+        \delta(q_A, q_B, a, b)=\left\{
+        \begin{array}{ll}
+            (\delta_A(q_A, a), \delta_B(q_B, a, b)) & a\ne \varepsilon\\
+            (q_A, \delta_B(q_B, a, b))  & a=\varepsilon\\
+        \end{array}
+        \right.
+    \]
+    where $q_A$ and $q_B$ are states from $Q_A$ and $Q_B$, a is from $\Sigma_\varepsilon$ and b is from $\Gamma_\varepsilon$.
+\end{frame}
+
+\begin{frame}{Proof}
+    \begin{itemize}
+        \item Let $w\in A\cap B$. \\
+
+        \item Then there are sequences of states from $Q_A$ and $Q_B$ such that the sequences start in the start states, 
+        end in an accept state, and do valid transitions.
+
+        \item Thus both $M_A$ and $M_B$ end in accept states, and likewise the sequence in $M$ starts in the start state,  
+        end in an accept state, and do valid transitions. 
+
+        \item Thus w is accepted by $M$ and $A\cap B\subset L(M)$.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Proof cont.}
+    \begin{itemize}
+        \item Let $w\in L(M)$.
+
+        \item Then there is a sequence of states that $M$ transitions through while processing $w$, 
+        starting in the start state, ending in an accept state, and performing valid transitions.
+
+        \item By the definition of $M$, there are sequences from $M_A$ and $M_B$ that do the same. 
+        Thus $w$ is accepted by $M_A$ and $M_B$. 
+
+        \item The $w\in A$ and $w\in B$. Thus $L(M) \subset A\cap B$.
+
+        \item Thus we have a PDA, $M$, that accepts $A\cap B$ 
+        
+        \item Therefore $A\cap B$ is context free.
+    \end{itemize}
+\end{frame}
+
+\section{Summary}\frame{\sectionpage}
+\begin{frame}{Recap}
+    \begin{itemize}
+        \item Given a regular language $A$ and a context free language $B$ \\
+        \begin{itemize}
+            \item We want to show $A\cap∩ B$ is a context free language
+        \end{itemize}
+        \item Construction 
+            \begin{itemize}
+                \item We constructed $M_A$ a DFA that recognizes regular language A
+                \item We constructed $M_B$ a PDA that recognizes regular language B.
+            \end{itemize}
+        \item Proof
+            \begin{itemize}
+                \item We show that processing a $w\in A\cap B$ results in valid transitions leading to accept states in both $M_A$ and $M_B$.
+                    \begin{itemize}
+                        \item Therefore $A\cap B\subset L(M)$
+                    \end{itemize}
+                \item We show that processing a $w\in L(M)$ results in valid transitions leading to accept states in $M$.
+                    \begin{itemize}
+                        \item Therefore $L(M) \subset A\cap B$
+                    \end{itemize}
+            \end{itemize}
+        \item Therefore, $M$ accepts $A\cap B$ so $A\cap B$ is context free.
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Questions}
+    Thank you.\\
+    Any questions?
+\end{frame}
+
+\end{document}
+\grid
