@@ -1,0 +1,46 @@
+\sektion{1}{Decidability}
+
+Hello welcome to the section.
+
+\begin{corollary}
+    A language is decidable if $\exists$ a non deterministic Turing Machine that recognizes it.
+\end{corollary}
+
+\begin{theorem}
+    A language is Turing Recognizable if and only if some enumerator enumerates it.
+\end{theorem}
+
+\begin{theorem}
+    The class of Fontext Free Languages is a proper subset of the Turing Recognizable languages.
+\end{theorem}
+
+Hilbert's 10th Problem: Given a polynomial with integer coeficients, does there exist an integer root to that polynomial.
+
+\[D = \{p|\text{p is a polynomial over one variable}\}  \]
+\[F = \{p|\text{p is a polynomial over one or more variables}\}  \]
+
+\begin{theorem}
+The class of Turing Recognizable Languages is closed under $\cup$.
+\end{theorem}
+
+\begin{proof}
+Let A, B be Turing Recognizable Languages.
+
+$\exists$ Turing Machines $M_A, M_B, L(M_A)=A, L(M_B)=B$.
+
+We want Turing Machine M such that $L(M)=A\cup B$
+
+On input w, M does:
+
+1. run $M_A$ and $M_B$ in parallel on w
+
+    -if $M_A$ or $M_B$ then halt and accept
+    
+    -if $M_A$ and $M_B$ then halt and reject
+
+\begin{claim}
+$L(M)=A\cup B$
+\end{claim}
+Let $w\in L(M)$
+$w\in A\cup B$ etc.....
+\end{proof}
