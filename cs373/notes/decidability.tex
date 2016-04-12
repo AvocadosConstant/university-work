@@ -24,23 +24,154 @@ The class of Turing Recognizable Languages is closed under $\cup$.
 \end{theorem}
 
 \begin{proof}
-Let A, B be Turing Recognizable Languages.
+    Let A, B be Turing Recognizable Languages.
 
-$\exists$ Turing Machines $M_A, M_B, L(M_A)=A, L(M_B)=B$.
+    $\exists$ Turing Machines $M_A, M_B, L(M_A)=A, L(M_B)=B$.
 
-We want Turing Machine M such that $L(M)=A\cup B$
+    We want Turing Machine M such that $L(M)=A\cup B$
 
-On input w, M does:
+    On input w, M does:
 
-1. run $M_A$ and $M_B$ in parallel on w
+    1. run $M_A$ and $M_B$ in parallel on w
 
-    -if $M_A$ or $M_B$ then halt and accept
-    
-    -if $M_A$ and $M_B$ then halt and reject
+        -if $M_A$ or $M_B$ then halt and accept
+        
+        -if $M_A$ and $M_B$ then halt and reject
 
-\begin{claim}
-$L(M)=A\cup B$
-\end{claim}
-Let $w\in L(M)$
-$w\in A\cup B$ etc.....
+    \begin{claim}
+        $L(M)=A\cup B$
+    \end{claim}
+    Let $w\in L(M)$
+    $w\in A\cup B$ etc.....
 \end{proof}
+
+
+
+
+
+
+\pagebreak
+
+
+
+
+
+\begin{definition}
+    An algorithm is a well defined sequence of steps to perform a computation.
+\end{definition}
+
+
+\begin{definition}
+    A Universal Turing Machine ($\mathit{u}$) is a Turing Machine that can simulate running any Turing Machine on an input string.
+\end{definition}
+
+
+%---------------------------------- DFA
+\subsektion{Acceptance problem for DFAs}
+    \begin{definition}
+        The acceptance problem for Deterministic Finite Automata is $A_{DFA}=\{<M,w> | M$ is a $DFA$ and $w\in L(M)\}$.
+    \end{definition}
+
+    \begin{theorem}
+        $A_{DFA}$ is decidable.
+    \end{theorem}
+
+    \begin{proof}
+        On an input $<M,w>$, $X$ does:
+
+        1. Simulate running M for $|w|$ transitions.
+
+        2. If $M$ is in an accept state, halt and accept.
+        
+        3. Halt and reject.
+
+        $<M,w>\in A_{DFA} \Rightarrow L(M) \Rightarrow X$ Halt and accept $\Rightarrow <M,w>\in L(X)$
+
+        $<M,w>\in L(X) \Rightarrow w\in L(M) \Rightarrow <M,w>\in A_{DFA}$
+
+        $M=(Q,\Sigma, \delta, q_0, F)$
+
+            $|Q|<\infty$
+
+            $|\Sigma|<\infty$
+
+            $|\delta|<\infty$
+
+        Therefore X decides $A_{DFA}$.
+    \end{proof}
+
+%---------------------------------- NFA
+\subsektion{Acceptance problem for NFAs}
+    \begin{definition}
+        The acceptance problem for Non-deterministic Finite Automata is $A_{NFA}=\{<M,w> | M$ is a $NFA$ and $w\in L(M)\}$.
+    \end{definition}
+
+    \begin{theorem}
+        $A_{NFA}$ is decidable.
+    \end{theorem}
+
+    \begin{proof}
+        On an input $<M,w>$, $Y$ does:
+
+        1. Construct DFA $M'$ such that $L(M')=L(M)$.
+
+        2. Call Turing Machine X with input $<M,w>$ and return what it returns.
+
+
+        Let $<M,w>\in A_{NFA} 
+            \Rightarrow w\in L(M) 
+            \Rightarrow L(M') 
+            \Rightarrow <M',w>\in A_{DFA} 
+            \Rightarrow Y$ accepts $<M,w> 
+            \Rightarrow <M,w>\in L(Y)$
+
+        $<M,w>\in L(Y) 
+            \Rightarrow <M',w>\in L(X) = A_{DFA} 
+            \Rightarrow w\in L(M') = L(M) 
+            \Rightarrow <M,w>\in A_{NFA}$
+
+        $M=(Q,\Sigma, \delta, q_0, F)$
+
+            $|Q|<\infty$
+
+            $\mathcal{P}(Q)<\infty$
+
+            $|\Sigma|<\infty$
+
+            $|\delta|<\infty$
+
+        Therefore Y decides $A_{NFA}$.
+    \end{proof}
+
+%---------------------------------- Regexp
+\subsektion{Generation problem for Regular Expressions}
+    \begin{definition}
+        The generation problem for regular expressions $A_{rex}=\{<R,w>|R$ is a regular expression and $w\in L(R)\}$.
+    \end{definition}
+
+    \begin{theorem}
+        $A_{rex}$ is decidable.
+    \end{theorem}
+
+    \begin{proof}
+        On an input $<M,w>$, $Z$ does:
+
+        1. Construct NFA $N$ such that $L(N)=L(R)$.
+
+        2. Call Turing Machine Y with input $<N,w>$ and return what it returns.
+
+
+        Want to prove that $L(Z)=A_{rex}$.
+
+        Therefore Y decides $A_{NFA}$.
+    \end{proof}
+
+\subsektion{Emptiness problem for DFAs}
+    \begin{definition}
+        The emptiness problem for DFAs is $E_{DFA} = \{<M>| M$ is a DFA and $L(M)=\emptyset \}$.
+    \end{definition}
+
+    \begin{theorem}
+        $E_{DFA}$ is decidable.
+    \end{theorem}
+
