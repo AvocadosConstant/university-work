@@ -1,6 +1,35 @@
 \sektion{1}{Coloring}
 
-\subsektion{Chromatic Polynomial}
+\subsektion{Vertex Coloring}
+
+\begin{theorem}[Brook's Theorem]
+    In a connected graph in which every vertex has at most $\Delta$ neighbors, the vertices can be colored with only $\Delta$ colors, except for two cases, complete graphs and cycle graphs of odd length, which require $\Delta+1$ colors.
+\end{theorem}
+
+\subsubsection{Chromatic Polynomial}
 \[
     P_G (k) = P_{G_1} (k) + P_{G_2} (k) 
 \]
+The first coefficient is always 1.
+
+The degree of the first term is the $(|V|)$.
+
+The second coefficient is always $-(|E|)$.
+
+The final (constant) coefficient is always 0.
+
+\begin{definition}
+    The chromatic polynomial of a complete graph $K_n$ on n vertices is 
+    \[P_{K_n}=k(k-1)(k-2)...(k-(n-1))\]
+\end{definition}
+
+\begin{definition}
+    The chromatic polynomial of a tree $T_n$ on n vertices is \[P_{T_n}=k(k-1)^{n-1}\]
+\end{definition}
+
+
+
+\subsektion{Edge Coloring}
+\begin{definition}
+    The chromatic index of a graph, $\chi'$, is ...
+\end{definition}
