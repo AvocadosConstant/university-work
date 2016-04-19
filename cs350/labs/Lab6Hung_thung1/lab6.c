@@ -3,56 +3,58 @@
 #include <stdio.h>
 #include <stdbool.h>
 #include <unistd.h>
+#include <signal.h>
 
+pthread_mutex_t market_lock;
 float market_value;
 int NUM_THREADS;
 int MARKET_THRESHOLD;
-pthread_mutex_t mutexsum;
+pthread_t up_watcher_thread;
+pthread_t down_watcher_thread;
 
-void *stock() {
-    float price = 100;
+void stock() {
     while(true) {
-        float fluc = (2 * (float)rand()/(float)RAND_MAX) - 1;
-        price += fluc;
-        pthread_mutex_lock (&mutexsum);
-        market_value += fluc;
-        pthread_mutex_unlock (&mutexsum);
+        // random float between -1 and 1
+        pthread_mutex_lock (&market_lock);
+            float fluc = (2 * (float)rand()/(float)RAND_MAX) - 1;
+            market_value += fluc;
+        pthread_mutex_unlock (&market_lock);
     }
-    pthread_exit(NULL);
 }
 
-void *down_watcher() {
+void down_watcher() {
     while(true) {
-        pthread_mutex_lock (&mutexsum);
-        if(market_value < NUM_THREADS * (100-MARKET_THRESHOLD)) {
-            printf("Market down to $%3.2f\n", market_value);
-            exit(0);
-        }
-        pthread_mutex_unlock (&mutexsum);
+        pthread_mutex_lock (&market_lock);
+            if(market_value < NUM_THREADS * (100-MARKET_THRESHOLD)) {
+                fprintf(stdout, "Market down to $%3.2f\n", market_value);
+                pthread_kill(up_watcher_thread, SIGINT);
+                pthread_mutex_unlock (&market_lock);
+                pthread_exit(0);
+            }
+        pthread_mutex_unlock (&market_lock);
     }
-    pthread_exit(NULL);
 }
 
-void *up_watcher() {
+void up_watcher() {
     while(true) {
-        pthread_mutex_lock (&mutexsum);
-        if(market_value > NUM_THREADS * (100+MARKET_THRESHOLD)) {
-            printf("Market up to $%3.2f\n", market_value);
-            exit(0);
-        }
-        pthread_mutex_unlock (&mutexsum);
+        pthread_mutex_lock (&market_lock);
+            if(market_value > NUM_THREADS * (100+MARKET_THRESHOLD)) {
+                fprintf(stdout, "Market up to $%3.2f\n", market_value);
+                pthread_kill(down_watcher_thread, SIGINT);
+                pthread_mutex_unlock (&market_lock);
+                pthread_exit(0);
+            }
+        pthread_mutex_unlock (&market_lock);
     }
-    pthread_exit(NULL);
 }
 
-int main (int argc, char *argv[])
-{
+int main (int argc, char *argv[]) {
     if(argc != 3) exit(0);
 
     NUM_THREADS = atoi(argv[1]);
     MARKET_THRESHOLD = atoi(argv[2]);
+
     pthread_t stocks[NUM_THREADS];
-    pthread_t watchers[2];
     int rc;
     time_t t;
     srand((unsigned) time(&t));
@@ -61,13 +63,13 @@ int main (int argc, char *argv[])
     printf("Initial market value: $%.2f\n", market_value);
     
     //  Create two watcher threads
-    rc = pthread_create(&watchers[0], NULL, up_watcher, NULL);
+    rc = pthread_create(&up_watcher_thread, NULL, (void *)up_watcher, NULL);
     if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
     }
 
-    rc = pthread_create(&watchers[1], NULL, down_watcher, NULL);
+    rc = pthread_create(&down_watcher_thread, NULL, (void *)down_watcher, NULL);
     if (rc){
         printf("ERROR; return code from pthread_create() is %d\n", rc);
         exit(-1);
@@ -75,13 +77,21 @@ int main (int argc, char *argv[])
 
     for(long t=2; t<NUM_THREADS; t++){
         //printf("In main: creating stock thread %ld\n", (t - 2));
-        rc = pthread_create(&stocks[t], NULL, stock, (void *)t);
+        rc = pthread_create(&stocks[t], NULL, (void *)stock, (void *)t);
         if (rc){
             printf("ERROR; return code from pthread_create() is %d\n", rc);
             exit(-1);
         }
     }
 
+    pthread_join(up_watcher_thread, NULL);
+    pthread_join(down_watcher_thread, NULL);
+
+    // Kill the stocks
+    for(long t=2; t < NUM_THREADS; t++) {
+        pthread_kill(stocks[t], SIGINT);
+    }
+
     /* Last thing that main() should do */
-    pthread_exit(NULL);
+    pthread_exit(0);
 }
