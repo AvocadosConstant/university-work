@@ -49,13 +49,6 @@ The class of Turing Recognizable Languages is closed under $\cup$.
 
 
 
-
-\pagebreak
-
-
-
-
-
 \begin{definition}
     An algorithm is a well defined sequence of steps to perform a computation.
 \end{definition}
@@ -65,6 +58,7 @@ The class of Turing Recognizable Languages is closed under $\cup$.
     A Universal Turing Machine ($\mathit{u}$) is a Turing Machine that can simulate running any Turing Machine on an input string.
 \end{definition}
 
+\pagebreak
 
 %---------------------------------- DFA
 \subsektion{Acceptance problem for DFAs}
@@ -187,7 +181,33 @@ The class of Turing Recognizable Languages is closed under $\cup$.
     -   We want to show there are an uncountable number of languages over $\{0,1\}$
 
 
+%   April 21, 2016
+
+\begin{theorem}
+    Every context free language is decidable.
+\end{theorem}
 
 
+\subsektion{Equality problem for CFGs}
+    \begin{definition}
+        The equality problem for context free grammars is 
+    \end{definition}
+
+    \begin{theorem}
+        $EQ_{CFG}$ is not decidable.
+    \end{theorem}
 
 
+\subsektion{Co-Turing Recognizablilty}
+
+\begin{definition}
+    A language is called Co-Turing recognizable if some Turing machine recognizes its complement.
+\end{definition}
+
+\begin{theorem}
+    A language is decidable if and only if it is both Turing recognizable and Co-Turing recognizable.
+\end{theorem}
+
+\begin{corollary}
+    $A_{TM}$ is not co-Turing Recognizable.
+\end{corollary}
