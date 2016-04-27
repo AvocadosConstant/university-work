@@ -1,0 +1,40 @@
+\sektion{2}{Matching}
+
+\begin{definition}[Matching]
+    A matching in a graph is a set of pairwise non-adjacent edges.
+\end{definition}
+
+\begin{definition}[Matching Number]
+    The matching number of a graph G, denoted $\nu(G)$, is the size of a largest matching.
+\end{definition}
+
+\begin{proposition}
+    $\nu(G) \leq \frac{n}{2}$
+\end{proposition}
+
+\begin{definition}[Perfect Matching]
+    A perfect matching is a matching of size $\frac{n}{2}$.
+\end{definition}
+
+\[
+    \nu(K_n) = \left\{\begin{array}{lr}
+        \frac{n}{2},    &   \text{n is even}\\
+        \frac{n-1}{2},  &   \text{n is odd}
+    \end{array}\right\}
+\]
+
+\[
+    (m \leq n) \nu(K_{m,n}) = m
+\]
+
+Questions
+
+    What can you say about nu(G) if G is Hamiltonian? n/2 or (n-1)/2
+   
+    What can you say about nu(G) if G is cubic and Hamiltonian? n/2
+    
+    What can you say about Chi(G) if G has no triangles? Nothing (Mycielski's theorem)
+    
+    Does every regular graph have a perfect matching?
+
+    Will the properties: regular, even num of vertices, and connected force the existence of perfect matching?
