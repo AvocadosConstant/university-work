@@ -152,27 +152,134 @@
 \pagebreak
 
 \begin{homeworkProblem} 
-(20\%) A set \{3, 4, 5, 8\} is given. For the set, find every subset that sums to S = 13. Find the subsets via the backtracking algorithm. In your solution, draw a pruned state space tree. For each node in the tree, show its current subset sum and its upper bound of the sum (i.e., weightSoFar + totalPossibleLeft). Number the nodes in the sequence of visiting them. Also, identify the node that represents the solution found at the end of the search.
+(20\%) A set \{3, 4, 5, 8\} is given. For the set, find every subset that sums to S = 13. Find the subsets via the backtracking algorithm. In your solution, draw a pruned state space tree. For each node in the tree, show its current subset sum and its upper bound of the sum (i.e., weightSoFar + totalPossibleLeft). Number the nodes in the sequence of visiting them. Also, identify the node that represents the solution found at the end of the search.\\
+
+\textbf{Solution}
+
+    \begin{tikzpicture}[auto, node distance=1.8cm, every loop/.style={},
+        thick,main node/.style={align=center,circle,draw}]
+
+        \node[main node,label={\small 1}] (root) {0\\20};
+        \node[main node,label={\small 2}] (1) [below left of=root, xshift=-3.2cm] {3\\20};
+        \node[main node,label={\small 9}] (0) [below right of=root, xshift=3.2cm] {0\\17};
+        \node[main node,label={\small 3}] (11) [below left of=1, xshift=-.8cm] {7\\20};
+        \node[main node,label={\small 6}] (10) [below right of=1, xshift=.8cm] {3\\16};
+        \node[main node,label={\small 10}] (01) [below left of=0, xshift=-1.2cm] {4\\17};
+        \node[main node,label={\small 13}] (00) [below right of=0, xshift=1.2cm] {0\\13};
+        \node[main node,label={\small 4}] (111) [below left of=11] {12\\20};
+        \node[main node,label={\small 5}] (110) [below right of=11] {7\\15};
+        \node[main node,label={\small 7}] (101) [below left of=10] {8\\16};
+        \node[main node,label={\small 8}] (100) [below right of=10] {3\\11};
+
+        \node[main node,label={\small 11}] (011) [below left of=01, xshift=-0cm] {9\\17};
+        \node[main node,label={\small 12}] (010) [below right of=01, xshift=0cm] {4\\12};
+        \node[main node,label={\small 14}] (001) [below left of=00, xshift=-0cm] {8\\13};
+        \node[main node,label={\small 15}] (000) [below right of=00, xshift=0cm] {0\\8};
+
+        \node[main node,label={\small 16},line width=3pt] (0011) [below left of=001] {13\\13};
+
+        \path[every node/.style={font=\sffamily\small}]
+        (root)  edge node {} (1)
+                edge node {} (0) 
+        (1)     edge node {} (11)
+                edge node {} (10) 
+        (0)     edge node {} (01)
+                edge node {} (00) 
+        (11)    edge node {} (111)
+                edge node {} (110) 
+        (10)    edge node {} (101)
+                edge node {} (100) 
+        (01)    edge node {} (011)
+                edge node {} (010) 
+        (00)    edge node {} (001)
+                edge node {} (000) 
+        (001)   edge node {} (0011)
+                ;
+    \end{tikzpicture}
+    
+    The subset $\{5,8\}$ sums to 13.
+
 \end{homeworkProblem} 
+
+\pagebreak
 
 \begin{homeworkProblem}
     \begin{wrapfigure}{r}{0pt}
         \begin{tabular}{c c c c}
             i   &   $p_i$ & $w_i$ & $\frac{p_i}{w_i}$ \\ \hline
-            1   &   \$10    &   5   &    \$2    \\
             2   &   \$30    &   2   &    \$15   \\
             3   &   \$40    &   5   &    \$8    \\
             4   &   \$30    &  10   &    \$3    \\
+            1   &   \$10    &   5   &    \$2    \\
         \end{tabular}
     \end{wrapfigure}
     (15\%) When the capacity of the knapsack is 15, solve the following 0-1 knapsack problem using the backtracking algorithm that uses the optimal fractional knapsack algorithm to compute the upper bound of the profit.\\
 
+    \textbf{Solution}
 
+    \begin{tikzpicture}[auto, node distance=2.2cm, every loop/.style={},
+        thick,main node/.style={align=center,circle,draw}]
 
+        \node[main node] (root) {0\\0\\94};
+        \node[main node] (1) [below left of=root, xshift=0cm] {30\\2\\94};
+        \node[main node] (0) [below right of=root, xshift=0cm] {0\\0\\74};
+
+        \node[main node] (11) [below left of=1, xshift=-0cm] {70\\7\\94};
+        \node[main node] (10) [below right of=1, xshift=0cm] {30\\2\\66};
+        
+        \node[main node] (111) [below left of=11] {100\\17\\94};
+        \node[main node] (110) [below right of=11] {70\\7\\80};
+
+        \node[main node, line width=3pt] (1101) [below left of=110] {80\\12\\80};
+
+        \path[every node/.style={font=\sffamily\small}]
+        (root)  edge node {} (1)
+                edge node {} (0) 
+        (1)     edge node {} (11)
+                edge node {} (10) 
+        (11)    edge node {} (111)
+                edge node {} (110) 
+        (110)   edge node {} (1101)
+                ;
+    \end{tikzpicture}
+
+    The optimal solution gives a profit of \$80 and a weight of 12 with items 1, 2, and 4.
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
 (15\%) For the same problem in Question 2, solve it using the best-first-search branch and bound algorithm. Follow the same instructions above to produce your solution. 
+
+    \textbf{Solution}
+
+    \begin{tikzpicture}[auto, node distance=2.2cm, every loop/.style={},
+        thick,main node/.style={align=center,circle,draw}]
+
+        \node[main node] (root) {0\\0\\94};
+        \node[main node] (1) [below left of=root, xshift=0cm] {30\\2\\94};
+        \node[main node] (0) [below right of=root, xshift=0cm] {0\\0\\74};
+
+        \node[main node] (11) [below left of=1, xshift=-0cm] {70\\7\\94};
+        \node[main node] (10) [below right of=1, xshift=0cm] {30\\2\\66};
+        
+        \node[main node] (111) [below left of=11] {100\\17\\94};
+        \node[main node] (110) [below right of=11] {70\\7\\80};
+
+        \node[main node, line width=3pt] (1101) [below left of=110] {80\\12\\80};
+
+        \path[every node/.style={font=\sffamily\small}]
+        (root)  edge node {} (1)
+                edge node {} (0) 
+        (1)     edge node {} (11)
+                edge node {} (10) 
+        (11)    edge node {} (111)
+                edge node {} (110) 
+        (110)   edge node {} (1101)
+                ;
+    \end{tikzpicture}
+
+    The optimal solution gives a profit of \$80 and a weight of 12 with items 1, 2, and 4.
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
@@ -186,10 +293,10 @@
             \node[main node] (d) [below right of=b] {d};
 
             \path[every node/.style={font=\sffamily\small}]
-            (a) edge node [above right] {1} (c)
+            (a) edge [line width=4pt] node [above right] {1} (c)
             (b) edge node [above left] {8} (a)
-                edge node {3} (c)
-                edge node [below left] {2} (d)
+                edge [line width=4pt] node {3} (c)
+                edge [line width=4pt] node [below left] {2} (d)
             (c) edge node [below right] {5} (d);
         \end{tikzpicture}
     \end{wrapfigure}
@@ -197,11 +304,17 @@
     (15\%) Apply Prim's algorithm for finding a minimum spanning tree for the following graph. Start with node a.  Show the steps by filling out the following table (see the example on slide 31 of lecture 25). Show the selected tree nodes in the first column of the table, for each of the rest of the nodes, show its minimum distance D to the current tree and its nearest node in the current tree, in the remaining columns. \\
 
     \begin{tabular}{|c|c|c|c|c|}\hline
-        Node added  & D(a)  & D(c)  &D(d)\\ \hline \hline
+        Node added  & D(a)  &   D(b)    & D(c)  &D(d)\\ \hline \hline
+        {a}             &   0   &   4   &   1   &   6   \\ \hline
+        {a, c}          &   0   &   3   &   0   &   5   \\ \hline
+        {a, c, b}       &   0   &   0   &   0   &   2   \\ \hline
+        {a, c, b, d}    &   0   &   0   &   0   &   0   \\ \hline
     \end{tabular}
 
 
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     \begin{wrapfigure}{r}{0pt}
@@ -236,9 +349,37 @@
 
     \textbf{Solution}
 
-\end{homeworkProblem}
+    Edges in order: 
+    \[
+        \{e,f\}, \{c,d\}, \{a,e\}, \{b,e\}, \{d,f\}, \{e,g\}, \{f,h\}
+    \]
+    Final weight = $2+3+4+5+8+9+15=46$
+        \begin{tikzpicture}[auto, node distance=1.5cm,
+            thick,main node/.style={circle,draw,font=\sffamily\Large\bfseries}]
 
-\pagebreak
+            \node[main node] (a) {a};
+            \node[main node] (b) [below left of=a, xshift=-.5cm] {b};
+            \node[main node] (c) [below of=b] {c};
+            \node[main node] (d) [below right of=c, xshift=.5cm] {d};
+            \node[main node] (e) [below right of=a, xshift=.5cm] {e};
+            \node[main node] (f) [below of=e] {f};
+            \node[main node] (g) [right of=e] {g};
+            \node[main node] (h) [right of=f] {h};
+
+            \path[every node/.style={font=\sffamily\small}]
+            (a) edge node [above left] {6} (b)
+                edge [line width=4.0pt] node {4} (e)
+            (b) edge [line width=4.0pt] node {5} (e)
+                edge node [left] {14} (c)
+                edge [bend left] node {10} (d)
+            (c) edge [line width=4.0pt] node [below left] {3} (d)
+            (d) edge [line width=4.0pt] node [below right] {8} (f)
+            (e) edge [line width=4.0pt] node {9} (g)
+                edge [line width=4.0pt] node {2} (f)
+            (f) edge [line width=4.0pt] node {15} (h)
+                ;
+        \end{tikzpicture}
+\end{homeworkProblem}
 
 \begin{homeworkProblem}
 
@@ -269,10 +410,28 @@
 
     \textbf{Solution}\\
 
-this here be the solution yarr
+    $Q = $\begin{tabular}{c c c c c}
+        $s$ &   $s_1$   &   $s_2$   &   $s_3$   &   $s_4$\\\hline
+        0   &   $\infty$    &   $\infty$    &   $\infty$    &   $\infty$\\
+            &   5    &  $\infty$    &   \textbf{3}    &   15\\
+            &   \textbf{5}    &  $\infty$    &        &   15\\
+            &        &   \textbf{6}   &      &   15\\
+            &        &       &      &   \textbf{15}\\
+
+    \end{tabular}
+
+    Vertices ordered from closest to farthest from vertex $s$:
+    \begin{tabular}{c c c}
+        vertex  &   distance    &   path\\\hline
+        $s_3$   &   3   &   $s\rightarrow s_3$\\
+        $s_1$   &   5   &   $s\rightarrow s_1$\\
+        $s_2$   &   6   &   $s\rightarrow s_1\rightarrow s_2$\\
+        $s_4$   &   15  &   $s\rightarrow s_4$
+    \end{tabular}
 
 \end{homeworkProblem}
 
+\pagebreak
 
 \begin{homeworkProblem}
     \begin{wrapfigure}{r}{0pt}
@@ -306,12 +465,38 @@ this here be the solution yarr
 
     \textbf{Solution}
 
-    \[D=\begin{bmatrix}
-        0 & 8 & ? & 1\\
-        ? & 0 & 1 & ?\\
-        4 & ? & 0 & ?\\
-        ? & 2 & 9 & 0\\
-    \end{bmatrix}\]\\
+    \begin{tabular}{c|c|c|c}
+        $k=1$   &   $k=2$   &   $k=3$   &   $k=4$\\
+
+        $D=\begin{bmatrix}
+            0 & 8 & ? & 1\\
+            ? & 0 & 1 & ?\\
+            4 & 12 & 0 & 5\\
+            ? & 2 & 9 & 0 
+        \end{bmatrix}$
+        &
+        $D=\begin{bmatrix}
+            0 & 8 & 9 & 1\\
+            ? & 0 & 1 & ?\\
+            4 & 12 & 0 & 5\\
+            ? & 2 & 3 & 0
+        \end{bmatrix}$
+        &
+        $D=\begin{bmatrix}
+            0 & 8 & 9 & 1\\
+            5 & 0 & 1 & 1\\
+            4 & 12 & 0 & 5\\
+            7 & 2 & 3 & 0
+        \end{bmatrix}$
+        &
+        $D=\begin{bmatrix}
+            0 & 3 & 4 & 1\\
+            5 & 0 & 1 & 1\\
+            4 & 7 & 0 & 5\\
+            7 & 2 & 3 & 0
+        \end{bmatrix}$
+    \end{tabular}
+
 
 \end{homeworkProblem}
 
