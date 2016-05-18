@@ -1,0 +1,103 @@
+\sektion{2}{Theorems and Formulas}
+
+\subsektion{Basic}
+\begin{theorem}[Degree Sum Formula]
+    For a graph G with $n$ vertices and $m$ edges, 
+    \[\sum_{i=1}^n d_i=2m\].
+\end{theorem}
+
+\begin{theorem}[Hand Shaking Lemma]
+    Every finite undirected graph has an even number of vertices with odd degree.
+\end{theorem}
+
+\begin{theorem}[Konig's Characterization Theorem]
+    A graph is bipartite if and only if it has no odd cycles.
+\end{theorem}
+
+\begin{theorem}[Cayley's Formula]
+    There exist $n^{n-2}$ labelled trees on $n$ vertices.
+
+    $\tau = n^{n-2} \forall$ complete graphs on n vertices where $ n\geq 2$
+\end{theorem}
+
+\subsektion{Hamiltonicity}
+\begin{theorem}[Ore's Theorem]
+    A graph on $n\geq3$ vertices is Hamiltonian if, for every pair of non-adjacent vertices, the sum of their degrees is $n$ or greater.
+\end{theorem}
+
+\begin{theorem}[Dirac's Theorem]
+    A simple graph on $n\geq3$ vertices is Hamiltonian if every vertex has degree $\frac{n}{2}$ or greater.
+\end{theorem}
+
+
+
+
+
+\subsektion{Coloring}
+\begin{theorem}[Brooks' Theorem]
+    A graph with maximum degree $\Delta$ can be colored with $\Delta$ colors, except for two cases, complete graphs and odd cycles which require $\Delta + 1$ colors.
+\end{theorem}
+
+\begin{theorem}[Vizing's Theorem]
+    For a simple graph $G$, \[\Delta \leq \chi'(G) \leq \Delta + 1\]
+\end{theorem}
+
+\begin{theorem}[Konig's Theorem]
+    For a bipartite graph $G$, \[\chi'(G)=\Delta(G)\]
+\end{theorem}
+
+\begin{theorem}[Mycielski's Theorem]
+    There exist triangle-free graphs with arbitrarily high $\chi$.
+\end{theorem}
+
+\begin{theorem}[Whitney's Theorem]
+    Two connected graphs are isomorphic if their line graphs are isomorphic.
+\end{theorem}
+
+\begin{theorem}[Stanley's Theorem]
+    The number of acyclic orientations of a graph is the value of its chromatic polynomial $P(k)$ where $k=-1$.
+\end{theorem}
+
+\begin{theorem}[Four-Color Theorem]
+    Any planar graph has a chromatic number less than or equal to 4.
+\end{theorem}
+
+
+\subsektion{Planarity}
+\begin{theorem}[Kuratowski's Theorem]
+    A graph $G$ is planar if and only if neither $K_5$ nor $K_{3,3}$ are minors of G.
+\end{theorem}
+
+\begin{theorem}[Euler's Formula]
+    For a planar graph $G$ with $n$ vertices, $m$ edges, and $f$ faces, \[n-m+f=2\]
+\end{theorem}
+
+\begin{theorem}
+    If G is a simple, planar graph, then $m\leq3n-6$.
+\end{theorem}
+
+\begin{theorem}
+    If G is a bipartite, simple, planar graph, then $m\leq2n-4$.
+\end{theorem}
+
+
+
+\subsektion{Matching}
+\begin{theorem}[Hall's Theorem]
+    Let $G=(A\cup B, E)$ be a bipartite graph. $G$ has a matching covering $A$ if and only if \[|N_G(X)|\geq|X|\forall X\subseteq A\]
+\end{theorem}
+
+\begin{theorem}[Tutte's Theorem]
+    A graph $G$ has a perfect matching if and only if $\forall X\subseteq V(G)$, and the number of odd components of $(G-X)\leq|X|$.
+\end{theorem}
+
+\subsektion{Miscellaneous}
+\begin{theorem}[Menger's Theorem]
+    A graph $G$ with at least $k+1$ vertices is k-connected if and only if any two vertices of $G$ are joined by at least $k$ paths, no two of which have any other vertices in common. (min edge cut = max edge-independent paths)
+
+    Aka: Let $G$ be a graph and let $u,v$ be two non-adjacent vertices. The maximum number of pairwise internally disjoint uv-paths is equal to the minimum number of vertices to be deleted so that there does not exist any uv-path remaining.
+\end{theorem}
+
+\begin{theorem}[Robbins' Theorem]
+    A connected graph is orientable if and only if it contains no bridges.
+\end{theorem}

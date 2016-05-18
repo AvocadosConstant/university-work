@@ -1,0 +1,134 @@
+\sektion{1}{Definitions}
+
+\subsektion{Basic Properties}
+\begin{definition}[Degree]
+    The number of edges incident on a vertex $v$ denoted $d(v)$. The minimum degree of a graph G is denoted $\delta(G)$ and the maximum degree is denoted $\Delta(G)$.
+\end{definition} 
+
+\begin{definition}[Cubic]
+    A graph is cubic if it is 3-regular.
+\end{definition} 
+
+\begin{definition}[Complement]
+    The complement of a graph $G$, denoted $G'$, is a graph with the vertex set of G such that if vertices $\{v,w\}\in G'$ are adjacent if and only if they are not adjacent in G.
+\end{definition} 
+
+\begin{definition}[Self-complementary]
+    A graph is self-complementary if it is isomorphic to its complement.
+\end{definition} 
+
+\begin{definition}[Distance]
+    Length of the shortest path between two vertices.
+\end{definition} 
+
+\begin{definition}[Diameter]
+    Maximum distance of a graph.
+\end{definition} 
+
+\begin{definition}[Bridge]
+    An edge whose deletion increases the number of components.
+\end{definition} 
+
+\begin{definition}[Wiener Index]
+    The Wiener Index of a connected graph is the sum of the distance between every pair of vertices.
+\end{definition} 
+
+\subsektion{Basic Subgraphs}
+\begin{definition}[Walk]
+    A non-empty alternating sequence of vertices and edges in a graph.
+\end{definition} 
+
+\begin{definition}[Trail]
+    A walk with no repeated edges.
+\end{definition} 
+
+\begin{definition}[Path]
+    A walk with no repeated vertices.
+\end{definition} 
+
+\begin{definition}[Component]
+    A subgraph in which any two vertices are connected to each other by paths, and which is connected to no additional vertices in its supergraph.
+\end{definition} 
+
+
+\subsektion{Types of Graphs}
+\begin{definition}[Bipartite Graph]
+    A graph whose vertices can be divided into two independent sets $U$ and $V$ such that every edge connects a vertex in $U$ to a vertex in $V$. A bipartite graph is a graph without any odd length cycles. A bipartite graph is a graph with a chromatic number of 2.
+\end{definition} 
+
+\begin{definition}[Forest]
+    An acyclic graph.
+\end{definition} 
+
+\begin{definition}[Tree]
+    A connected acyclic graph.
+\end{definition} 
+
+\begin{definition}[Spanning Tree]
+    A spanning tree of a graph G is a subgraph of G with the same vertex set that is a tree. The number of spanning trees in a graph G is denoted $\tau(G)$.
+\end{definition} 
+
+\begin{definition}[Eulerian Graph]
+    A graph containing a cycle where every edge is visited once. A graph with vertices of only even degree.
+\end{definition} 
+
+\begin{definition}[Hamiltonian Graph]
+    A graph containing a cycle where every vertex is visited once.
+\end{definition} 
+
+
+
+\subsektion{Advanced Properties}
+\begin{definition}[Chromatic Number]
+    The minimum number of colors needed to color the vertices of a graph G denoted $\chi(G)$.
+\end{definition} 
+
+\begin{definition}[Chromatic Number]
+    The minimum number of colors needed to color the edges of a graph G denoted $\chi'(G)$.
+\end{definition} 
+
+\begin{definition}[Planar Graph]
+    A graph that can be drawn on the plane without crossings.
+\end{definition} 
+
+\begin{definition}[Clique]
+    A set of pairwise adjacent vertices. (A complete subgraph)
+\end{definition} 
+
+\begin{definition}[Clique Number]
+    The size of the largest clique in graph $G$, denoted $\omega(G)$.
+\end{definition} 
+
+\begin{definition}[Matching / Independent Edge Set]
+    A set of pairwise non-adjacent edges.
+\end{definition} 
+
+\begin{definition}[Matching Number]
+    The size of the largest matching.
+\end{definition} 
+
+\begin{definition}[Independent Vertex Set]
+    A set of pairwise non-adjacent vertices.
+\end{definition}
+
+\begin{definition}[Independence Number]
+    The size of the largest independent vertex set denoted by $\alpha$.
+\end{definition} 
+
+\begin{definition}[Girth]
+    Length of the shortest cycle in a graph. In an acyclic graph, the girth is $\infty$.
+\end{definition} 
+
+\begin{definition}[Neighborhood]
+    In a graph $G$, the neighborhood of an element $W$ of $G$, denoted $N_G(W)$ is the set of all vertices in $G$ that are adjacent to some element of $W$.
+\end{definition}
+
+
+\subsektion{Advanced Subgraphs}
+\begin{definition}[Line Graph]
+    The line graph of a graph $G$, denoted $L(G)$ is the graph with the vertex set $E(G)$ and vertices adjacent if their corresponding edges in $G$ are adjacent.
+\end{definition} 
+
+\begin{definition}[Minor]
+    The minor of a graph is a graph formed by deleting edges, deleting vertices, and contracting edges.
+\end{definition} 

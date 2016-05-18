@@ -1,0 +1,30 @@
+\sektion{3}{Procedures}
+
+\textbf{Prufer Codes}
+
+    Yo where dat smallest leaf at? Oh there it is, bet. What’s it connected to? Oh that one, lemme 
+    write that down. Aite now lemme delete that smallest leaf. (repeat until 2 vertices left)\\
+
+\textbf{Kruskal's Algorithm}
+
+    Append each subsequent lowest weighted edge to the spanning tree as long as it doesn't create a cycle. When you hit all vertices, you have constructed the minimum spanning tree.\\
+
+\textbf{Prim's Algorithm}
+
+    Start at a vertex. Construct a minimum spanning tree by appending the minimum weighted edge adjacent to your current minimum spanning tree until all vertices are reached.\\
+
+
+\textbf{Havel-Hakimi Algorithm}
+
+    Sort in increasing order, remove maximum degree x, decrement x previous degrees by 1, repeat.\\
+
+\textbf{Kirchhoff's Matrix-Tree Theorem}
+
+    For a loopless, connected graph $G$ on $n$ vertices, $V(G)=\{v_1, v_2, ... v_n\}$, $M=(m_{ij})$ an $n \times n$ matrix such that $m_{ii}=d(v_i)$, and $m_{ij}=-(\text{number of edges connecting } v_i $ and $v_j)$, then $\tau(G)=$ the cofactor of any element of M.\\
+
+\textbf{Chromatic Polynomial}
+
+    \[P_G(k) = P_{G-e}(k)-P_{\frac{G}{e}(k)}\]
+
+    For trees: \[P_G(k) = k(k-1)^{n-1}\]
+
