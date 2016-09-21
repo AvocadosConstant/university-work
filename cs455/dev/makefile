@@ -4,7 +4,7 @@ LIBS=-lopencv_highgui -lopencv_core -lopencv_imgcodecs -lopencv_imgproc -lm
 CC := clang++ # and comment out the linker last line for sanity
 SRCDIR := src
 BUILDDIR := build
-TARGET := visual
+TARGET := interface 
 SRCEXT := cpp
 SOURCES := $(shell find $(SRCDIR) -type f -name *.$(SRCEXT))
 OBJECTS := $(patsubst $(SRCDIR)/%,$(BUILDDIR)/%,$(SOURCES:.$(SRCEXT)=.o))

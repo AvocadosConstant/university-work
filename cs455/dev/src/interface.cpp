@@ -4,6 +4,6 @@
 
 #include "interface.hpp"
 
-int main(int argv, char **argv) {
+int main(int argc, char **argv) {
     printf("Hello world.");
 }
