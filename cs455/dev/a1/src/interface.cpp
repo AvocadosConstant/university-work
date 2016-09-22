@@ -9,10 +9,6 @@
 const std::string GUI_NAME = "CS 455 Assignment 1";
 
 int main(int argc, char **argv) {
-    //if(argc != 2) {
-    //    fprintf(stderr, "Expecting a .tif image as an argument.\n");
-    //    return 1;
-    //}
 
     std::vector<std::string> image_names {
         "img/night.tif",
@@ -54,35 +50,50 @@ int main(int argc, char **argv) {
 
     for(int i = 0; i < window_names.size(); i++) {
         std::cout << "Creating window " << window_names[i] << "...\n";
-
-        cv::namedWindow("Before " + window_names[i]);
-        cv::namedWindow("After " + window_names[i]);
-        
-        std::vector<int> hist_before = image_histogram(&images[i][0]);
-        std::vector<int> hist_after = image_histogram(&images[i][1]);
-
-        std::ofstream out_file("data/" + window_names[i] +".csv");
-        for(int k = 0; k < 256; k++) {
-            //printf("%3i: %6i\n", i, hist[i]);
-            out_file << k << "," << hist_before[k] << "," << hist_after[k] << std::endl;
-        }
-        out_file.close();
+        cv::namedWindow(window_names[i]);
     }
-
-
-        
+    
     bool run = true;
+    bool modified = false;
     while(run) {
         for(int i = 0; i < window_names.size(); i++) {
-            cv::imshow("Before " + window_names[i], images[i][0]);
-            cv::imshow("After " + window_names[i], images[i][1]);
+            cv::imshow(window_names[i], images[i][1]);
         }
-
         char c = cvWaitKey(20);
-
         switch(c) {
-            case 27:
+            case 27:    // Escape
                 run = false;
+                break;
+            case ' ':   // Toggle image modification
+                for(int i = 0; i < image_names.size(); i++) {
+                    if(!modified) {
+                        images[i][1] = images[i][0].clone();
+                    } else {
+                        image_generate_negative(&images[0][1]);
+                        image_histogram_equalize(&images[1][1]);
+                        image_histogram_equalize(&images[2][1]);
+                        image_generate_binary(&images[3][1]);
+                        image_generate_binary(&images[4][1]);
+                    }
+                }
+                modified = !modified;    
+                break;
+            case 'h':   // Generate histograms
+                printf("Generating histograms...\n");
+                for(int i = 0; i < window_names.size(); i++) {
+                    std::vector<int> hist_before = image_histogram(&images[i][0]);
+                    std::vector<int> hist_after = image_histogram(&images[i][1]);
+
+                    std::string file_name = "data/" + window_names[i] +".csv";
+                    std::cout << "\tWriting to " << file_name << "...\n";
+                    std::ofstream out_file(file_name);
+
+                    for(int k = 0; k < 256; k++) {
+                        //printf("%3i: %6i\n", i, hist[i]);
+                        out_file << k << "," << hist_before[k] << "," << hist_after[k] << std::endl;
+                    }
+                    out_file.close();
+                }
                 break;
         }
     }
