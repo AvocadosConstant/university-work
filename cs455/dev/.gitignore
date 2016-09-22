@@ -1,5 +1,8 @@
 #   Directories
 build/
 
+#   File types
+*.csv
+
 #   Other
 interface
