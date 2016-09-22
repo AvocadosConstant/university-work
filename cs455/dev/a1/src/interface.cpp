@@ -15,6 +15,8 @@ int main(int argc, char **argv) {
         "img/night.tif",
         "img/nyc.tif",
         "img/shapes.tif",
+        "img/shapes.tif",
+        "img/dontpanic.tif",
         "img/dontpanic.tif",
         //"img/paper.tif"
     };
@@ -39,14 +41,18 @@ int main(int argc, char **argv) {
         "Histogram Equalization 1",
         "Histogram Equalization 2",
         "Binary Transformation 1",
+        "Region Detection 1",
         "Binary Transformation 2",
+        "Region Detection 2",
     };
 
-    image_generate_negative(&images[0][1]);
-    image_histogram_equalize(&images[1][1]);
-    image_histogram_equalize(&images[2][1]);
     image_generate_binary(&images[3][1]);
-    image_generate_binary(&images[4][1]);
+    images[4][0] = images[3][1].clone();
+    images[4][1] = images[4][0].clone();
+
+    image_generate_binary(&images[5][1]);
+    images[6][0] = images[5][1].clone();
+    images[6][1] = images[6][0].clone();
 
     for(int i = 0; i < window_names.size(); i++) {
         std::cout << "Creating window " << window_names[i] << "...\n";
@@ -72,8 +78,12 @@ int main(int argc, char **argv) {
                         image_generate_negative(&images[0][1]);
                         image_histogram_equalize(&images[1][1]);
                         image_histogram_equalize(&images[2][1]);
+
                         image_generate_binary(&images[3][1]);
-                        image_generate_binary(&images[4][1]);
+                        //image_detect_regions(&images[4][1]);
+
+                        image_generate_binary(&images[5][1]);
+                        //image_detect_regions(&images[6][1]);
                     }
                 }
                 modified = !modified;    
