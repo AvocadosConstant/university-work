@@ -81,9 +81,11 @@ int main(int argc, char **argv) {
 
                         image_generate_binary(&images[3][1]);
                         //image_detect_regions(&images[4][1]);
+                        image_detect_regions_2(&images[4][1]);
 
                         image_generate_binary(&images[5][1]);
                         //image_detect_regions(&images[6][1]);
+                        image_detect_regions_2(&images[6][1]);
                     }
                 }
                 modified = !modified;    
