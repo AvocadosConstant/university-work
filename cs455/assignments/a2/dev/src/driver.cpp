@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
     }
 
     std::vector<std::string> window_names {
-        "Unsharp Mask 1",
-        "Unsharp Mask 2",
+        "Ant",
+        "Basel",
     };
 
     for(int i = 0; i < window_names.size(); i++) {
@@ -41,7 +41,6 @@ int main(int argc, char **argv) {
     }
     
     bool run = true;
-    bool modified = false;
     while(run) {
         for(int i = 0; i < window_names.size(); i++) {
             cv::imshow(window_names[i], images[i][1]);
@@ -51,16 +50,18 @@ int main(int argc, char **argv) {
             case 27:    // Escape
                 run = false;
                 break;
-            case ' ':   // Toggle image modification
-                if(modified) {
-                    for(int i = 0; i < image_names.size(); i++) {
-                        images[i][1] = images[i][0].clone();
-                    }
-                } else {
-                    image_unsharp_masking(&images[0][1]);
-                    image_unsharp_masking(&images[1][1]);
+            case ' ':   // Revert
+                for(int i = 0; i < image_names.size(); i++) {
+                    images[i][1] = images[i][0].clone();
                 }
-                modified = !modified;    
+                break;
+            case 'u':   // Unsharp Mask
+                image_unsharp_masking(&images[0][1]);
+                image_unsharp_masking(&images[1][1]);
+                break;
+            case 's':   // Sobel Operator
+                image_sobel_operator(&images[0][1]);
+                image_sobel_operator(&images[1][1]);
                 break;
         }
     }

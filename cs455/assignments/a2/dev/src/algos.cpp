@@ -60,16 +60,18 @@ void image_apply_kernel(cv::Mat* image, std::vector<int>* kernel) {
                 );
                 mod_pixels[x][y] += kernel->at(i) * px_val;
             }
-            mod_pixels[x][y] /= kernel_weight;
+            if(kernel_weight != 0) mod_pixels[x][y] /= kernel_weight;
+            //std::cout << "Output pix: " << mod_pixels[x][y] << std::endl;
             if(mod_pixels[x][y] > max) max = mod_pixels[x][y];
             if(mod_pixels[x][y] < min) min = mod_pixels[x][y];
         }
     }
+    int range = max - min;
 
     // Write convoluted values to image
     for(int x = 0; x < image->step; x++) {
         for(int y = 0; y < image->rows; y++) {
-            image->at<uchar>(y, x) = mod_pixels[x][y];
+            image->at<uchar>(y, x) = 255 * (mod_pixels[x][y] - min) / range;
         }
     }
 }
@@ -92,4 +94,24 @@ void image_unsharp_masking(cv::Mat* image) {
     *image = 2 * *image - blurred;
 }
 
-void image_sobel_operator(cv::Mat* image) {}
+void image_sobel_operator(cv::Mat* image) {
+    std::cout << "Applying Sobel..." << std::endl;
+
+    cv::Mat horiz_image = image->clone();
+    std::vector<int> horiz_kernel = {
+        -1, -2, -1,
+         0,  0,  0,
+         1,  2,  1
+    };
+    image_apply_kernel(&horiz_image, &horiz_kernel);
+
+    cv::Mat vert_image = image->clone();
+    std::vector<int> vert_kernel = {
+        -1,  0,  1,
+        -2,  0,  2,
+        -1,  0,  1
+    };
+    image_apply_kernel(&vert_image, &vert_kernel);
+
+    cv::absdiff(horiz_image, vert_image, *image);
+}
