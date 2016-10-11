@@ -116,3 +116,8 @@ void image_sobel_operator(cv::Mat* image) {
 
     cv::absdiff(horiz_image, vert_image, *image);
 }
+
+std::vector<int> laplacian_gaussian_mask(int, double) {
+    std::vector<int> mask;
+    return mask;
+}

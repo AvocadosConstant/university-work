@@ -15,4 +15,6 @@ void image_apply_kernel(cv::Mat*, std::vector<int>*);
 void image_gaussian_blur(cv::Mat*);
 void image_unsharp_masking(cv::Mat*);
 void image_sobel_operator(cv::Mat*);
+
+std::vector<int> laplacian_gaussian_mask(int, double);
 #endif
