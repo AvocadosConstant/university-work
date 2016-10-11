@@ -31,6 +31,7 @@ void image_apply_kernel(cv::Mat* image, std::vector<int>* kernel) {
     //std::cout << "Applying kernel..." << std::endl;
 
     int kernel_weight = 0;
+    int kernel_dim = std::floor(std::sqrt(kernel->size()));
     for(int &i : *kernel) kernel_weight += i;
 
     // Modified pixels
@@ -50,13 +51,13 @@ void image_apply_kernel(cv::Mat* image, std::vector<int>* kernel) {
         for(int y = 0; y < image->rows; y++) {
 
             // Loop through kernel
-            for(int i = 0; i < 9; i++) {
+            for(int i = 0; i < kernel->size(); i++) {
 
                 // Find the pixel value at the correct offset
                 int px_val = get_virtual_px_val(
                     image, 
-                    x + ((i % 3) - 1),
-                    y + ((i / 3) - 1)
+                    x + ((i % kernel_dim) - (kernel_dim / 2)),
+                    y + ((i / kernel_dim) - (kernel_dim / 2))
                 );
                 mod_pixels[x][y] += kernel->at(i) * px_val;
             }
