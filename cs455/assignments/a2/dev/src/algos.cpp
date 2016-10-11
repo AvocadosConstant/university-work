@@ -13,3 +13,83 @@ void image_generate_negative(cv::Mat* image) {
         image->data[i] = 255 - image->data[i];
     }
 }
+
+int get_virtual_px_val(cv::Mat* image, int x, int y) {
+    if(x < 0) {
+        return get_virtual_px_val(image, 0, y);
+    } else if(x >= image->step) {
+        return get_virtual_px_val(image, image->step - 1, y);
+    } else if(y < 0) {
+        return get_virtual_px_val(image, x, 0);
+    } else if(y >= image->rows) {
+        return get_virtual_px_val(image, x, image->rows - 1);
+    }
+    return image->at<uchar>(y, x);
+}
+
+void image_apply_kernel(cv::Mat* image, std::vector<int>* kernel) {
+    //std::cout << "Applying kernel..." << std::endl;
+
+    int kernel_weight = 0;
+    for(int &i : *kernel) kernel_weight += i;
+
+    // Modified pixels
+    std::vector<std::vector<int> > mod_pixels;
+    for(int x = 0; x < image->step; x++) {
+        std::vector<int> col;
+        for(int y = 0; y < image->rows; y++) {
+            col.push_back(0);
+        }
+        mod_pixels.push_back(col);
+    }
+
+    // Apply kernel to image
+    int max = 0;
+    int min = 0;
+    for(int x = 0; x < image->step; x++) {
+        for(int y = 0; y < image->rows; y++) {
+
+            // Loop through kernel
+            for(int i = 0; i < 9; i++) {
+
+                // Find the pixel value at the correct offset
+                int px_val = get_virtual_px_val(
+                    image, 
+                    x + ((i % 3) - 1),
+                    y + ((i / 3) - 1)
+                );
+                mod_pixels[x][y] += kernel->at(i) * px_val;
+            }
+            mod_pixels[x][y] /= kernel_weight;
+            if(mod_pixels[x][y] > max) max = mod_pixels[x][y];
+            if(mod_pixels[x][y] < min) min = mod_pixels[x][y];
+        }
+    }
+
+    // Write convoluted values to image
+    for(int x = 0; x < image->step; x++) {
+        for(int y = 0; y < image->rows; y++) {
+            image->at<uchar>(y, x) = mod_pixels[x][y];
+        }
+    }
+}
+
+void image_gaussian_blur(cv::Mat* image) {
+    std::cout << "Blurring..." << std::endl;
+    std::vector<int> kernel = {
+        1, 2, 1,
+        2, 4, 2,
+        1, 2, 1
+    };
+    image_apply_kernel(image, &kernel);
+}
+
+void image_unsharp_masking(cv::Mat* image) {
+    std::cout << "Unsharp masking..." << std::endl;
+    cv::Mat blurred = image->clone();
+    image_gaussian_blur(&blurred);
+
+    *image = 2 * *image - blurred;
+}
+
+void image_sobel_operator(cv::Mat* image) {}

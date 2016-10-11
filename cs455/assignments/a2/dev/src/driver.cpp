@@ -31,8 +31,8 @@ int main(int argc, char **argv) {
     }
 
     std::vector<std::string> window_names {
-        "Negative Transformation 1",
-        "Negative Transformation 2",
+        "Unsharp Mask 1",
+        "Unsharp Mask 2",
     };
 
     for(int i = 0; i < window_names.size(); i++) {
@@ -57,8 +57,8 @@ int main(int argc, char **argv) {
                         images[i][1] = images[i][0].clone();
                     }
                 } else {
-                    image_generate_negative(&images[0][1]);
-                    image_generate_negative(&images[1][1]);
+                    image_unsharp_masking(&images[0][1]);
+                    image_unsharp_masking(&images[1][1]);
                 }
                 modified = !modified;    
                 break;
