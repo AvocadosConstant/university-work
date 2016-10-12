@@ -8,6 +8,8 @@
 int image_total_pixels(cv::Mat*);
 std::vector<int> image_histogram(cv::Mat*);
 int get_virtual_px_val(cv::Mat*, int, int);
+void print_square_matrix(std::vector<int> matrix);
+void print_square_matrix(std::vector<double> matrix);
 
 void image_generate_negative(cv::Mat*);
 

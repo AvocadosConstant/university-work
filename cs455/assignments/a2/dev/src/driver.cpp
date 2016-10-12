@@ -46,22 +46,32 @@ int main(int argc, char **argv) {
             cv::imshow(window_names[i], images[i][1]);
         }
         char c = cvWaitKey(20);
+        std::vector<int> log_mask;
         switch(c) {
             case 27:    // Escape
                 run = false;
                 break;
-            case ' ':   // Revert
-                for(int i = 0; i < image_names.size(); i++) {
-                    images[i][1] = images[i][0].clone();
-                }
+            case ' ':   // Revert to original
+                for(auto &img : images) img[1] = img[0].clone();
+                break;
+            case 'n':   // Unsharp Mask
+                for(auto &img : images) image_generate_negative(&img[1]);
                 break;
             case 'u':   // Unsharp Mask
-                image_unsharp_masking(&images[0][1]);
-                image_unsharp_masking(&images[1][1]);
+                for(auto &img : images) image_unsharp_masking(&img[1]);
                 break;
             case 's':   // Sobel Operator
-                image_sobel_operator(&images[0][1]);
-                image_sobel_operator(&images[1][1]);
+                for(auto &img : images) image_sobel_operator(&img[1]);
+                break;
+            case 'l':   // Generate Laplacian of Gaussian Mask size 7
+                log_mask = laplacian_gaussian_mask(7, 1.4);
+                print_square_matrix(log_mask);
+                for(auto &img : images) image_apply_kernel(&img[1], &log_mask);
+                break;
+            case 'L':   // Generate Laplacian of Gaussian Mask size 11
+                log_mask = laplacian_gaussian_mask(11, 5.0);
+                print_square_matrix(log_mask);
+                for(auto &img : images) image_apply_kernel(&img[1], &log_mask);
                 break;
         }
     }
