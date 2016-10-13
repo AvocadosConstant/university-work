@@ -102,6 +102,12 @@ void image_unsharp_masking(cv::Mat* image) {
     image_gaussian_blur(&blurred);
 
     *image = 2 * *image - blurred;
+
+    for(int x = 0; x < image->step; x++) {
+        for(int y = 0; y < image->rows; y++) {
+            image->at<uchar>(y, x) = std::abs(int(image->at<uchar>(y, x)));
+        }
+    }
 }
 
 void image_sobel_operator(cv::Mat* image) {
@@ -126,32 +132,42 @@ void image_sobel_operator(cv::Mat* image) {
     cv::absdiff(horiz_image, vert_image, *image);
 }
 
-std::vector<int> laplacian_gaussian_mask(int dimension, double sigma) {
+std::vector<int> laplacian_gaussian_mask(int dim, double sigma) {
+    std::cout << "Generating the Laplacian of Gaussian Mask of size " 
+        << dim << "x" << dim << " and sigma = " << sigma << "." << std::endl;
     const double PI  =3.141592653589793238463;
-    double min = 9999;
+    double min = 9999999999;
 
     std::vector<int> mask;
     std::vector<double> raw_mask;
     double sigma_2 = sigma * sigma;
-    double left_mult = .5 / (PI * sigma_2 * sigma_2);
+    double left_mult = 0.5 / (PI * sigma_2 * sigma_2);
     
-    for(int y = -dimension / 2; y <= dimension / 2; y++) {
-        for(int x =  -dimension / 2; x <= dimension / 2; x++) {
+    double sum = 0;
+    for(int y = -dim / 2; y <= dim / 2; y++) {
+        for(int x =  -dim / 2; x <= dim / 2; x++) {
             float val = 0;
     
-            double x2_y2_over_sig2 = (x * x + y * y) / (sigma_2);
+            double x2y2sig2 = (x * x + y * y) / (sigma_2);
+            val = left_mult * (x2y2sig2 - 2) * std::exp(-0.5 * x2y2sig2);
 
-            val = left_mult * (x2_y2_over_sig2 - 2) * std::exp(-0.5 * x2_y2_over_sig2);
-
+            sum += val;
             raw_mask.push_back(val);
             if(std::abs(val) < min && std::abs(val) > 0) min = std::abs(val);
         }
     }
 
-    std::cout << "Min = " << min << std::endl;
+    std::cout << "Raw mask values sum to " << sum << std::endl;
+
     for(double &d : raw_mask) {
         d /= min;
         mask.push_back(std::round(d));
     }
+    
+    //sum = 0;
+    //for(double &d : raw_mask) {
+    //    sum += d;
+    //}
+    //std::cout << "Processed mask values sum to " << sum << std::endl;
     return mask;
 }

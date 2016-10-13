@@ -54,8 +54,11 @@ int main(int argc, char **argv) {
             case ' ':   // Revert to original
                 for(auto &img : images) img[1] = img[0].clone();
                 break;
-            case 'n':   // Unsharp Mask
+            case 'n':   // Negate
                 for(auto &img : images) image_generate_negative(&img[1]);
+                break;
+            case 'b':   // Gaussian Blur 
+                for(auto &img : images) image_gaussian_blur(&img[1]);
                 break;
             case 'u':   // Unsharp Mask
                 for(auto &img : images) image_unsharp_masking(&img[1]);
