@@ -12,12 +12,13 @@ int main(int argc, char **argv) {
 
     std::vector<std::string> image_names {
         // Image names
+        "./img/Basel2.tif"
     };
 
     std::vector<std::vector<cv::Mat> > images;
     for(int i = 0; i < image_names.size(); i++) {
         std::cout << "Currently loading " << image_names[i] << "...\n";
-        cv::Mat image = cv::imread(image_names[i], cv::IMREAD_GRAYSCALE);
+        cv::Mat image = cv::imread(image_names[i], CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Mat> loaded_images {
             image,
             image.clone()
@@ -31,6 +32,7 @@ int main(int argc, char **argv) {
 
     std::vector<std::string> window_names {
         // Window names
+        "Basel2"
     };
 
     for(int i = 0; i < window_names.size(); i++) {
