@@ -17,7 +17,7 @@ int main(int argc, char **argv) {
     std::vector<std::vector<cv::Mat> > images;
     for(int i = 0; i < image_names.size(); i++) {
         std::cout << "Currently loading " << image_names[i] << "...\n";
-        cv::Mat image = cv::imread(image_names[i], cv::IMREAD_GRAYSCALE);
+        cv::Mat image = cv::imread(image_names[i], cv::CV_LOAD_IMAGE_COLOR);
         std::vector<cv::Mat> loaded_images {
             image,
             image.clone()
@@ -51,6 +51,9 @@ int main(int argc, char **argv) {
                 break;
             case ' ':   // Revert to original
                 for(auto &img : images) img[1] = img[0].clone();
+                break;
+            case 'c':   // Convert to HSI
+                for(auto &img : images) image_rgb_to_hsi(img[1]);
                 break;
         }
     }

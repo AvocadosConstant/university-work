@@ -7,4 +7,6 @@
 
 int image_total_pixels(cv::Mat*);
 
+void image_rgb_to_hsi(cv::Mat*);
+
 #endif

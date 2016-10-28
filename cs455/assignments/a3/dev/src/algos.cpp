@@ -7,3 +7,6 @@
 int image_total_pixels(cv::Mat *image) {
     return image->rows * image->step; 
 }
+
+void image_rgb_to_hsi(cv::Mat *image) {
+}
