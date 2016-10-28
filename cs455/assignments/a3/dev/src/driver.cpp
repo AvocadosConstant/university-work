@@ -55,7 +55,7 @@ int main(int argc, char **argv) {
                 for(auto &img : images) img[1] = img[0].clone();
                 break;
             case 'c':   // Convert to HSI
-                for(auto &img : images) image_rgb_to_hsi(img[1]);
+                for(auto &img : images) image_rgb_to_hsi(&img[1]);
                 break;
         }
     }
