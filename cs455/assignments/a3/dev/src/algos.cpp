@@ -68,7 +68,11 @@ std::vector<std::vector<float> > image_dct(cv::Mat *image, int startX, int start
             for(int x = 0; x < 8; x++) {
                 for(int y = 0; y < 8; y++) {
 
-                    float intensity = image->at<cv::Vec3b>(startY + y, startX + x)[2];
+                    // Calculate intensity, if out of bounds, set to 0
+                    float intensity = (startY+y < image->rows && startX+x < image->cols) ?
+                        image->at<cv::Vec3b>(startY + y, startX + x)[2]
+                        : 0;
+
                     float cosx = cos( (2 * x + 1) * u * PI / (16) );
                     float cosy = cos( (2 * y + 1) * v * PI / (16) );
 
@@ -78,6 +82,7 @@ std::vector<std::vector<float> > image_dct(cv::Mat *image, int startX, int start
             dct[u][v] *= au * av;
         }
     }
+
     /*
     for(int j = 0; j < 8; j++) {
         for(int i = 0; i < 8; i++) {
@@ -87,15 +92,27 @@ std::vector<std::vector<float> > image_dct(cv::Mat *image, int startX, int start
     }
     std::cout << std::endl;
     */
+
     return dct;
 }
 
 void image_dct_helper(cv::Mat *image) {
+    std::cout << "Applying Discrete Cosine Transform..." << std::endl;
     cv::Mat dct = image->clone();
     // Loop through each 8x8 block of image
     for(int x = 0; x < image->cols; x+=8) {
         for(int y = 0; y < image->rows; y+=8) {
             std::vector<std::vector<float> > block = image_dct(image, x, y);
+
+            for(int j = 0; j < 8; j++) {
+                for(int i = 0; i < 8; i++) {
+                    if(y+j < image->rows && x+i < image->cols) {
+                        image->at<cv::Vec3b>(y+j, x+i)[0] = block[i][j];
+                        image->at<cv::Vec3b>(y+j, x+i)[1] = block[i][j];
+                        image->at<cv::Vec3b>(y+j, x+i)[2] = block[i][j];
+                    }
+                }
+            }
         }
     }
 }
