@@ -5,6 +5,7 @@
 #include <iostream>
 #include <algorithm>
 #include <iomanip>
+#include <math.h>
 
 int image_total_pixels(cv::Mat *image) {
     return image->rows * image->step; 
@@ -51,3 +52,51 @@ void image_rgb_to_hsi(cv::Mat *image) {
         }
     }
 }
+
+std::vector<std::vector<float> > image_dct(cv::Mat *image, int startX, int startY) {
+    // Initialize 8x8 coefficient matrix
+    std::vector<std::vector<float> > dct;
+    dct.resize(8, std::vector<float>(8, 0));
+
+    // Loop through each coefficient to calculate
+    for(int u = 0; u < 8; ++u) {
+        for(int v = 0; v < 8; ++v) {
+
+            float au = (u == 0) ? sqrt(1.0 / 8.0) : sqrt(2.0 / 8.0); 
+            float av = (v == 0) ? sqrt(1.0 / 8.0) : sqrt(2.0 / 8.0); 
+
+            for(int x = 0; x < 8; x++) {
+                for(int y = 0; y < 8; y++) {
+
+                    float intensity = image->at<cv::Vec3b>(startY + y, startX + x)[2];
+                    float cosx = cos( (2 * x + 1) * u * PI / (16) );
+                    float cosy = cos( (2 * y + 1) * v * PI / (16) );
+
+                    dct[u][v] += intensity * cosx * cosy;
+                } 
+            }
+            dct[u][v] *= au * av;
+        }
+    }
+    /*
+    for(int j = 0; j < 8; j++) {
+        for(int i = 0; i < 8; i++) {
+            std::cout << dct[i][j] << "\t\t";
+        }
+        std::cout << std::endl;
+    }
+    std::cout << std::endl;
+    */
+    return dct;
+}
+
+void image_dct_helper(cv::Mat *image) {
+    cv::Mat dct = image->clone();
+    // Loop through each 8x8 block of image
+    for(int x = 0; x < image->cols; x+=8) {
+        for(int y = 0; y < image->rows; y+=8) {
+            std::vector<std::vector<float> > block = image_dct(image, x, y);
+        }
+    }
+}
+
