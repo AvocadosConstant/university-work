@@ -37,7 +37,7 @@ int main(int argc, char **argv) {
 
     for(int i = 0; i < window_names.size(); i++) {
         std::cout << "Creating window " << window_names[i] << "...\n";
-        cv::namedWindow(window_names[i]);
+        cv::namedWindow(window_names[i], cv::WINDOW_NORMAL);
     }
     
     bool run = true;
@@ -59,6 +59,9 @@ int main(int argc, char **argv) {
                 break;
             case 'd':   // Discrete Cosine Transform
                 for(auto &img : images) image_dct_helper(&img[1]);
+                break;
+            case 'i':   // Inverse Discrete Cosine Transform
+                for(auto &img : images) image_idct_helper(&img[1]);
                 break;
         }
     }

@@ -9,7 +9,9 @@ int image_total_pixels(cv::Mat*);
 
 void image_rgb_to_hsi(cv::Mat*);
 
-std::vector<std::vector<float> > image_dct(cv::Mat,int, int);
+std::vector<std::vector<float> > image_dct(cv::Mat,int, int, int);
 void image_dct_helper(cv::Mat*);
 
+std::vector<std::vector<float> > image_idct(cv::Mat,int, int, int);
+void image_idct_helper(cv::Mat*);
 #endif
