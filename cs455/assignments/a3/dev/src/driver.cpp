@@ -63,6 +63,18 @@ int main(int argc, char **argv) {
             case 'i':   // Inverse Discrete Cosine Transform
                 for(auto &img : images) image_idct_helper(&img[1]);
                 break;
+            case 'b':   // Gaussian Blur 
+                for(auto &img : images) image_gaussian_blur(&img[1]);
+                break;
+            case 'u':   // Unsharp Mask
+                for(auto &img : images) image_unsharp_masking(&img[1]);
+                break;
+            case 's':   // Sobel Operator
+                for(auto &img : images) image_sobel_operator(&img[1]);
+                break;
+            case 'g':   // Convert to Grayscale
+                for(auto &img : images) image_convert_grayscale(&img[1]);
+                break;
         }
     }
     cv::destroyAllWindows();

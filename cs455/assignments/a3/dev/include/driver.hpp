@@ -6,6 +6,13 @@
 #include <opencv2/imgcodecs.hpp>
 
 int image_total_pixels(cv::Mat*);
+void image_convert_grayscale(cv::Mat*);
+
+int get_virtual_px_val(cv::Mat*, int, int);
+void image_apply_kernel(cv::Mat*, std::vector<int>*);
+void image_gaussian_blur(cv::Mat*);
+void image_unsharp_masking(cv::Mat*);
+void image_sobel_operator(cv::Mat*);
 
 void image_rgb_to_hsi(cv::Mat*);
 
