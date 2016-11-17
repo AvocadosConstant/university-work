@@ -12,7 +12,9 @@ int main(int argc, char **argv) {
 
     std::vector<std::string> image_names {
         // Image names
-        "./img/Basel2.tif"
+        "./img/Basel2.tif",
+        "./img/Building1.tif",
+        "./img/Plate.tif"
     };
 
     std::vector<std::vector<cv::Mat> > images;
@@ -32,7 +34,9 @@ int main(int argc, char **argv) {
 
     std::vector<std::string> window_names {
         // Window names
-        "Basel2"
+        "Basel2",
+        "Building1",
+        "Plate"
     };
 
     for(int i = 0; i < window_names.size(); i++) {
@@ -74,6 +78,12 @@ int main(int argc, char **argv) {
                 break;
             case 'g':   // Convert to Grayscale
                 for(auto &img : images) image_convert_grayscale(&img[1]);
+                break;
+            case 'l':
+                for(auto &img : images) imLineDetect(img[1]);
+                break;
+            case 'L':
+                for(auto &img : images) imCircDetect(img[1]);
                 break;
         }
     }

@@ -21,4 +21,8 @@ void image_dct_helper(cv::Mat*);
 
 std::vector<std::vector<float> > image_idct(cv::Mat,int, int, int);
 void image_idct_helper(cv::Mat*);
+
+cv::Mat imLineDetect(cv::Mat&);
+cv::Mat imCircDetect(cv::Mat&);
+cv::Mat hsiToGs(const cv::Mat&);
 #endif

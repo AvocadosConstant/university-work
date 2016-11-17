@@ -307,3 +307,134 @@ void image_idct_helper(cv::Mat *image) {
         }
     }
 }
+inline int linRadius(int x, int y, int theta) {
+    return x*cos(M_PI * theta / 180) + y*sin(M_PI * theta / 180);
+}
+
+cv::Mat linHough(const cv::Mat& image) {
+    int d = sqrt(image.cols*image.cols + image.rows*image.rows) + 1;
+    cv::Mat votes = cv::Mat::zeros(90, d, CV_8U);
+
+    for (int i = 0; i < image.rows; i++) {
+        for (int j = 0; j < image.cols; j++) {
+            // Do voting
+            if (image.at<uchar>(i, j) > 10) {
+                // x = j, y = i
+                for (int theta = 0; theta < 90; theta++) {
+                    int r = linRadius(j, i, theta);
+                    if (r < d) votes.at<uchar>(theta, r)++;
+                }
+            }
+        }
+    }
+    std::cout << votes;
+    return votes;
+}
+
+cv::Mat imLineDetect(cv::Mat& image) {
+    cv::Mat im = image.clone();
+    cv::Mat chans[3];
+    image_rgb_to_hsi(&im);
+    cv::split(im, chans);
+    cv::Mat gray;
+    chans[2].convertTo(gray, CV_8U, 255);
+    image_sobel_operator(&gray);
+    cv::Mat votes = linHough(gray);
+    for (int i = 0; i < 30; i++) {
+        cv::Point maxVotes;
+        cv::minMaxLoc(votes, 0, 0, 0, &maxVotes);
+        int r = maxVotes.x;
+        double t = M_PI * maxVotes.y / 180;
+        int x1 = 0, x2 = image.cols;
+        int y1 = (r - x1*cos(t)) / sin(t), y2 = (r - x2*cos(t)) / sin(t);
+        cv::line(image, cv::Point(x1, y1), cv::Point(x2, y2), CV_RGB(100, 255, 255));
+        votes.at<uchar>(maxVotes) = 0;
+    }
+    return votes;
+}
+
+void circVote(cv::Mat& votes, int x0, int y0, int r, int xdim, int ydim) {
+    // Midpoint circle algorithm, blatantly ripped off from Wikipedia
+    // https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
+    // I hope this works because if it doesn't god save us all
+    // At least it was a good idea
+    int x = r;
+    int y = 0;
+    int d2 = 1 - x;
+    std::vector<cv::Point> visit;
+
+    while (y <= x) {
+        visit = {
+            cv::Point(x+x0, y+y0),
+            cv::Point(y+x0, x+y0),
+            cv::Point(-x+x0, y+y0),
+            cv::Point(-y+x0, x+y0),
+            cv::Point(-x+x0, -y+y0),
+            cv::Point(-y+x0, -x+y0),
+            cv::Point(x+x0, -y+y0),
+            cv::Point(x+x0, -y+y0)
+        };
+        for (auto it = visit.begin(); it != visit.end(); it++) {
+            if (it->x < xdim && it->x >= 0 && it->y < ydim && it->y >= 0) {
+                votes.at<unsigned short>(it->x, it->y, r)++;
+            }
+        }
+        y++;
+        if (d2 <= 0) {
+            d2 += 2 * y + 1;
+        }
+        else {
+            x--;
+            d2 += 2* (y-x) + 1;
+        }
+    }
+}
+
+cv::Mat circHough(const cv::Mat& image) {
+    // r**2 = (x - x0)**2 + (y - y0)**2
+    int sz[3] = {image.cols, image.rows, image.rows/2};
+    cv::Mat votes = cv::Mat::zeros(3, sz, CV_16U);
+
+    for (int r = 0; r < image.rows/2; r++) {
+        for (int i = 0; i < image.rows; i++) {
+            for (int j = 0; j < image.rows/2; j++) {
+                // Do voting
+                if (image.at<uchar>(i, j) > 10) {
+                    // x = j, y = i
+                    circVote(votes, j, i, r, image.cols, image.rows);
+                }
+            }
+        }
+    }
+    return votes;
+}
+
+cv::Mat imCircDetect(cv::Mat& image) {
+    cv::Mat im = image.clone();
+    image_rgb_to_hsi(&im);
+    cv::Mat gray = hsiToGs(im);
+    image_sobel_operator(&gray);
+    cv::Mat votes = circHough(gray);
+    int max = 0;
+    cv::Point3i maxPoint;
+    for (int x = 0; x < image.cols; x++) {
+        for (int y = 0; y < image.rows; y++) {
+            for (int r = 0; r < image.rows/2; r++) {
+                if (votes.at<unsigned short>(x, y, r) > max) {
+                    max = votes.at<unsigned short>(x, y, r);
+                    maxPoint = cv::Point3i(x, y, r);
+                }
+            }
+        }
+    }
+    std::cout << "Max is: " << max << " at " << maxPoint << "\n";
+    cv::circle(image, cv::Point(maxPoint.x, maxPoint.y), maxPoint.z, CV_RGB(0, 255, 0));
+    return votes;
+}
+
+cv::Mat hsiToGs(const cv::Mat& img) {
+    cv::Mat chans[3];
+    cv::split(img, chans);
+    chans[2].convertTo(chans[2], CV_8U, 255);
+    return chans[2];
+}
