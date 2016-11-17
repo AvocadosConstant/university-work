@@ -45,3 +45,37 @@ void image_generate_binary(cv::Mat* image) {
         image->data[i] = image->data[i] < threshold ? 0 : 255;
     }
 }
+
+
+// Morphological Algos
+
+void image_dilate(cv::Mat* image, std::vector<Point> struc) {
+
+    
+    // Loop through each pixel in image
+    for(int y = 0; y < image->rows; y++) {
+        for(int x = 0; x < image->step; x++) {
+
+            // Loop through each point defined in structure element
+            for(auto p : struc) {
+
+                int offsetX = x + p.x;
+                int offsetY = y + p.y;
+
+                // Check if offset of point to the current pixel is within bounds
+                if(offsetX >= 0 && offsetX < image->step && offsetY >= 0 && offsetY < image->rows){
+                    
+                    // If offset point is white, make current px gray
+                    if(image->at<uchar>(offsetY, offsetX) == 255) {
+                        image->at<uchar>(y, x) = 120;
+                    }
+                }
+            }
+        }
+    }
+    for(int y = 0; y < image->rows; y++) {
+        for(int x = 0; x < image->step; x++) {
+            if(image->at<uchar>(y, x) == 120) image->at<uchar>(y, x) = 255;
+        }
+    }
+}

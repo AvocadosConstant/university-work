@@ -40,6 +40,12 @@ int main(int argc, char **argv) {
         cv::namedWindow(window_names[i], cv::WINDOW_NORMAL);
     }
     
+    std::vector<Point> struc;
+    struc.push_back(Point{0, 1});
+    struc.push_back(Point{1, 0});
+    struc.push_back(Point{0, -1});
+    struc.push_back(Point{-1, 0});
+
     bool run = true;
     while(run) {
         for(int i = 0; i < window_names.size(); i++) {
@@ -62,6 +68,9 @@ int main(int argc, char **argv) {
                 break;
             case 'b':   // Binary
                 for(auto &img : images) image_generate_binary(&img[1]);
+                break;
+            case 'd':   // 
+                for(auto &img : images) image_dilate(&img[1], struc);
                 break;
             //case '':   // 
             //    for(auto &img : images) image_(&img[1]);
