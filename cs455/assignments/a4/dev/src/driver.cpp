@@ -54,6 +54,18 @@ int main(int argc, char **argv) {
             case ' ':   // Revert to original
                 for(auto &img : images) img[1] = img[0].clone();
                 break;
+            case 'g':   // Convert to grayscale
+                for(auto &img : images) image_convert_grayscale(&img[1]);
+                break;
+            case 'n':   // Negative
+                for(auto &img : images) image_generate_negative(&img[1]);
+                break;
+            case 'b':   // Binary
+                for(auto &img : images) image_generate_binary(&img[1]);
+                break;
+            //case '':   // 
+            //    for(auto &img : images) image_(&img[1]);
+            //    break;
         }
     }
     cv::destroyAllWindows();
