@@ -24,4 +24,5 @@ void image_generate_binary(cv::Mat*);
 // Morphological Algos
 
 void image_dilate(cv::Mat*, std::vector<Point>);
+void image_erode(cv::Mat*, std::vector<Point>);
 #endif

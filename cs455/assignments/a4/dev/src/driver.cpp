@@ -72,6 +72,9 @@ int main(int argc, char **argv) {
             case 'd':   // 
                 for(auto &img : images) image_dilate(&img[1], struc);
                 break;
+            case 'e':   // 
+                for(auto &img : images) image_erode(&img[1], struc);
+                break;
             //case '':   // 
             //    for(auto &img : images) image_(&img[1]);
             //    break;
