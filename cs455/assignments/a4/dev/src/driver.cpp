@@ -41,6 +41,8 @@ int main(int argc, char **argv) {
     }
     
     std::vector<Point> struc;
+    struc.push_back(Point{0, 0});
+
     struc.push_back(Point{0, 1});
     struc.push_back(Point{1, 0});
     struc.push_back(Point{0, -1});
@@ -69,11 +71,17 @@ int main(int argc, char **argv) {
             case 'b':   // Binary
                 for(auto &img : images) image_generate_binary(&img[1]);
                 break;
-            case 'd':   // 
+            case 'd':   // Dilating
                 for(auto &img : images) image_dilate(&img[1], struc);
                 break;
-            case 'e':   // 
+            case 'e':   // Eroding
                 for(auto &img : images) image_erode(&img[1], struc);
+                break;
+            case 'o':   // Opening
+                for(auto &img : images) image_open(&img[1], struc);
+                break;
+            case 'c':   // Closing
+                for(auto &img : images) image_close(&img[1], struc);
                 break;
             //case '':   // 
             //    for(auto &img : images) image_(&img[1]);

@@ -25,4 +25,7 @@ void image_generate_binary(cv::Mat*);
 
 void image_dilate(cv::Mat*, std::vector<Point>);
 void image_erode(cv::Mat*, std::vector<Point>);
+
+void image_open(cv::Mat*, std::vector<Point>);
+void image_close(cv::Mat*, std::vector<Point>);
 #endif

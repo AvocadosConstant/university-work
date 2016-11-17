@@ -4,6 +4,8 @@
 #include <algorithm>
 #include <iomanip>
 #include <opencv2/imgproc/imgproc.hpp> 
+#include <unistd.h>
+
 
 int image_total_pixels(cv::Mat *image) {
     return image->rows * image->step; 
@@ -50,10 +52,15 @@ void image_generate_binary(cv::Mat* image) {
 // Morphological Algos
 
 void image_dilate(cv::Mat* image, std::vector<Point> struc) {
+    std::cout << "Dilating..." << std::endl;
+
+    std::vector<Point> dilation;
 
     // Loop through each pixel in image
     for(int y = 0; y < image->rows; y++) {
         for(int x = 0; x < image->step; x++) {
+
+            bool dilate = false;
 
             // Loop through each point defined in structure element
             for(auto p : struc) {
@@ -65,21 +72,24 @@ void image_dilate(cv::Mat* image, std::vector<Point> struc) {
                 if(offsetX >= 0 && offsetX < image->step && offsetY >= 0 && offsetY < image->rows){
                     
                     // If offset point is white, make current px gray
-                    if(image->at<uchar>(offsetY, offsetX) == 255) {
-                        image->at<uchar>(y, x) = 120;
-                    }
+                    if(image->at<uchar>(offsetY, offsetX) == 255) dilate = true;
                 }
             }
+            if(dilate) dilation.push_back(Point{x, y});
         }
     }
     for(int y = 0; y < image->rows; y++) {
         for(int x = 0; x < image->step; x++) {
-            if(image->at<uchar>(y, x) == 120) image->at<uchar>(y, x) = 255;
+            image->at<uchar>(y, x) = 0;
         }
+    }
+    for(auto p : dilation) {
+        image->at<uchar>(p.y, p.x) = 255;
     }
 }
 
 void image_erode(cv::Mat* image, std::vector<Point> struc) {
+    std::cout << "Eroding..." << std::endl;
 
     std::vector<Point> erosion;
 
@@ -113,4 +123,16 @@ void image_erode(cv::Mat* image, std::vector<Point> struc) {
     for(auto p : erosion) {
         image->at<uchar>(p.y, p.x) = 255;
     }
+}
+
+void image_open(cv::Mat* image, std::vector<Point> struc) {
+    image_erode(image, struc);
+    //usleep(1000000);
+    image_dilate(image, struc);
+}
+
+void image_close(cv::Mat* image, std::vector<Point> struc) {
+    image_dilate(image, struc);
+    //usleep(1000000);
+    image_erode(image, struc);
 }
