@@ -40,13 +40,9 @@ int main(int argc, char **argv) {
         cv::namedWindow(window_names[i], cv::WINDOW_NORMAL);
     }
     
-    std::vector<Point> struc;
-    struc.push_back(Point{0, 0});
-
-    struc.push_back(Point{0, 1});
-    struc.push_back(Point{1, 0});
-    struc.push_back(Point{0, -1});
-    struc.push_back(Point{-1, 0});
+    int strel_size = 1;
+    std::vector<Point> strel;
+    strel.push_back(Point{0, 0});
 
     bool run = true;
     while(run) {
@@ -72,16 +68,49 @@ int main(int argc, char **argv) {
                 for(auto &img : images) image_generate_binary(&img[1]);
                 break;
             case 'd':   // Dilating
-                for(auto &img : images) image_dilate(&img[1], struc);
+                for(auto &img : images) image_dilate(&img[1], strel);
                 break;
             case 'e':   // Eroding
-                for(auto &img : images) image_erode(&img[1], struc);
+                for(auto &img : images) image_erode(&img[1], strel);
                 break;
             case 'o':   // Opening
-                for(auto &img : images) image_open(&img[1], struc);
+                for(auto &img : images) image_open(&img[1], strel);
                 break;
             case 'c':   // Closing
-                for(auto &img : images) image_close(&img[1], struc);
+                for(auto &img : images) image_close(&img[1], strel);
+                break;
+            case 'x':   // Cross strel
+                strel = gen_strel_cross(strel_size);
+                break;
+            case 's':   // Square strel
+                strel = gen_strel_square(strel_size);
+                break;
+            case '1':   // Resize strel setting
+                strel_size = 1;
+                break;
+            case '2':   // Resize strel setting
+                strel_size = 2;
+                break;
+            case '3':   // Resize strel setting
+                strel_size = 3;
+                break;
+            case '4':   // Resize strel setting
+                strel_size = 4;
+                break;
+            case '5':   // Resize strel setting
+                strel_size = 5;
+                break;
+            case '6':   // Resize strel setting
+                strel_size = 6;
+                break;
+            case '7':   // Resize strel setting
+                strel_size = 7;
+                break;
+            case '8':   // Resize strel setting
+                strel_size = 8;
+                break;
+            case '9':   // Resize strel setting
+                strel_size = 9;
                 break;
             //case '':   // 
             //    for(auto &img : images) image_(&img[1]);

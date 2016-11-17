@@ -51,7 +51,7 @@ void image_generate_binary(cv::Mat* image) {
 
 // Morphological Algos
 
-void image_dilate(cv::Mat* image, std::vector<Point> struc) {
+void image_dilate(cv::Mat* image, std::vector<Point> strel) {
     std::cout << "Dilating..." << std::endl;
 
     std::vector<Point> dilation;
@@ -62,8 +62,8 @@ void image_dilate(cv::Mat* image, std::vector<Point> struc) {
 
             bool dilate = false;
 
-            // Loop through each point defined in structure element
-            for(auto p : struc) {
+            // Loop through each point defined in strelture element
+            for(auto p : strel) {
 
                 int offsetX = x + p.x;
                 int offsetY = y + p.y;
@@ -88,7 +88,7 @@ void image_dilate(cv::Mat* image, std::vector<Point> struc) {
     }
 }
 
-void image_erode(cv::Mat* image, std::vector<Point> struc) {
+void image_erode(cv::Mat* image, std::vector<Point> strel) {
     std::cout << "Eroding..." << std::endl;
 
     std::vector<Point> erosion;
@@ -99,8 +99,8 @@ void image_erode(cv::Mat* image, std::vector<Point> struc) {
 
             bool erode = true;
 
-            // Loop through each point defined in structure element
-            for(auto p : struc) {
+            // Loop through each point defined in strelture element
+            for(auto p : strel) {
 
                 int offsetX = x + p.x;
                 int offsetY = y + p.y;
@@ -125,14 +125,37 @@ void image_erode(cv::Mat* image, std::vector<Point> struc) {
     }
 }
 
-void image_open(cv::Mat* image, std::vector<Point> struc) {
-    image_erode(image, struc);
+void image_open(cv::Mat* image, std::vector<Point> strel) {
+    image_erode(image, strel);
     //usleep(1000000);
-    image_dilate(image, struc);
+    image_dilate(image, strel);
 }
 
-void image_close(cv::Mat* image, std::vector<Point> struc) {
-    image_dilate(image, struc);
+void image_close(cv::Mat* image, std::vector<Point> strel) {
+    image_dilate(image, strel);
     //usleep(1000000);
-    image_erode(image, struc);
+    image_erode(image, strel);
 }
+
+std::vector<Point> gen_strel_cross(int size) {
+    std::vector<Point> strel;
+    strel.push_back(Point{0,0});
+    for(int i = 1; i <= size; i++) {
+        strel.push_back(Point{0,i});
+        strel.push_back(Point{0,-i});
+        strel.push_back(Point{i,0});
+        strel.push_back(Point{-i,0});
+    }
+    return strel;
+}
+
+std::vector<Point> gen_strel_square(int size) {
+    std::vector<Point> strel;
+    for(int i = -size; i <= size; i++) {
+        for(int j = -size; j <= size; j++) {
+            strel.push_back(Point{i,j});
+        }
+    }
+    return strel;
+}
+

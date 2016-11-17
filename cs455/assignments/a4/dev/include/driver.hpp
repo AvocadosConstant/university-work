@@ -28,4 +28,7 @@ void image_erode(cv::Mat*, std::vector<Point>);
 
 void image_open(cv::Mat*, std::vector<Point>);
 void image_close(cv::Mat*, std::vector<Point>);
+
+std::vector<Point> gen_strel_cross(int);
+std::vector<Point> gen_strel_square(int);
 #endif
