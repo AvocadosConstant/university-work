@@ -133,6 +133,12 @@ int main(int argc, char **argv) {
                 strel_size = 9;
                 std::cout << "Structural element size = 9" << std::endl;
                 break;
+            case 'p':   // Count pigs
+                strel = gen_strel_square(2);
+                for(auto &img : images) image_open(&img[1], strel);
+                for(auto &img : images) image_close(&img[1], strel);
+                for(auto &img : images) image_detect_regions(&img[1]);
+                break;
             //case '':   // 
             //    for(auto &img : images) image_(&img[1]);
             //    break;
