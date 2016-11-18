@@ -61,11 +61,23 @@ int main(int argc, char **argv) {
             case 'g':   // Convert to grayscale
                 for(auto &img : images) image_convert_grayscale(&img[1]);
                 break;
+            case 'r':   // Convert to rgb 
+                for(auto &img : images) image_convert_color(&img[1]);
+                break;
             case 'n':   // Negative
                 for(auto &img : images) image_generate_negative(&img[1]);
                 break;
+            case 'D':   // Detect regions
+                for(auto &img : images) image_detect_regions(&img[1]);
+                break;
             case 'b':   // Binary
                 for(auto &img : images) image_generate_binary(&img[1]);
+                break;
+            case 'B':   // Blur
+                for(auto &img : images) image_gaussian_blur(&img[1]);
+                break;
+            case 'u':   // Unsharp mask
+                for(auto &img : images) image_unsharp_masking(&img[1]);
                 break;
             case 'd':   // Dilating
                 for(auto &img : images) image_dilate(&img[1], strel);
@@ -87,30 +99,39 @@ int main(int argc, char **argv) {
                 break;
             case '1':   // Resize strel setting
                 strel_size = 1;
+                std::cout << "Structural element size = 1" << std::endl;
                 break;
             case '2':   // Resize strel setting
                 strel_size = 2;
+                std::cout << "Structural element size = 2" << std::endl;
                 break;
             case '3':   // Resize strel setting
                 strel_size = 3;
+                std::cout << "Structural element size = 3" << std::endl;
                 break;
             case '4':   // Resize strel setting
                 strel_size = 4;
+                std::cout << "Structural element size = 4" << std::endl;
                 break;
             case '5':   // Resize strel setting
                 strel_size = 5;
+                std::cout << "Structural element size = 5" << std::endl;
                 break;
             case '6':   // Resize strel setting
                 strel_size = 6;
+                std::cout << "Structural element size = 6" << std::endl;
                 break;
             case '7':   // Resize strel setting
                 strel_size = 7;
+                std::cout << "Structural element size = 7" << std::endl;
                 break;
             case '8':   // Resize strel setting
                 strel_size = 8;
+                std::cout << "Structural element size = 8" << std::endl;
                 break;
             case '9':   // Resize strel setting
                 strel_size = 9;
+                std::cout << "Structural element size = 9" << std::endl;
                 break;
             //case '':   // 
             //    for(auto &img : images) image_(&img[1]);

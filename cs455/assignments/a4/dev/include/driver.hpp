@@ -12,13 +12,19 @@ struct Point {
     Point(int x, int y) : x{x}, y{y}{}
 };
 
-int image_total_pixels(cv::Mat*);
 void image_convert_grayscale(cv::Mat*);
+void image_convert_color(cv::Mat*);
+
+int image_total_pixels(cv::Mat*);
 void image_generate_negative(cv::Mat*);
 
 std::vector<int> image_histogram(cv::Mat*);
 void image_generate_binary(cv::Mat*);
 
+int get_virtual_px_val(cv::Mat*, int, int);
+void image_apply_kernel(cv::Mat*, std::vector<int>*);
+void image_gaussian_blur(cv::Mat*);
+void image_unsharp_masking(cv::Mat*);
 
 
 // Morphological Algos
@@ -31,4 +37,9 @@ void image_close(cv::Mat*, std::vector<Point>);
 
 std::vector<Point> gen_strel_cross(int);
 std::vector<Point> gen_strel_square(int);
+
+// Region detection
+std::vector<std::vector<int> > image_detect_regions(cv::Mat*);
+void image_highlight_regions(cv::Mat*, std::vector<std::vector<Point> >);
+
 #endif
