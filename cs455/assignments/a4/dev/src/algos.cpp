@@ -7,10 +7,12 @@
 
 
 void image_convert_grayscale(cv::Mat *image) {
+    std::cout << "Converting image to grayscale... " << std::endl;
     cv::cvtColor(*image, *image, CV_BGR2GRAY);
 }
 
 void image_convert_color(cv::Mat *image) {
+    std::cout << "Converting image to RGB... " << std::endl;
     cv::cvtColor(*image, *image, CV_GRAY2RGB);
 }
 
@@ -44,7 +46,6 @@ void image_generate_binary(cv::Mat* image) {
     }
     threshold /= total_pixels;
     threshold = 200;
-    //printf("Calculated threshold: %i\n", threshold);
 
     // Draw binary image
     for(int i = 0; i < total_pixels; i++) {
