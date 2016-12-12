@@ -10,6 +10,38 @@ const std::string GUI_NAME = "CS 455 Assignment 4";
 
 int main(int argc, char **argv) {
 
+    /* Images for Part A, irrelevant to pigs
+    std::vector<std::vector<int> > test0 = {
+      {0,0,0,1,0,0,0,1,0,0,1,0,0,1},
+      {0,1,0,0,0,0,0,1,0,0,0,0,1,0},
+      {0,1,0,1,1,1,1,0,0,1,0,1,0,0},
+      {1,0,1,1,1,1,1,1,1,0,1,1,1,0},
+      {0,0,1,1,1,1,1,1,0,0,1,1,0,1},
+      {1,1,1,0,1,1,0,0,1,1,0,1,1,0},
+      {1,1,0,0,1,1,0,0,1,1,0,0,0,0},
+      {0,1,0,0,1,1,1,1,1,0,0,1,1,1},
+      {0,0,1,1,1,1,1,1,0,1,1,0,0,0},
+      {1,1,0,0,1,1,1,1,1,1,0,0,1,1},
+      {0,0,1,0,1,1,1,1,0,0,1,0,1,0},
+      {0,1,1,1,0,0,1,0,0,0,1,1,0,1},
+      {1,0,1,0,1,0,1,0,0,0,0,0,1,0},
+      {1,0,0,1,0,0,1,1,0,0,1,0,1,0},
+    };
+    std::vector<std::vector<int> > test0 = {
+      {0,0,0,0,0,0,0,0,0,0,0},
+      {0,0,0,0,0,0,0,0,0,0,0},
+      {0,0,0,0,0,1,0,0,0,0,0},
+      {0,0,0,0,0,1,0,1,0,0,0},
+      {0,0,0,1,1,1,1,1,1,0,0},
+      {0,0,1,1,1,0,1,1,0,0,0},
+      {0,0,0,1,1,0,1,1,0,0,0},
+      {0,0,1,1,1,0,1,1,1,0,0},
+      {0,0,0,0,0,0,0,0,0,0,0},
+      {0,0,0,0,0,0,0,0,0,0,0},
+      {0,0,0,0,0,0,0,0,0,0,0},
+    };
+    */
+
     std::vector<std::string> image_names {
         // Image paths
         "./img/pigs.bmp"
@@ -44,6 +76,8 @@ int main(int argc, char **argv) {
     std::vector<Point> strel;
     strel.push_back(Point{0, 0});
 
+    std::cout << "Press <p> to count pigs! See the README for more details." << std::endl;
+
     bool run = true;
     while(run) {
         for(int i = 0; i < window_names.size(); i++) {
@@ -51,6 +85,7 @@ int main(int argc, char **argv) {
         }
         char c = cvWaitKey(20);
         std::vector<int> log_mask;
+
         switch(c) {
             case 27:    // Escape
                 run = false;

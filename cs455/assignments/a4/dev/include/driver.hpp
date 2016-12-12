@@ -30,10 +30,14 @@ void image_unsharp_masking(cv::Mat*);
 // Morphological Algos
 
 void image_dilate(cv::Mat*, std::vector<Point>);
+std::vector<std::vector<int> > image_dilate(std::vector<std::vector<int> >, std::vector<Point>);
 void image_erode(cv::Mat*, std::vector<Point>);
+std::vector<std::vector<int> > image_erode(std::vector<std::vector<int> >, std::vector<Point>);
 
 void image_open(cv::Mat*, std::vector<Point>);
+std::vector<std::vector<int> > image_open(std::vector<std::vector<int> >, std::vector<Point>);
 void image_close(cv::Mat*, std::vector<Point>);
+std::vector<std::vector<int> > image_close(std::vector<std::vector<int> >, std::vector<Point>);
 
 std::vector<Point> gen_strel_cross(int);
 std::vector<Point> gen_strel_square(int);

@@ -178,6 +178,44 @@ void image_dilate(cv::Mat* image, std::vector<Point> strel) {
     }
 }
 
+std::vector<std::vector<int> > image_dilate(std::vector<std::vector<int> > image, std::vector<Point> strel) {
+    std::cout << "Dilating..." << std::endl;
+
+    std::vector<Point> dilation;
+
+    // Loop through each pixel in image
+    for(int y = 0; y < image[0].size(); y++) {
+        for(int x = 0; x < image.size(); x++) {
+
+            bool dilate = false;
+
+            // Loop through each point defined in strelture element
+            for(auto p : strel) {
+
+                int offsetX = x + p.x;
+                int offsetY = y + p.y;
+
+                // Check if offset of point to the current pixel is within bounds
+                if(offsetX >= 0 && offsetX < image.size() && offsetY >= 0 && offsetY < image[0].size()){
+
+                    // If offset point is white, make current px gray
+                    if(image[offsetX][offsetY] > 0) dilate = true;
+                }
+            }
+            if(dilate) dilation.push_back(Point{x, y});
+        }
+    }
+    for(int y = 0; y < image[0].size(); y++) {
+        for(int x = 0; x < image.size(); x++) {
+            image[x][y] = 0;
+        }
+    }
+    for(auto p : dilation) {
+        image[p.x][p.y] = 1;
+    }
+    return image;
+}
+
 void image_erode(cv::Mat* image, std::vector<Point> strel) {
     std::cout << "Eroding..." << std::endl;
 
@@ -215,14 +253,63 @@ void image_erode(cv::Mat* image, std::vector<Point> strel) {
     }
 }
 
+std::vector<std::vector<int> > image_erode(std::vector<std::vector<int> > image, std::vector<Point> strel) {
+    std::cout << "Eroding..." << std::endl;
+
+    std::vector<Point> erosion;
+
+    // Loop through each pixel in image
+    for(int y = 0; y < image[0].size(); y++) {
+        for(int x = 0; x < image.size(); x++) {
+
+            bool erode = true;
+
+            // Loop through each point defined in strelture element
+            for(auto p : strel) {
+
+                int offsetX = x + p.x;
+                int offsetY = y + p.y;
+
+                // Check if offset of point to the current pixel is within bounds
+                if(offsetX >= 0 && offsetX < image.size() && offsetY >= 0 && offsetY < image[0].size()){
+
+                    // If offset point is white, make current px gray
+                    if(image[offsetX][offsetY] == 0) erode = false;
+                }
+            }
+            if(erode) erosion.push_back(Point{x, y});
+        }
+    }
+    for(int y = 0; y < image[0].size(); y++) {
+        for(int x = 0; x < image.size(); x++) {
+            image[x][y] = 0;
+        }
+    }
+    for(auto p : erosion) {
+        image[p.x][p.y] = 1;
+    }
+    return image;
+}
+
 void image_open(cv::Mat* image, std::vector<Point> strel) {
     image_erode(image, strel);
     image_dilate(image, strel);
 }
 
+std::vector<std::vector<int> > image_open(std::vector<std::vector<int> > image, std::vector<Point> strel) {
+    image[0][0] = 999999999;
+    return image_dilate(image_erode(image, strel), strel);
+}
+
 void image_close(cv::Mat* image, std::vector<Point> strel) {
     image_dilate(image, strel);
     image_erode(image, strel);
+}
+
+std::vector<std::vector<int> > image_close(std::vector<std::vector<int> > image, std::vector<Point> strel) {
+    image = image_dilate(image, strel);
+    image = image_erode(image, strel);
+    return image;
 }
 
 std::vector<Point> gen_strel_cross(int size) {
