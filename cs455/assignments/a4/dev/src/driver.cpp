@@ -134,6 +134,8 @@ int main(int argc, char **argv) {
                 std::cout << "Structural element size = 9" << std::endl;
                 break;
             case 'p':   // Count pigs
+                for(auto &img : images) image_convert_grayscale(&img[1]);
+                for(auto &img : images) image_generate_binary(&img[1]);
                 strel = gen_strel_square(2);
                 for(auto &img : images) image_open(&img[1], strel);
                 for(auto &img : images) image_close(&img[1], strel);
