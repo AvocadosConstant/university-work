@@ -17,5 +17,17 @@ Execution instructions:
         <b>         Gaussian Blur
         <u>         Unsharp Mask
         <s>         Sobel Operator
-        <l>         Generate and Apply 7x7 sigma = 1.4 LoG
-        <L>         Generate and Apply 11x11 sigma = 5.0 LoG
+        <c>         Convert to HSI
+        <d>         Apply Discrete Cosine Transform
+        <i>         Apply Inverse Discrete Cosing Transform
+        <l>         Detect Lines
+        <L>         Detect Circles
+
+DCT and IDCT
+    
+    Use the hotkey <d> to apply the DCT. It takes about 15 seconds on average on my machine so please be patient.
+    Use the hotkey <i> to apply the IDCT. Usually about 20 seconds.
+
+Image Segmentation
+
+    Use <l> and <L> to detect lines and circles. Doesn't work well.

@@ -14,7 +14,7 @@ int main(int argc, char **argv) {
         // Image names
         "./img/Basel2.tif",
         "./img/Building1.tif",
-        "./img/Plate.tif"
+        //"./img/Plate.tif"
     };
 
     std::vector<std::vector<cv::Mat> > images;
@@ -36,7 +36,7 @@ int main(int argc, char **argv) {
         // Window names
         "Basel2",
         "Building1",
-        "Plate"
+        //"Plate"
     };
 
     for(int i = 0; i < window_names.size(); i++) {
