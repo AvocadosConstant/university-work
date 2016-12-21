@@ -272,11 +272,11 @@ std::vector<std::vector<float> > image_idct(cv::Mat *image, int startX, int star
     }
     for(int j = 0; j < 8; j++) {
         for(int i = 0; i < 8; i++) {
-            std::cout << block[i][j] << "\t\t";
+            //std::cout << block[i][j] << "\t\t";
         }
-        std::cout << std::endl;
+        //std::cout << std::endl;
     }
-    std::cout << std::endl;
+    //std::cout << std::endl;
 
     return block;
 }
@@ -354,10 +354,6 @@ cv::Mat imLineDetect(cv::Mat& image) {
 }
 
 void circVote(cv::Mat& votes, int x0, int y0, int r, int xdim, int ydim) {
-    // Midpoint circle algorithm, blatantly ripped off from Wikipedia
-    // https://en.wikipedia.org/wiki/Midpoint_circle_algorithm
-    // I hope this works because if it doesn't god save us all
-    // At least it was a good idea
     int x = r;
     int y = 0;
     int d2 = 1 - x;
