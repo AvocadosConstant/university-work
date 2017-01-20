@@ -10,6 +10,7 @@ struct MyClass {
   char name[10];
 };
 void MyClass_print(const MyClass *o) {
+  //printf("ID %d: %s\n", o->id, o->name);
   printf("%d\n", o->id);
   printf("%s\n", o->name);
 }
@@ -26,7 +27,8 @@ struct Deque_MyClass {
   MyClass *data;
 
   unsigned int (*size)(Deque_MyClass*);
-  bool (*empty)(struct Deque_MyClass*);
+  bool (*empty)(Deque_MyClass*);
+  void (*resize)(Deque_MyClass*);
 
   void (*push_front)(Deque_MyClass*, MyClass);
   void (*push_back)(Deque_MyClass*, MyClass);
@@ -52,34 +54,56 @@ bool empty(Deque_MyClass *deq) {
   return deq->size(deq) == 0;
 }
 
+void resize(Deque_MyClass *deq) {
+  MyClass *new_data = (MyClass*) malloc(2 * deq->cap * sizeof(Deque_MyClass));
+  for(unsigned int i = 0; i < deq->cap; i++) {
+    new_data[i] = deq->data[(i + deq->start_i) % deq->cap];
+  }
+  deq->start_i = 0;
+  deq->offset = 0;
+  deq->cap *= 2;
+  free(deq->data);
+  deq->data = new_data;
+}
+
 void push_front(Deque_MyClass *deq, MyClass entry) {
+  // If no more room, then resize
   if(deq->offset - deq->start_i == deq->cap) {
-    // TODO Resize here
-    return;
+    deq->resize(deq);
   }
   deq->data[(deq->start_i + deq->cap - 1) % deq->cap] = entry;
   deq->start_i = (deq->start_i + deq->cap - 1) % deq->cap;
+  if(deq->offset < deq->start_i) deq->offset += deq->cap;
+  //deq->offset = (deq->offset + deq->start_i +1) % deq->cap + deq->cap;
 }
 
 void push_back(Deque_MyClass *deq, MyClass entry) {
+  // If no more room, then resize
   if(deq->offset - deq->start_i == deq->cap) {
-    // TODO Resize here
-    return;
+    deq->resize(deq);
   }
   deq->data[(deq->start_i + deq->offset) % deq->cap] = entry;
   deq->offset++;
 }
 
 void pop_front(Deque_MyClass *deq) {
-  deq->start_i = (deq->start_i + 1) % deq->cap;
+  // Make sure there is something to pop
+  if(deq->start_i != deq->offset) {
+    deq->start_i = (deq->start_i + 1) % deq->cap;
+    if(deq->start_i < deq->offset - deq->cap) deq->offset -= deq->cap;
+  }
 }
 
 void pop_back(Deque_MyClass *deq) {
-  deq->offset--;
+  // Make sure there is something to pop
+  if(deq->start_i != deq->offset) {
+    if(deq->offset == 0) deq->offset = deq->cap - 1;
+    else deq->offset--;
+  }
 }
 
 MyClass &at(Deque_MyClass *deq, unsigned int index) {
-  return deq->data[deq->start_i + index];
+  return deq->data[(deq->start_i + index) % deq->cap];
 }
 
 MyClass &front(Deque_MyClass *deq) {
@@ -87,22 +111,22 @@ MyClass &front(Deque_MyClass *deq) {
 }
 
 MyClass &back(Deque_MyClass *deq) {
-  return deq->data[deq->start_i + deq->offset - 1];
+  return deq->data[(deq->offset - 1) % deq->cap];
 }
 
 void clear(Deque_MyClass *deq) {
   deq->start_i = 0;
   deq->offset = 0;
-
 }
 
-//void dtor(Deque_MyClass *deq) {
-//}
+void dtor(Deque_MyClass *deq) {
+  free(deq->data);
+}
 
 //void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
 //}
 
-void Deque_MyClass_ctor(Deque_MyClass* deq) {
+void Deque_MyClass_ctor(Deque_MyClass *deq) {
   deq->cap = DEF_CAP;
   deq->start_i = 0;
   deq->offset = 0;
@@ -110,6 +134,7 @@ void Deque_MyClass_ctor(Deque_MyClass* deq) {
 
   deq->size = &size;
   deq->empty = &empty;
+  deq->resize = &resize;
 
   deq->push_front = &push_front;
   deq->push_back = &push_back;
@@ -126,13 +151,26 @@ void Deque_MyClass_ctor(Deque_MyClass* deq) {
   //deq->sort = &sort;
 }
 
+void print_Deque(Deque_MyClass *deq) {
+  printf("\n______________\n");
+  printf("Cap\t\t%d\n"
+    "Size\t\t%d\n"
+    "Start Index\t%d\n"
+    "Offset\t\t%d\n",
+    deq->cap, 
+    deq->offset - deq->start_i,
+    deq->start_i, 
+    deq->offset);
+  printf("--------------\n");
+  for(unsigned int i = 0; i < deq->cap; i++) {
+    MyClass_print(&deq->data[i]);
+    printf("--------------\n");
+  }
+  printf("\n");
+}
 
 /* Testing */
 int main() {
-
-  MyClass mc = MyClass{1, "Joe"};
-  MyClass_print(&mc);
-
   Deque_MyClass deq;
   Deque_MyClass_ctor(&deq);
 
@@ -144,6 +182,8 @@ int main() {
   deq.push_back(&deq, MyClass{3, "Tom"});
   deq.push_front(&deq, MyClass{0, "Mike"});
   deq.push_front(&deq, MyClass{-1, "Mary"});
+
+  //print_Deque(&deq);
 
   MyClass_print(&deq.front(&deq));
   MyClass_print(&deq.back(&deq));
