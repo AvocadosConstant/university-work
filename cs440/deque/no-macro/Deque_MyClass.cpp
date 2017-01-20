@@ -44,13 +44,6 @@ struct Deque_MyClass {
 };
 
 /* Function Definitions */
-void Deque_MyClass_ctor(Deque_MyClass* deq) {
-  deq->start_i = 0;
-  deq->offset = 0;
-  deq->cap = DEF_CAP;
-  deq->data = (MyClass*) malloc(deq->cap * sizeof(Deque_MyClass));
-}
-
 unsigned int size(Deque_MyClass *deq) {
   return deq->offset - deq->start_i;
 }
@@ -100,6 +93,7 @@ MyClass &back(Deque_MyClass *deq) {
 void clear(Deque_MyClass *deq) {
   deq->start_i = 0;
   deq->offset = 0;
+
 }
 
 //void dtor(Deque_MyClass *deq) {
@@ -107,6 +101,31 @@ void clear(Deque_MyClass *deq) {
 
 //void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
 //}
+
+void Deque_MyClass_ctor(Deque_MyClass* deq) {
+  deq->cap = DEF_CAP;
+  deq->start_i = 0;
+  deq->offset = 0;
+  deq->data = (MyClass*) malloc(deq->cap * sizeof(Deque_MyClass));
+
+  deq->size = &size;
+  deq->empty = &empty;
+
+  deq->push_front = &push_front;
+  deq->push_back = &push_back;
+  deq->pop_front = &pop_front;
+  deq->pop_back = &pop_back;
+
+  deq->at = &at;
+  deq->front = &front;
+  deq->back = &back;
+
+  deq->clear = &clear;
+  //deq->dtor = &dtor;
+
+  //deq->sort = &sort;
+}
+
 
 /* Testing */
 int main() {
@@ -117,7 +136,24 @@ int main() {
   Deque_MyClass deq;
   Deque_MyClass_ctor(&deq);
 
-  //printf("Size: %d", deq.size(&deq));
   assert(deq.size(&deq) == 0);
-  //assert(deq.empty(&deq));
+  assert(deq.empty(&deq));
+
+  deq.push_back(&deq, MyClass{1, "Joe"});
+  deq.push_back(&deq, MyClass{2, "Mary"});
+  deq.push_back(&deq, MyClass{3, "Tom"});
+  deq.push_front(&deq, MyClass{0, "Mike"});
+  deq.push_front(&deq, MyClass{-1, "Mary"});
+
+  MyClass_print(&deq.front(&deq));
+  MyClass_print(&deq.back(&deq));
+  assert(deq.front(&deq).id == -1);
+  assert(deq.back(&deq).id == 3);
+
+  deq.pop_front(&deq);
+  deq.pop_back(&deq);
+  assert(deq.front(&deq).id == 0);
+  assert(deq.back(&deq).id == 2);
+
+  assert(deq.size(&deq) == 3);
 }
