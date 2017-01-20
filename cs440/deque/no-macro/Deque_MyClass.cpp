@@ -2,6 +2,8 @@
 #include <stdio.h>
 #include <assert.h>
 
+#define DEF_CAP 8
+
 /* MyClass */
 struct MyClass {
   int id;
@@ -18,40 +20,93 @@ struct Deque_MyClass_Iterator {
 };
 
 struct Deque_MyClass {
-  unsigned int cur_size;    // Number of elems
-  unsigned int capacity;    // Total capacity
+  unsigned int cap;     // Total cap
+  unsigned int start_i; // Index of first element
+  unsigned int offset;  // Circular distance from start (Can be more than cap)
+  MyClass *data;
 
   unsigned int (*size)(Deque_MyClass*);
   bool (*empty)(struct Deque_MyClass*);
 
-  void (*push_front)(struct Deque_MyClass*, struct MyClass);
-  void (*push_back)(struct Deque_MyClass*, struct MyClass);
-  MyClass (*pop_front)(struct Deque_MyClass*);
-  MyClass (*pop_back)(struct Deque_MyClass*);
+  void (*push_front)(Deque_MyClass*, MyClass);
+  void (*push_back)(Deque_MyClass*, MyClass);
+  void (*pop_front)(Deque_MyClass*);
+  void (*pop_back)(Deque_MyClass*);
 
-  MyClass &(*at)(struct Deque_MyClass*, unsigned int);
-  MyClass &(*front)(struct Deque_MyClass*);
-  MyClass &(*back)(struct Deque_MyClass*);
+  MyClass &(*at)(Deque_MyClass*, unsigned int);
+  MyClass &(*front)(Deque_MyClass*);
+  MyClass &(*back)(Deque_MyClass*);
 
-  void (*clear)(struct Deque_MyClass*);
-  void (*dtor)(struct Deque_MyClass*);
+  void (*clear)(Deque_MyClass*);
+  void (*dtor)(Deque_MyClass*);
 
-  void (*sort)(struct Deque_MyClass*, struct Deque_MyClass_Iterator, struct Deque_MyClass_Iterator);
+  void (*sort)(Deque_MyClass*, Deque_MyClass_Iterator, Deque_MyClass_Iterator);
 };
 
 /* Function Definitions */
-void Deque_MyClass_ctor(struct Deque_MyClass* deq) {
-  deq->cur_size = 0;
-  deq->capacity = 8;
+void Deque_MyClass_ctor(Deque_MyClass* deq) {
+  deq->start_i = 0;
+  deq->offset = 0;
+  deq->cap = DEF_CAP;
+  deq->data = (MyClass*) malloc(deq->cap * sizeof(Deque_MyClass));
 }
 
 unsigned int size(Deque_MyClass *deq) {
-  return deq->cur_size;
+  return deq->offset - deq->start_i;
 }
 
 bool empty(Deque_MyClass *deq) {
   return deq->size(deq) == 0;
 }
+
+void push_front(Deque_MyClass *deq, MyClass entry) {
+  if(deq->offset - deq->start_i == deq->cap) {
+    // TODO Resize here
+    return;
+  }
+  deq->data[(deq->start_i + deq->cap - 1) % deq->cap] = entry;
+  deq->start_i = (deq->start_i + deq->cap - 1) % deq->cap;
+}
+
+void push_back(Deque_MyClass *deq, MyClass entry) {
+  if(deq->offset - deq->start_i == deq->cap) {
+    // TODO Resize here
+    return;
+  }
+  deq->data[(deq->start_i + deq->offset) % deq->cap] = entry;
+  deq->offset++;
+}
+
+void pop_front(Deque_MyClass *deq) {
+  deq->start_i = (deq->start_i + 1) % deq->cap;
+}
+
+void pop_back(Deque_MyClass *deq) {
+  deq->offset--;
+}
+
+MyClass &at(Deque_MyClass *deq, unsigned int index) {
+  return deq->data[deq->start_i + index];
+}
+
+MyClass &front(Deque_MyClass *deq) {
+  return deq->data[deq->start_i];
+}
+
+MyClass &back(Deque_MyClass *deq) {
+  return deq->data[deq->start_i + deq->offset - 1];
+}
+
+void clear(Deque_MyClass *deq) {
+  deq->start_i = 0;
+  deq->offset = 0;
+}
+
+//void dtor(Deque_MyClass *deq) {
+//}
+
+//void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
+//}
 
 /* Testing */
 int main() {
