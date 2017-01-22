@@ -17,7 +17,9 @@ void MyClass_print(const MyClass *o) {
 
 /* Forward Declarations */
 struct Deque_MyClass_Iterator {
-  /* TODO */
+  void (*inc)(Deque_MyClass_Iterator*);
+  void (*dec)(Deque_MyClass_Iterator*);
+  void (*deref)(Deque_MyClass_Iterator*);
 };
 
 struct Deque_MyClass {
@@ -38,6 +40,8 @@ struct Deque_MyClass {
   MyClass &(*at)(Deque_MyClass*, unsigned int);
   MyClass &(*front)(Deque_MyClass*);
   MyClass &(*back)(Deque_MyClass*);
+  Deque_MyClass_Iterator (*begin)(Deque_MyClass*);
+  Deque_MyClass_Iterator (*end)(Deque_MyClass*);
 
   void (*clear)(Deque_MyClass*);
   void (*dtor)(Deque_MyClass*);
@@ -74,7 +78,6 @@ void push_front(Deque_MyClass *deq, MyClass entry) {
   deq->data[(deq->start_i + deq->cap - 1) % deq->cap] = entry;
   deq->start_i = (deq->start_i + deq->cap - 1) % deq->cap;
   if(deq->offset < deq->start_i) deq->offset += deq->cap;
-  //deq->offset = (deq->offset + deq->start_i +1) % deq->cap + deq->cap;
 }
 
 void push_back(Deque_MyClass *deq, MyClass entry) {
@@ -112,6 +115,12 @@ MyClass &front(Deque_MyClass *deq) {
 
 MyClass &back(Deque_MyClass *deq) {
   return deq->data[(deq->offset - 1) % deq->cap];
+}
+
+Deque_MyClass_Iterator begin(Deque_MyClass*) {
+}
+
+Deque_MyClass_Iterator end(Deque_MyClass*) {
 }
 
 void clear(Deque_MyClass *deq) {
