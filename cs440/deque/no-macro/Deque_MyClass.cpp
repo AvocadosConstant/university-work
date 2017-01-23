@@ -10,9 +10,11 @@ struct MyClass {
   char name[10];
 };
 void MyClass_print(const MyClass *o) {
-  //printf("ID %d: %s\n", o->id, o->name);
+  printf("ID %d: %s\n", o->id, o->name);
+  /*
   printf("%d\n", o->id);
   printf("%s\n", o->name);
+  */
 }
 
 /* Forward Declarations */
@@ -64,7 +66,7 @@ void resize(Deque_MyClass *deq) {
     new_data[i] = deq->data[(i + deq->start_i) % deq->cap];
   }
   deq->start_i = 0;
-  deq->offset = 0;
+  deq->offset = deq->cap;
   deq->cap *= 2;
   free(deq->data);
   deq->data = new_data;
@@ -85,7 +87,7 @@ void push_back(Deque_MyClass *deq, MyClass entry) {
   if(deq->offset - deq->start_i == deq->cap) {
     deq->resize(deq);
   }
-  deq->data[(deq->start_i + deq->offset) % deq->cap] = entry;
+  deq->data[deq->offset % deq->cap] = entry;
   deq->offset++;
 }
 
@@ -93,7 +95,9 @@ void pop_front(Deque_MyClass *deq) {
   // Make sure there is something to pop
   if(deq->start_i != deq->offset) {
     deq->start_i = (deq->start_i + 1) % deq->cap;
-    if(deq->start_i < deq->offset - deq->cap) deq->offset -= deq->cap;
+    if(deq->offset > deq->cap && deq->start_i < deq->offset - deq->cap) {
+      deq->offset -= deq->cap;
+    }
   }
 }
 
@@ -110,10 +114,12 @@ MyClass &at(Deque_MyClass *deq, unsigned int index) {
 }
 
 MyClass &front(Deque_MyClass *deq) {
+  assert(deq->offset - deq->start_i > 0);
   return deq->data[deq->start_i];
 }
 
 MyClass &back(Deque_MyClass *deq) {
+  assert(deq->offset - deq->start_i > 0);
   return deq->data[(deq->offset - 1) % deq->cap];
 }
 
@@ -178,6 +184,15 @@ void print_Deque(Deque_MyClass *deq) {
   printf("\n");
 }
 
+void print_Deque_inOrder(Deque_MyClass *deq) {
+  printf("\nPrint in order\n______________\n");
+  for(unsigned int i = deq->start_i; i < deq->offset; i++) {
+    MyClass_print(&deq->data[i % deq->cap]);
+    printf("--------------\n");
+  }
+  printf("\n");
+}
+
 /* Testing */
 int main() {
   Deque_MyClass deq;
@@ -186,16 +201,51 @@ int main() {
   assert(deq.size(&deq) == 0);
   assert(deq.empty(&deq));
 
+  /* My test cases */
+  unsigned int max_elems = 1000;
+
+  // Alternate pushing to the front and back
+  for(unsigned int i = 0; i < max_elems; i++) {
+    if(i % 2 == 0) {
+      //printf("Push back %d\n", i);
+      deq.push_back(&deq, MyClass{(int) i, "e"});
+    } else {
+      //printf("Push front %d\n", i);
+      deq.push_front(&deq, MyClass{(int) i, "o"});
+    }
+    //print_Deque(&deq);
+  }
+  print_Deque_inOrder(&deq);
+  assert(deq.size(&deq) == max_elems);
+
+  // Pop everything and verify that it's empty
+  printf("____________\nPopping\n____________\n");
+  for(unsigned int i = 0; i < max_elems; i++) {
+    if(i % 2 == 0) {
+      //printf("Pop back %d\n", i);
+      deq.pop_back(&deq);
+    } else {
+      //printf("Pop front %d\n", i);
+      deq.pop_front(&deq);
+    }
+    //print_Deque(&deq);
+  }
+  assert(deq.size(&deq) == 0);
+  assert(deq.empty(&deq));
+
+
+
+  /* From prof's test case */
+  printf("\n\nProfessor's Test Case\n");
   deq.push_back(&deq, MyClass{1, "Joe"});
   deq.push_back(&deq, MyClass{2, "Mary"});
   deq.push_back(&deq, MyClass{3, "Tom"});
   deq.push_front(&deq, MyClass{0, "Mike"});
   deq.push_front(&deq, MyClass{-1, "Mary"});
 
-  //print_Deque(&deq);
-
   MyClass_print(&deq.front(&deq));
   MyClass_print(&deq.back(&deq));
+
   assert(deq.front(&deq).id == -1);
   assert(deq.back(&deq).id == 3);
 
