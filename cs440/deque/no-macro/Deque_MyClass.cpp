@@ -17,11 +17,20 @@ void MyClass_print(const MyClass *o) {
   */
 }
 
-/* Forward Declarations */
+
+//////////////////////////
+// Forward Declarations //
+//////////////////////////
+struct Deque_MyClass_Iterator;
+struct Deque_MyClass;
+
 struct Deque_MyClass_Iterator {
+  unsigned int index;
+  Deque_MyClass *deq;
+
   void (*inc)(Deque_MyClass_Iterator*);
   void (*dec)(Deque_MyClass_Iterator*);
-  void (*deref)(Deque_MyClass_Iterator*);
+  MyClass &(*deref)(Deque_MyClass_Iterator*);
 };
 
 struct Deque_MyClass {
@@ -51,14 +60,31 @@ struct Deque_MyClass {
   void (*sort)(Deque_MyClass*, Deque_MyClass_Iterator, Deque_MyClass_Iterator);
 };
 
-/* Function Definitions */
-unsigned int size(Deque_MyClass *deq) {
-  return deq->offset - deq->start_i;
+
+
+//////////////////////////
+// Function Definitions //
+//////////////////////////
+
+/* Deque_MyClass_Iterator functions */
+void inc(Deque_MyClass_Iterator* it) {it->index++;}
+
+void dec(Deque_MyClass_Iterator* it) {it->index--;}
+
+MyClass &deref(Deque_MyClass_Iterator* it) {return it->deq->at(it->deq, it->index);}
+
+void Deque_MyClass_Iterator_ctor(Deque_MyClass_Iterator *it, Deque_MyClass *deq, unsigned int index) {
+  it->index = index;
+  it->deq = deq;
+  it->inc = &inc;
+  it->dec = &dec;
+  it->deref = &deref;
 }
 
-bool empty(Deque_MyClass *deq) {
-  return deq->size(deq) == 0;
-}
+/* Deque_MyClass functions */
+unsigned int size(Deque_MyClass *deq) {return deq->offset - deq->start_i;}
+
+bool empty(Deque_MyClass *deq) {return deq->size(deq) == 0;}
 
 void resize(Deque_MyClass *deq) {
   MyClass *new_data = (MyClass*) malloc(2 * deq->cap * sizeof(Deque_MyClass));
@@ -109,9 +135,7 @@ void pop_back(Deque_MyClass *deq) {
   }
 }
 
-MyClass &at(Deque_MyClass *deq, unsigned int index) {
-  return deq->data[(deq->start_i + index) % deq->cap];
-}
+MyClass &at(Deque_MyClass *deq, unsigned int index) {return deq->data[(deq->start_i + index) % deq->cap];}
 
 MyClass &front(Deque_MyClass *deq) {
   assert(deq->offset - deq->start_i > 0);
@@ -123,10 +147,16 @@ MyClass &back(Deque_MyClass *deq) {
   return deq->data[(deq->offset - 1) % deq->cap];
 }
 
-Deque_MyClass_Iterator begin(Deque_MyClass*) {
+Deque_MyClass_Iterator begin(Deque_MyClass* deq) {
+  Deque_MyClass_Iterator it;
+  Deque_MyClass_Iterator_ctor(&it, deq, 0);
+  return it;
 }
 
-Deque_MyClass_Iterator end(Deque_MyClass*) {
+Deque_MyClass_Iterator end(Deque_MyClass* deq) {
+  Deque_MyClass_Iterator it;
+  Deque_MyClass_Iterator_ctor(&it, deq, deq->offset - deq->start_i);
+  return it;
 }
 
 void clear(Deque_MyClass *deq) {
@@ -134,9 +164,7 @@ void clear(Deque_MyClass *deq) {
   deq->offset = 0;
 }
 
-void dtor(Deque_MyClass *deq) {
-  free(deq->data);
-}
+void dtor(Deque_MyClass *deq) {free(deq->data);}
 
 //void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
 //}
