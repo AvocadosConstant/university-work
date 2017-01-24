@@ -9,12 +9,15 @@ struct MyClass {
   int id;
   char name[10];
 };
+
+bool MyClass_less_by_id(const MyClass &o1, const MyClass &o2) {return o1.id < o2.id;}
+
 void MyClass_print(const MyClass *o) {
   printf("ID %d: %s\n", o->id, o->name);
   /*
-  printf("%d\n", o->id);
-  printf("%s\n", o->name);
-  */
+     printf("%d\n", o->id);
+     printf("%s\n", o->name);
+   */
 }
 
 
@@ -39,6 +42,7 @@ struct Deque_MyClass {
   unsigned int offset;  // Circular distance from start (Can be more than cap)
   MyClass *data;
 
+  bool (*comp)(const MyClass&, const MyClass&);
   unsigned int (*size)(Deque_MyClass*);
   bool (*empty)(Deque_MyClass*);
   void (*resize)(Deque_MyClass*);
@@ -72,6 +76,10 @@ void inc(Deque_MyClass_Iterator* it) {it->index++;}
 void dec(Deque_MyClass_Iterator* it) {it->index--;}
 
 MyClass &deref(Deque_MyClass_Iterator* it) {return it->deq->at(it->deq, it->index);}
+
+bool Deque_MyClass_Iterator_equal(const Deque_MyClass_Iterator &it1, const Deque_MyClass_Iterator &it2) {
+  return (it1.index == it2.index) && (it1.deq == it2.deq);
+}
 
 void Deque_MyClass_Iterator_ctor(Deque_MyClass_Iterator *it, Deque_MyClass *deq, unsigned int index) {
   it->index = index;
@@ -169,12 +177,17 @@ void dtor(Deque_MyClass *deq) {free(deq->data);}
 //void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
 //}
 
-void Deque_MyClass_ctor(Deque_MyClass *deq) {
+bool Deque_MyClass_equal(const Deque_MyClass &deq1, const Deque_MyClass &deq2) {
+  return deq1.data == deq2.data;
+}
+
+void Deque_MyClass_ctor(Deque_MyClass *deq, bool (*comp)(const MyClass&, const MyClass&)) {
   deq->cap = DEF_CAP;
   deq->start_i = 0;
   deq->offset = 0;
   deq->data = (MyClass*) malloc(deq->cap * sizeof(Deque_MyClass));
 
+  deq->comp = comp;
   deq->size = &size;
   deq->empty = &empty;
   deq->resize = &resize;
@@ -197,13 +210,13 @@ void Deque_MyClass_ctor(Deque_MyClass *deq) {
 void print_Deque(Deque_MyClass *deq) {
   printf("\n______________\n");
   printf("Cap\t\t%d\n"
-    "Size\t\t%d\n"
-    "Start Index\t%d\n"
-    "Offset\t\t%d\n",
-    deq->cap, 
-    deq->offset - deq->start_i,
-    deq->start_i, 
-    deq->offset);
+      "Size\t\t%d\n"
+      "Start Index\t%d\n"
+      "Offset\t\t%d\n",
+      deq->cap, 
+      deq->offset - deq->start_i,
+      deq->start_i, 
+      deq->offset);
   printf("--------------\n");
   for(unsigned int i = 0; i < deq->cap; i++) {
     MyClass_print(&deq->data[i]);
@@ -223,48 +236,19 @@ void print_Deque_inOrder(Deque_MyClass *deq) {
 
 /* Testing */
 int main() {
-  Deque_MyClass deq;
-  Deque_MyClass_ctor(&deq);
-
-  assert(deq.size(&deq) == 0);
-  assert(deq.empty(&deq));
-
-  /* My test cases */
-  unsigned int max_elems = 1000;
-
-  // Alternate pushing to the front and back
-  for(unsigned int i = 0; i < max_elems; i++) {
-    if(i % 2 == 0) {
-      //printf("Push back %d\n", i);
-      deq.push_back(&deq, MyClass{(int) i, "e"});
-    } else {
-      //printf("Push front %d\n", i);
-      deq.push_front(&deq, MyClass{(int) i, "o"});
-    }
-    //print_Deque(&deq);
-  }
-  print_Deque_inOrder(&deq);
-  assert(deq.size(&deq) == max_elems);
-
-  // Pop everything and verify that it's empty
-  printf("____________\nPopping\n____________\n");
-  for(unsigned int i = 0; i < max_elems; i++) {
-    if(i % 2 == 0) {
-      //printf("Pop back %d\n", i);
-      deq.pop_back(&deq);
-    } else {
-      //printf("Pop front %d\n", i);
-      deq.pop_front(&deq);
-    }
-    //print_Deque(&deq);
-  }
-  assert(deq.size(&deq) == 0);
-  assert(deq.empty(&deq));
-
-
 
   /* From prof's test case */
-  printf("\n\nProfessor's Test Case\n");
+  Deque_MyClass deq;
+  Deque_MyClass_ctor(&deq, MyClass_less_by_id);
+
+  assert(deq.size(&deq) == 0);
+  assert(deq.empty(&deq));
+
+  //// Should print "---- Deque_MyClass, 14".
+  //printf("---- %s, %d\n", deq.type_name, (int) sizeof(deq.type_name));
+  //// std::cout << "---- " << deq.type_name << ", " << sizeof(deq.type_name) << std::endl;
+  //assert(sizeof deq.type_name == 14);
+
   deq.push_back(&deq, MyClass{1, "Joe"});
   deq.push_back(&deq, MyClass{2, "Mary"});
   deq.push_back(&deq, MyClass{3, "Tom"});
@@ -282,5 +266,102 @@ int main() {
   assert(deq.front(&deq).id == 0);
   assert(deq.back(&deq).id == 2);
 
+  //print_Deque(&deq);
+  //print_Deque_inOrder(&deq);
+
   assert(deq.size(&deq) == 3);
+
+  printf("Before for\n");
+
+  for (Deque_MyClass_Iterator it = deq.begin(&deq);
+      !Deque_MyClass_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
+    printf("In for\n");
+    MyClass_print(&it.deref(&it));
+  }
+
+  printf("After for\n");
+  
+  print_Deque(&deq);
+  print_Deque_inOrder(&deq);
+  
+  // Multiple iterators?
+  for (Deque_MyClass_Iterator it1 = deq.begin(&deq);
+      !Deque_MyClass_Iterator_equal(it1, deq.end(&deq)); it1.inc(&it1)) {
+    MyClass_print(&it1.deref(&it1));
+    for (Deque_MyClass_Iterator it2 = deq.begin(&deq);
+        !Deque_MyClass_Iterator_equal(it2, deq.end(&deq)); it2.inc(&it2)) {
+      MyClass_print(&it2.deref(&it2));
+      for (Deque_MyClass_Iterator it3 = deq.begin(&deq);
+          !Deque_MyClass_Iterator_equal(it3, deq.end(&deq)); it3.inc(&it3)) {
+        MyClass_print(&it3.deref(&it3));
+      }
+    }
+  }
+
+  // Test decrement of end.
+  {
+    auto it = deq.end(&deq);
+    it.dec(&it);
+    assert(it.deref(&it).id == 2);
+  }
+
+  // printf("Using at.\n");
+
+  for (size_t i = 0; i < 3; i++) {
+    MyClass_print(&deq.at(&deq, i));
+  }
+
+  // Test that front(), back(), at(), and deref() are returning a reference.
+  // Change via at().
+  assert(deq.at(&deq, 0).id == 0);
+  deq.at(&deq, 0).id = 100;
+  assert(deq.at(&deq, 0).id == 100);
+  // Change via front().
+  assert(deq.front(&deq).id == 100);
+  deq.front(&deq).id = 0;
+  assert(deq.front(&deq).id == 0);
+  assert(deq.at(&deq, 0).id == 0); // Verify with at() also.
+  {
+    auto it = deq.end(&deq);
+    it.dec(&it);
+    assert(it.deref(&it).id == 2);
+    it.deref(&it).id = 200;
+    assert(it.deref(&it).id == 200);
+    // Change using back().
+    assert(deq.back(&deq).id == 200);
+    deq.back(&deq).id = 2;
+    assert(deq.back(&deq).id == 2);
+    assert(it.deref(&it).id == 2); // Verify with iterator also.
+  }
+
+  deq.clear(&deq);
+
+  deq.dtor(&deq);
+
+  // Test equality.  Two deques compare equal if they are of the same
+  // length and all the elements compare equal.  It is undefined behavior
+  // if the two deques were constructed with different comparison
+  // functions.
+  {
+    Deque_MyClass deq1, deq2;
+    Deque_MyClass_ctor(&deq1, MyClass_less_by_id);
+    Deque_MyClass_ctor(&deq2, MyClass_less_by_id);
+
+    deq1.push_back(&deq1, MyClass{1, "Joe"});
+    deq1.push_back(&deq1, MyClass{2, "Jane"});
+    deq1.push_back(&deq1, MyClass{3, "Mary"});
+    deq2.push_back(&deq2, MyClass{1, "Joe"});
+    deq2.push_back(&deq2, MyClass{2, "Jane"});
+    deq2.push_back(&deq2, MyClass{3, "Mary"});
+
+    assert(Deque_MyClass_equal(deq1, deq2));
+
+    deq1.pop_back(&deq1);
+    assert(!Deque_MyClass_equal(deq1, deq2));
+    deq1.push_back(&deq1, MyClass{4, "Mary"});
+    assert(!Deque_MyClass_equal(deq1, deq2));
+
+    deq1.dtor(&deq1);
+    deq2.dtor(&deq2);
+  }
 }
