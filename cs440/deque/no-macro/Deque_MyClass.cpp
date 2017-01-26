@@ -173,8 +173,22 @@ void clear(Deque_MyClass *deq) {
 
 void dtor(Deque_MyClass *deq) {free(deq->data);}
 
-//void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
-//}
+void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
+  unsigned int sort_size = (end.index - begin.index + deq->cap) % deq->cap;
+
+  // Copy values to be sorted over to a tmp array so it's contiguous
+  MyClass* tmpArr = (MyClass*)malloc(sort_size * sizeof(Deque_MyClass));
+  for(unsigned int i = 0; i < sort_size; i++) {
+    tmpArr[i] = deq->at(deq, (begin.index + i) % deq->cap);
+  }
+
+  //qsort(tmpArr, sort_size, sizeof(MyClass), deq->comp);
+
+  // Copy the sorted tmp array elements back into data in their respective positions
+  for(unsigned int i = 0; i < sort_size; i++) {
+    deq->at(deq, (begin.index + i) % deq->cap) = tmpArr[i];
+  }
+}
 
 bool Deque_MyClass_equal(Deque_MyClass &deq1, Deque_MyClass &deq2) {
   if(deq1.size(&deq1) != deq2.size(&deq2)) return false;
@@ -190,7 +204,7 @@ void Deque_MyClass_ctor(Deque_MyClass *deq, bool (*comp)(const MyClass&, const M
   deq->cap = DEF_CAP;
   deq->start_i = 0;
   deq->offset = 0;
-  deq->data = (MyClass*) malloc(deq->cap * sizeof(Deque_MyClass));
+  deq->data = (MyClass*) malloc(deq->cap * sizeof(MyClass));
 
   deq->comp = comp;
   deq->size = &size;
@@ -211,7 +225,7 @@ void Deque_MyClass_ctor(Deque_MyClass *deq, bool (*comp)(const MyClass&, const M
   deq->clear = &clear;
   deq->dtor = &dtor;
 
-  //deq->sort = &sort;
+  deq->sort = &sort;
 }
 
 void print_Deque(Deque_MyClass *deq) {
