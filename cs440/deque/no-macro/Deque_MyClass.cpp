@@ -13,11 +13,10 @@ struct MyClass {
 bool MyClass_less_by_id(const MyClass &o1, const MyClass &o2) {return o1.id < o2.id;}
 
 void MyClass_print(const MyClass *o) {
-  printf("ID %d: %s\n", o->id, o->name);
-  /*
+  //printf("ID %d: %s\n", o->id, o->name);
      printf("%d\n", o->id);
      printf("%s\n", o->name);
-   */
+   /**/
 }
 
 
@@ -200,9 +199,11 @@ void Deque_MyClass_ctor(Deque_MyClass *deq, bool (*comp)(const MyClass&, const M
   deq->at = &at;
   deq->front = &front;
   deq->back = &back;
+  deq->begin = &begin;
+  deq->end = &end;
 
   deq->clear = &clear;
-  //deq->dtor = &dtor;
+  deq->dtor = &dtor;
 
   //deq->sort = &sort;
 }
@@ -271,19 +272,16 @@ int main() {
 
   assert(deq.size(&deq) == 3);
 
-  printf("Before for\n");
-
-  for (Deque_MyClass_Iterator it = deq.begin(&deq);
-      !Deque_MyClass_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
-    printf("In for\n");
+  // Testing iterators
+  for (Deque_MyClass_Iterator it = deq.begin(&deq); 
+    !Deque_MyClass_Iterator_equal(it, deq.end(&deq)); it.inc(&it)) {
     MyClass_print(&it.deref(&it));
   }
-
-  printf("After for\n");
   
-  print_Deque(&deq);
-  print_Deque_inOrder(&deq);
+  //print_Deque(&deq);
+  //print_Deque_inOrder(&deq);
   
+  //assert(false);
   // Multiple iterators?
   for (Deque_MyClass_Iterator it1 = deq.begin(&deq);
       !Deque_MyClass_Iterator_equal(it1, deq.end(&deq)); it1.inc(&it1)) {
@@ -335,9 +333,9 @@ int main() {
   }
 
   deq.clear(&deq);
-
   deq.dtor(&deq);
 
+  printf("\nBefore equality tests\n");
   // Test equality.  Two deques compare equal if they are of the same
   // length and all the elements compare equal.  It is undefined behavior
   // if the two deques were constructed with different comparison
