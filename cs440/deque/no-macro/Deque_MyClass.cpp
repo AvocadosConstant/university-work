@@ -176,8 +176,14 @@ void dtor(Deque_MyClass *deq) {free(deq->data);}
 //void sort(Deque_MyClass *deq, Deque_MyClass_Iterator begin, Deque_MyClass_Iterator end) {
 //}
 
-bool Deque_MyClass_equal(const Deque_MyClass &deq1, const Deque_MyClass &deq2) {
-  return deq1.data == deq2.data;
+bool Deque_MyClass_equal(Deque_MyClass &deq1, Deque_MyClass &deq2) {
+  if(deq1.size(&deq1) != deq2.size(&deq2)) return false;
+  for(unsigned int i = 0; i < deq1.size(&deq1); i++) {
+    if(deq1.comp(deq1.at(&deq1, i), deq2.at(&deq2, i)) || 
+      deq2.comp(deq2.at(&deq2, i), deq1.at(&deq1, i))
+    ) return false;
+  } 
+  return true;
 }
 
 void Deque_MyClass_ctor(Deque_MyClass *deq, bool (*comp)(const MyClass&, const MyClass&)) {
@@ -335,7 +341,6 @@ int main() {
   deq.clear(&deq);
   deq.dtor(&deq);
 
-  printf("\nBefore equality tests\n");
   // Test equality.  Two deques compare equal if they are of the same
   // length and all the elements compare equal.  It is undefined behavior
   // if the two deques were constructed with different comparison
@@ -357,6 +362,7 @@ int main() {
     deq1.pop_back(&deq1);
     assert(!Deque_MyClass_equal(deq1, deq2));
     deq1.push_back(&deq1, MyClass{4, "Mary"});
+
     assert(!Deque_MyClass_equal(deq1, deq2));
 
     deq1.dtor(&deq1);
