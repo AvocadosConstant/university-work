@@ -407,7 +407,7 @@ int main() {
     deq.push_front(&deq, MyClass{-4, "Mary"});
 
     deq.sort(&deq, deq.begin(&deq), deq.end(&deq));
-
+    
     print_Deque_inOrder(&deq);
   }
 }
