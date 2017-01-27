@@ -156,6 +156,7 @@
     for (unsigned int i = 0; i < sort_size; i++) {                             \
       deq->at(deq, (begin.index + i) % deq->cap) = tmpArr[i];                  \
     }                                                                          \
+    free(tmpArr);                                                              \
   }                                                                            \
   bool Deque_##t##_equal(Deque_##t &deq1, Deque_##t &deq2) {                   \
     if (deq1.size(&deq1) != deq2.size(&deq2))                                  \
