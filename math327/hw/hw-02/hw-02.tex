@@ -381,4 +381,39 @@
     \]
 \end{homeworkProblem}
 
+\pagebreak
+
+\section{In Class \#1}
+\enterProblemHeader{1} {
+
+    Prove the following statement. If E and F are independent, $E^c$ and $F^c$ are also independent.\\
+
+    Let E and F be independent. If $E^c$ and $F^c$ are also independent, then it suffices to prove that 
+    \[P(E^c \cap F^c) = P(E^c)\cdot P(F^c)\]
+
+    Proof
+
+    \begin{center}
+    \begin{align}
+        P(E^c \cap F^c) &= P((E\cup F)^c)\\
+                        &= 1 - P(E\cup F)\\
+                        &= 1 - (P(E) + P(F) - P(E\cap F))\\
+                        &= 1 - (P(E) + P(F) - P(E)\cdot P(F))\\
+                        &= (1 - P(E)) - P(F)(1 - P(E)))\\
+                        &= (1-P(E))\cdot (1-P(F))\\
+                        &= P(E^c)\cdot P(F^c)
+    \end{align}
+    \end{center}
+
+\exitProblemHeader{1}}
+
+\section{In Class \#2}
+\enterProblemHeader{Problem 2} {
+    $E\subset F$. Express $P(E^c \cap F)$ in terms of $P(E)$, $P(F)$, $P(E^c)$, or $P(F^c)$.
+
+    \[
+        P(E^c \cap F) = P(F) - P(E)
+    \]
+\exitProblemHeader{2}}
+
 \end{document}
