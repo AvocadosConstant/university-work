@@ -11,6 +11,7 @@
 \usepackage{enumerate}
 \usepackage{mathtools}
 \usepackage{enumitem}
+\usepackage{pgfplots}
 
 \usetikzlibrary{automata,positioning}
 
@@ -143,17 +144,55 @@
 \pagebreak
 
 \begin{homeworkProblem}
-    Five men and 5 women are ranked according to their scores on an examination.  Assume that no two scores are alike and all 10! possible rankings are equally likely. Let X denote the highest ranking achieved by a woman (for instance, $X = 2$ if the top-ranked person was male and the next-ranked person was female). Find $P\{X = i\}, i = 1, 2, 3, . . . , 8, 9, 10$.
+    Five men and five women are ranked according to their scores on an examination.  Assume that no two scores are alike and all 10! possible rankings are equally likely. Let X denote the highest ranking achieved by a woman (for instance, $X = 2$ if the top-ranked person was male and the next-ranked person was female). Find $P\{X = i\}, i = 1, 2, 3, . . . , 8, 9, 10$.
+
+    \textbf{Solution}\\
+    \begin{align*}
+        P\{ 1\} &= \frac{5}{10}                                                         &= .5\\
+        P\{ 2\} &= \frac{5}{10}\frac{5}{9}                                              &= .28\\
+        P\{ 3\} &= \frac{5}{10}\frac{4}{9}\frac{5}{8}                                   &= .14\\
+        P\{ 4\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{5}{7}                        &= .06\\
+        P\{ 5\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{2}{7}\frac{5}{6}             &= .02\\
+        P\{ 6\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{2}{7}\frac{1}{6}\frac{5}{5}  &= .00\\
+        P\{ 7\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{2}{7}\frac{1}{6}\frac{0}{5}  &= 0\\
+        P\{ 8\} &&= 0\\
+        P\{ 9\} &&= 0\\
+        P\{10\} &&= 0\\
+    \end{align*}
+    
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}
-    Let X represent the difference between the number of heads and the number of tails obtained when a coin is tossed n times. What are the possible values of X ?
+    Let X represent the difference between the number of heads and the number of tails obtained when a coin is tossed n times. What are the possible values of X ?\\
+
+    \textbf{Solution:}\\
+    The difference must be between $-n$ and $n$ because you can have 0 heads and n tails, or n heads and 0 tails. For each additional head we toss, we can toss one less tail and vice versa so the difference can only be incremented or decremented by 2. Therefore, we can only have 
+    \[X\in \{-n, -n+2, -n+4, \dots, n-4, n-2, n\}\]
+\begin{center}or\end{center}
+    \[X = -n + 2(k), \forall k \in \mathbb{N} \leq n\]
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
     In Problem 2, if the coin is assumed fair, for n = 3, what are the probabilities
     associated with the values that X can take on?
+
+    \textbf{Solution:}\\
+    \[X = -n + 2(k), \forall k \in \mathbb{N} \leq n\]
+    \[X = -3 + 2(k), \forall k \in \mathbb{N} \leq 3\]
+
+    \[k = 0, X = -3 + 2(0) = -3\]
+    \[k = 1, X = -3 + 2(1) = -1\]
+    \[k = 2, X = -3 + 2(2) = 1\]
+    \[k = 3, X = -3 + 2(3) = 3\]
+
+    There are $2^3=8$ ways to toss 3 coins, therefore the probabilites associated with each value of X are
+    \[\frac{3}{8}, \frac{1}{8}, \frac{1}{8}, \frac{3}{8}\]
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     The distribution function of the random variable X is given
@@ -171,12 +210,53 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item Plot this distribution function.
+
+            \begin{center}
+                \begin{tikzpicture}
+                    [
+                        declare function={
+                            func(\x)= (\x<0) * (0)   +
+                            and(\x>=0, \x<1) * (\x / 2)     +
+                            and(\x>=1, \x<2) * (2/3) +
+                            and(\x>=2, \x<3) * (11/12) +
+                            (\x>=3) * (1);
+                        }
+                    ]
+                    \begin{axis}[ 
+                            xlabel=$x$,
+                            ylabel={$f(x)$}
+                        ] 
+                        \addplot[blue, domain=-1:4] {
+                                func(x)
+                        }; 
+                    \end{axis}
+                \end{tikzpicture}
+            \end{center}
+
         \item What is $P\{X > \frac{1}{2} \}$?
+            \[
+                P\{X>\frac{1}{2}\} = 1 - F(\frac{1}{2}) 
+                = 1 - \frac{\frac{1}{2}}{2} = \frac{3}{4}
+            \]
         \item What is $P\{2 < X \leq 4\}$?
+            \[
+                P\{2 < X \leq 4\} = F(4) - F(2)) 
+                = 1 - \frac{11}{12} = \frac{1}{12}
+            \]
         \item What is $P\{X < 3\}$?
+            \[
+                P\{X<3\} = \lim_{t\rightarrow 0}F(3-t) = \frac{11}{12}
+            \]
         \item What is $P\{X = 1\}$?
+            \[
+                P\{X=1\} = F(1) - \lim_{t\rightarrow 0}F(1-t) 
+                = \frac{2}{3} - \frac{1}{2} = \frac{1}{6}
+            \]
     \end{enumerate}
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     Suppose the random variable X has probability density function
@@ -190,13 +270,52 @@
     \]
     \begin{enumerate}[label=(\alph*)]
         \item Find the value of c.
+            \begin{align*}
+                \int_0^1cx^3dx &= 1\\
+                \frac{c}{4}x^4 \Big|_0^1 &= 1\\
+                \frac{c}{4}(1-0) &= 1\\
+                c = 4
+            \end{align*}
         \item Find $P\{.4 < X < .8\}$.
+            \[
+                4\int_{.4}^{.8}x^3dx = \frac{4}{4}x^4 \Big|_{.4}^{.8} 
+                = .8^4 - .4^4 = .38
+            \]
     \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[9]
-    A set of five transistors are to be tested, one at a time in a random order, to see which of them are defective. Suppose that three of the five transistors are defective, and let $N_1$ denote the number of tests made until the first defective is spotted, and let $N_2$ denote the number of additional tests until the second defective is spotted.  Find the joint probability mass function of $N_1$ and $N_2$.
+    A set of five transistors are to be tested, one at a time in a random order, to see which of them are defective. Suppose that three of the five transistors are defective, and let $N_1$ denote the number of tests made until the first defective is spotted, and let $N_2$ denote the number of additional tests until the second defective is spotted.  Find the joint probability mass function of $N_1$ and $N_2$.\\
+
+    \textbf{Solution:}
+    Let a 0 represent a working transistor, and let a 1 represent a defective transistor. Each ordering of 5 transistors with 3 defective and 2 working can be represented as a 5 bit binary number. All possible orderings are as follows.\\
+    \begin{center}
+        00111\\
+        01011\\
+        01101\\
+        10011\\
+        10101\\
+        10110\\
+    \end{center}
+
+    Let f(x, y) be the probability mass function of $N_1$ and $N_2$ such that $x$ is a value of $N_1$ and $y$ is a value of $N_2$.\\
+
+    \[
+        f(x, y) =
+        \begin{cases}
+            \frac{2}{5}\frac{1}{4}            = \frac{1}{10} & x = 3, y = 1\\
+            \frac{2}{5}\frac{3}{4}\frac{1}{3} = \frac{1}{10} & x = 2, y = 2\\
+            \frac{2}{5}\frac{3}{4}\frac{2}{3} = \frac{2}{10} & x = 2, y = 1\\
+            \frac{3}{5}\frac{2}{4}\frac{1}{3} = \frac{1}{10} & x = 1, y = 3\\
+            \frac{3}{5}\frac{2}{4}\frac{2}{3} = \frac{2}{10} & x = 1, y = 2\\
+            \frac{3}{5}\frac{2}{4}            = \frac{3}{10} & x = 1, y = 1\\
+            0                                       & otherwise\\
+        \end{cases}
+    \]
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     The joint probability density function of X and Y is given by
@@ -205,11 +324,36 @@
     \]
     \begin{enumerate}[label=(\alph*)]
         \item Verify that this is indeed a joint density function.
+            The integral of a PDF must be 1.
+            \begin{align*}
+                \frac{6}{7}\int_0^2\int_0^1(x^2 + \frac{xy}{2})\,dx\,dy \\
+                \frac{6}{7}\int_0^2(\frac{x^3}{3} + \frac{y}{2}\frac{x^2}{2})\Big|_0^1\,dy \\
+                \frac{6}{7}\int_0^2(\frac{1^3}{3} + \frac{y}{2}\frac{1^2}{2})\,dy \\
+                \frac{6}{7}\int_0^2(\frac{1}{3} + \frac{y}{4})\,dy \\
+                \frac{6}{7}(\frac{y}{3} + \frac{y^2}{8})\Big|_0^2 \\
+                \frac{6}{7}(\frac{2}{3} + \frac{2^2}{8}) = \frac{6}{7}(\frac{7}{6}) = 1 \\
+            \end{align*}
         \item Compute the density function of X.
+            \begin{align*}
+                \frac{6}{7}\int_0^2(x^2 + \frac{xy}{2})\,dy \\
+                \frac{6}{7}(yx^2 + \frac{xy^2}{4})\Big|_0^2 \\
+                \frac{12x^2}{7} + \frac{6x}{7} \\
+                \frac{6x(2x+1)}{7} \\
+            \end{align*}
         \item Find $P\{X>Y\}$.
+            \begin{align*}
+                \frac{6}{7}\int_0^1\int_0^x(x^2 + \frac{xy}{2})\,dy\,dx \\
+                \frac{6}{7}\int_0^1(yx^2 + \frac{xy^2}{4})\Big|_0^x\,dx \\
+                \frac{6}{7}\int_0^1(x^3 + \frac{x^3}{4})\,dx \\
+                \frac{6}{7}(\frac{x^4}{4} + \frac{x^4}{16})\Big|_0^1 \\
+                \frac{6}{7}(\frac{1^4}{4} + \frac{1^4}{16}) \\
+                \frac{6}{7}(\frac{5}{16}) \\
+                \frac{15}{56} \\
+            \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
 
+\pagebreak
 
 \begin{homeworkProblem}[12]
     The joint density of X and Y is given by
@@ -222,10 +366,27 @@
     \]
     \begin{enumerate}[label=(\alph*)]
         \item Compute the denisty of X.
+            \begin{align*}
+                \int_0^{\infty}f(x, y)\,dy \\
+                \int_0^{\infty}(xe^{-(x+y)})\,dy \\
+                -xe^{-(x+y)}\Big|_0^{\infty} \\
+                -xe^{-(x+\infty)} + xe^{-(x+0)} \\
+                xe^{-x} \\
+            \end{align*}
         \item Compute the density of Y.
-        \item Are X and Y independent?
+            \begin{align*}
+                \int_0^{\infty}f(x, y)\,dx \\
+                \int_0^{\infty}(xe^{-(x+y)})\,dx \\
+                (x+1)(-e^{-(x+y)})\Big|_0^{\infty}\\
+                (\infty+1)(-e^{-(\infty+y)}) - (0+1)(-e^{-(0+y)}) \\
+                e^{-y}
+            \end{align*}
+        \item Are X and Y independent?\\
+            Yes. (Density of X) $\times$ (density of Y) = joint density of X and Y.
     \end{enumerate}
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     The joint density of X and Y is given by
@@ -237,9 +398,24 @@
         \end{cases}
     \]
     \begin{enumerate}[label=(\alph*)]
-        \item Compute the denisty of X.
+        \item Compute the density of X.
+            \begin{align*}
+                \int_0^1f(x, y)\,dy \\
+                \int_0^1 2 \,dy \\
+                2y\Big|_0^1 \\
+                2(1) - 2(0) \\
+                2
+            \end{align*}
         \item Compute the density of Y.
-        \item Are X and Y independent?
+            \begin{align*}
+                \int_0^yf(x, y)\,dx \\
+                \int_0^y 2 \,dx \\
+                2x\Big|_0^y \\
+                2(y) - 2(0) \\
+                2y
+            \end{align*}
+        \item Are X and Y independent?\\
+            No. (Density of X) $\times$ (density of Y) $\neq$ joint density of X and Y.
     \end{enumerate}
 \end{homeworkProblem}
 
