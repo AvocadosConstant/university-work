@@ -87,7 +87,7 @@
 %   - Author
 %
 
-\newcommand{\hmwkTitle}{Problem Set\ \#3}
+\newcommand{\hmwkTitle}{Problem Set\ \#4}
 \newcommand{\hmwkDueDate}{February 20, 2017}
 \newcommand{\hmwkClass}{MATH 327}
 \newcommand{\hmwkClassInstructor}{Professor Mei-Hsiu Chen}
@@ -301,6 +301,8 @@
     \end{enumerate}
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}[34]
     If X is a continuous random variable having distribution function F, then its median is defined as that value for $m$ for which
     \[F(m) = \frac{1}{2}\]
@@ -327,6 +329,8 @@
             \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[36]
     We say that $m_p$ is the $100p$ percentile of the distribution function F if
@@ -433,12 +437,139 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item Find the marginal probability distributions of $X_1$ and $X_2$.
+            \begin{center} $P_{X_1}(x)$ \begin{cases}
+                    \frac{3}{16} & \text{if } x = 0\\
+                    \frac{2}{16} & \text{if } x = 1\\
+                    \frac{5}{16} & \text{if } x = 2\\
+                    \frac{6}{16} & \text{if } x = 3\\
+            \end{cases} \end{center}
+
+            \[P_{X_2}(x) = \frac{1}{2}\]
         \item Find $E[X_1]$, $E[X_2]$, Var$(X_1)$, Var$(X_2)$, and Cov$(X_1, X_2)$.
+            \[
+                E[X_1] = (0)\frac{3}{16} + 
+                         (1)\frac{2}{16} + 
+                         (2)\frac{5}{16} + 
+                         (3)\frac{6}{16} 
+                       = \frac{30}{16}
+
+            \]
+            \[
+                E[X_2] = (1)\frac{1}{2} + (2)\frac{1}{2} = \frac{3}{2}
+            \]
+            \begin{align*}
+                Var(X_1) &= \sum_{x = 0}^3 P_{X_1}x^2 - \left(E[X_1]\right)^2\\
+                         &= (0)^2\frac{3}{16} +
+                            (1)^2\frac{2}{16} +
+                            (2)^2\frac{5}{16} +
+                            (3)^2\frac{6}{16} 
+                            - (\frac{30}{16})^2\\
+                            &= \frac{76}{16} - (\frac{30}{16})^2\\
+                            &= \frac{79}{64}
+            \end{align*}
+            \begin{align*}
+                Var(X_2) &= \sum_{x = 1}^2 P_{X_2}x^2 - \left(E[X_2]\right)^2\\
+                         &= (1)^2\frac{1}{2} +
+                            (2)^2\frac{1}{2}
+                            - (\frac{3}{2})^2\\
+                            &= \frac{5}{2} - \frac{9}{4}\\
+                            &= \frac{1}{4}
+            \end{align*}
+            \begin{align*}
+                cov(X_1, X_2) &= \sum_{0\leq x\leq 3, 1\leq y\leq 2} (x - E[X_1])(y - E[X_2])P(x, y)\\
+                              &= (0 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{8}) + \\
+                              & (1 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{16}) + \\
+                              & (2 - \frac{30}{16})(1 - \frac{3}{2})(\frac{3}{16}) + \\
+                              & (3 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{8}) + \\
+                              & (0 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{16}) + \\
+                              & (1 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{16}) + \\
+                              & (2 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{8}) + \\
+                              & (3 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{4}) \\
+            \end{align*}
+            
     \end{enumerate}
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}
     Find Corr$(X_1, X_2)$ for the random variables of Problem 44.
+
+    \begin{center} $f_{X_1, X_2}(x, y)$ = \begin{cases}
+        3(x+y), & \text{if } x\geq0, y\geq0, 0\leq x + y\leq 1\\
+        0,      & \text{otherwise}
+    \end{cases} \end{center}
+    \[E[X_i] &= \frac{3}{8}\]
+    \[Var(X_i) &= \frac{19}{320}\]
+
+    \textbf{Solution}
+
+    \[
+        Corr(X_1, X_2) 
+        = \frac{cov(X_1, X_2)}{\sigma_{X_1}\sigma_{X_2}}
+        = \frac{E[X_1X_2] - E[X_1]E[X_2]}{\sqrt{Var(X_1)}\sqrt{Var(X_2)}}
+    \]
+    We must calculate the joint expectation of $X_1$ and $X_2$ to finish our calculation for the correlation!
+
+    \begin{align*}
+        E[X_1X_2] &= \int \int xy f_{X_1, X_2}(x, y) \,dx \,dy\\
+                  &= \int_0^1 \int_0^{y-1} (xy) 3(x+y) \,dx \,dy\\
+                  &= 3 \int_0^1 y \int_0^{y-1} x^2 + xy \,dx \,dy\\
+                  &= 3 \int_0^1 y \left(\frac{x^3}{3} + \frac{x^2y}{2} \Big|_0^{y-1}\right) \,dy\\
+                  &= 3 \int_0^1 y \left(
+                      \left(\frac{(y-1)^3}{3} + \frac{(y-1)^2y}{2} \right) - 
+                      \left(\frac{0^3}{3} + \frac{0^2y}{2} \right)
+                  \right) \,dy\\
+                  &= 3 \int_0^1 y
+                      \left(\frac{(y-1)^3}{3} + \frac{(y-1)^2y}{2} \right)
+                  \,dy\\
+                  &= 3 \int_0^1 y
+                      \left(\frac{y^3-3y^2+3y-1}{3} 
+                      + \frac{(y^2-2y+1)y}{2} \right)
+                  \,dy\\
+                  &= 3 \int_0^1
+                      \frac{y^4-3y^3+3y^2-y}{3} 
+                      + \frac{y^4-2y^3+y^2}{2}
+                  \,dy\\
+                  &= \int_0^1
+                      \frac{2y^4}{2}
+                      -\frac{6y^3}{2}
+                      +\frac{6y^2}{2}
+                      -\frac{2y}{2}
+                      +\frac{3y^4}{2}
+                      -\frac{6y^3}{2}
+                      +\frac{3y^2}{2}
+                  \,dy\\
+                  &= \frac{1}{2}\int_0^1
+                       5y^4
+                      -12y^3
+                      +9y^2
+                      -2y
+                  \,dy\\
+                  &= \frac{1}{2} \left(
+                       y^5 -3y^4 +3y^3 -y^2
+                  \right) \Big|_0^1\\
+                  &= \frac{1}{2} \left(
+                       1^5 -3\cdot1^4 +3\cdot1^3 -1^2
+                  \right)
+                  - \left(
+                       0^5 -3\cdot0^4 +3\cdot0^3 -0^2
+                  \right)\\
+                  &= \frac{1}{2} \left(
+                       1 -3 +3 -1
+                   \right)\\
+        E[X_1X_2] &= 0
+    \end{align*}
+\begin{center}\LARGE{IS IT ACTUALLY 0? WHY DID I DO ALL THIS WORK?!}\end{center}
+
+    Now we will solve for the correlation.
+    \begin{align*}
+        Corr(X_1, X_2) &= \frac{E[X_1X_2] - E[X_1]E[X_2]}{\sqrt{Var(X_1)}\sqrt{Var(X_2)}}\\
+                       &= \frac{0 - \frac{3}{8}\frac{3}{8}}{\sqrt{\frac{19}{320}}\sqrt{\frac{19}{320}}}\\
+                       &= \frac{(\frac{9}{64})}{(\frac{19}{320})}\\
+        Corr(X_1, X_2) &= \frac{45}{19}
+    \end{align*}
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[52]
