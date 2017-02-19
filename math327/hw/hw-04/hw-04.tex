@@ -142,34 +142,30 @@
 
 \begin{homeworkProblem}[21]
     Five men and five women are ranked according to their scores on an examination.  Assume that no two scores are alike and all 10! possible rankings are equally likely. Let X denote the highest ranking achieved by a woman (for instance, $X = 2$ if the top-ranked person was male and the next-ranked person was female).
-
-    Compute the expected value of the random variable X.
+    \begin{align*}
+        P\{ 1\} &= .5\\
+        P\{ 2\} &= .28\\
+        P\{ 3\} &= .14\\
+        P\{ 4\} &= .06\\
+        P\{ 5\} &= .02\\
+        P\{ 6\} &= .00\\
+        P\{ t \geq7\} &= 0\\
+    \end{align*}
+    Compute the expected value of the random variable X.\\
 
     \textbf{Solution}\\
     \begin{align*}
-        P\{ 1\} &= \frac{5}{10}                                                         &= .5\\
-        P\{ 2\} &= \frac{5}{10}\frac{5}{9}                                              &= .28\\
-        P\{ 3\} &= \frac{5}{10}\frac{4}{9}\frac{5}{8}                                   &= .14\\
-        P\{ 4\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{5}{7}                        &= .06\\
-        P\{ 5\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{2}{7}\frac{5}{6}             &= .02\\
-        P\{ 6\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{2}{7}\frac{1}{6}\frac{5}{5}  &= .00\\
-        P\{ 7\} &= \frac{5}{10}\frac{4}{9}\frac{3}{8}\frac{2}{7}\frac{1}{6}\frac{0}{5}  &= 0\\
-        P\{ 8\} &&= 0\\
-        P\{ 9\} &&= 0\\
-        P\{10\} &&= 0\\
+        E[X] &= \sum_{t} t P\{t\}\\
+             &= 1(.5) + 2(.28) + 3(.14) + 4(.06) + 5(.02) + 6(.00) + 0\\
+             &= 1.83\dots
     \end{align*}
     
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
     Let X represent the difference between the number of heads and the number of tails obtained when a coin is tossed n times.
-
+    
     If the coin is assumed fair, for n = 3, what are the probabilities associated with the values that X can take on?
-
-    Compute the exected value of the random variable X.
-
-    \textbf{Solution:}\\
-    \[X = -n + 2(k), \forall k \in \mathbb{N} \leq n\]
     \[X = -3 + 2(k), \forall k \in \mathbb{N} \leq 3\]
 
     \[k = 0, X = -3 + 2(0) = -3\]
@@ -177,10 +173,16 @@
     \[k = 2, X = -3 + 2(2) = 1\]
     \[k = 3, X = -3 + 2(3) = 3\]
 
-    There are $2^3=8$ ways to toss 3 coins, therefore the probabilites associated with each value of X are
-    \[\frac{3}{8}, \frac{1}{8}, \frac{1}{8}, \frac{3}{8}\]
+    Compute the exected value of the random variable X.\\
+
+    \textbf{Solution}\\
+    \[
+        E[X] &= 0 \text{, because the graph of X is symmetric and centered at 0.}
+    \]
 
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     Each night different meteorologists give us the “probability” that it will rain the next day. To judge how well these people predict, we will score each of them as follows: If a meteorologist says that it will rain with probability p, then he or she will receive a score of
@@ -190,17 +192,37 @@
         1 - p^2         & \text{if it does not rain}\\
     \end{cases} \end{center}
 
-    We will then keep track of scores over a certain time span and conclude that the meteorologist with the highest average score is the best predictor of weather.  Suppose now that a given meteorologist is aware of this and so wants to maximize his or her expected score. If this individual truly believes that it will rain tomorrow with probability p∗, what value of p should he or she assert so as to maximize the expected score?
+    We will then keep track of scores over a certain time span and conclude that the meteorologist with the highest average score is the best predictor of weather.  Suppose now that a given meteorologist is aware of this and so wants to maximize his or her expected score. If this individual truly believes that it will rain tomorrow with probability $p^\ast$, what value of $p$ should he or she assert so as to maximize the expected score?\\
+
+    \textbf{Solution}
+
+    The score function favors correct guesses. If the meteorologist is certain that it will rain with probability $p^\ast$, then to maximize his/her score, they should assert that it will rain with probability $p^\ast$.
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[25]
-    A total of 4 buses carrying 148 students from the same school arrive at a football stadium. The buses carry, respectively, 40, 33, 25, and 50 students. One of the students is randomly selected. Let X denote the number of students that were on the bus carrying this randomly selected student. One of the 4 bus drivers is also randomly selected. Let Y denote the number of students on her bus
+    A total of 4 buses carrying 148 students from the same school arrive at a football stadium. The buses carry, respectively, 40, 33, 25, and 50 students. One of the students is randomly selected. Let X denote the number of students that were on the bus carrying this randomly selected student. One of the 4 bus drivers is also randomly selected. Let Y denote the number of students on her bus.
 
     \begin{enumerate}[label=(\alph*)]
         \item Which of $E[X]$ or $E[Y]$ do you think is larger? Why?
+
+            E[X] should tend to be bigger. A bus driver will be on a bus regardless of how many students are on it, but the more students are on a bus, the more likely a chosen student will be on it.
         \item Compute $E[X]$ and $E[Y]$.
+            \begin{align*}
+                E[X] &= \sum_{t} t P\{t\}\\
+                     &= 40(\frac{40}{148}) + 33(\frac{33}{148}) + 25(\frac{25}{148}) + 50(\frac{50}{148})\\
+                     &= 39.3\dots
+            \end{align*}
+
+            \begin{align*}
+                E[Y] &= \sum_{t} t P\{t\}\\
+                     &= \frac{1}{4} 40 + \frac{1}{4} 33 + \frac{1}{4} 25 + \frac{1}{4} 50\\
+                     &= 37
+            \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[27]
     The density function of X is given by
@@ -211,7 +233,36 @@
     \end{cases} \end{center}
 
     If $E[X]$ = $\frac{3}{5}$, find $a$ and $b$.
+
+    \textbf{Solution}
+
+    \begin{align*}
+        E[X] = \frac{3}{5} &= \int_{-\infty}^{\infty} x f(x)dx\\
+             &= \int_{0}^{1} x (a+bx^2)dx\\
+             &= \int_{0}^{1} ax+bx^3dx\\
+             &= \frac{a}{2}x^2+\frac{b}{4}x^4 \Big|_0^1\\
+             &= \frac{a}{2}1^2+\frac{b}{4}1^4 - (\frac{a}{2}0^2+\frac{b}{4}0^4 )\\
+        \frac{3}{5} &= \frac{a}{2}+\frac{b}{4}
+    \end{align*}
+    \begin{align*}
+        F(x) = 1 &= \int_{-\infty}^{\infty} f(x)dx\\
+             &= \int_{0}^{1} (a+bx^2)dx\\
+             &= ax + \frac{b}{3}x^3 \Big|_0^1\\
+             &= a\cdot1 + \frac{b}{3}1^3 - (a\cdot0 + \frac{b}{3}0^3) \\
+             1 &= a + \frac{b}{3}
+    \end{align*}
+
+    \begin{align*}
+        \frac{3}{5} &= \frac{a}{2}+\frac{b}{4}\\
+        \frac{3}{5} &= \frac{1 - \frac{b}{3}}{2}+\frac{b}{4}\\
+        \frac{3}{5} &= \frac{3-b}{6}+\frac{b}{4}\\
+        b           &= \frac{6}{5}\\
+        a           &= \frac{3}{5}
+    \end{align*}
+    
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[30]
     Suppose that X has density function
@@ -226,12 +277,9 @@
     \begin{enumerate}[label=(\alph*)]
         \item by computing the density of $X^n$ and then using the definition of expectation
         \item by using Proposition 4.5.1
-            \begin{enumerate}[label=(\alph*)]
-                \item  If X is a discrete random variable with probability mass function p(x), then for any real-valued function g,
-                    \[E[g(X)] = \sum_x g(x)p(x)\]
-                \item If X is a continuous random variable wit probability density function f(x), then for any real-valued function g,
+            
+           If X is a continuous random variable with probability density function f(x), then for any real-valued function g,
                     \[E[g(x)] = \int_{-\infty}^{\infty}g(x)f(x)dx\]
-            \end{enumerate}
             
     \end{enumerate}
 \end{homeworkProblem}
@@ -239,8 +287,17 @@
 \begin{homeworkProblem}[32]
     If $E[X] = 2$ and $E[X^2] = 8$, calculate
     \begin{enumerate}[label=(\alph*)]
-        \item $E[2+4X)^2$
-        \item $E[X^2 + (X+1)^2$
+        \item 
+            \begin{align*}
+                E[(2+4X)^2] &= E[4+ 16X + 16X^2] \\
+                            &= 164
+            \end{align*}
+        \item $E[X^2 + (X+1)^2]$
+            \begin{align*}
+                E[X^2 + (X+1)^2] &= E[X^2 + X^2 + 2X + 1]\\
+                                 &= E[2X^2 + 2X + 1]\\
+                                 &= 21;
+            \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
 
@@ -251,7 +308,23 @@
     Find the median of the random variables with density function
     \begin{enumerate}[label=(\alph*)]
         \item $f(x) = e^{-x}, x \geq 0$
+            \begin{align*}
+                F(x) &= \int_{-\infty}^x f(x)dx\\
+                     &= \int_0^x e^{-x} dx\\
+                     &= -e^{-x} \Big|_0^x\\
+                     &= (-e^{-x}) - (-e^0)\\
+                F(x) = \frac{1}{2} &= 1 -e^{-x}\\
+                \frac{1}{2} &= e^{-x}\\
+                \ln(2^{-1}) &= \ln(e^{-x})\\
+                \ln(2) &= x\\
+            \end{align*}
         \item $f(x) = 1, 0 \leq x \leq 1$
+            \begin{align*}
+                F(x) &= \int_{-\infty}^x f(x)dx\\
+                     &= \int_0^x 1 dx\\
+                     &= x \Big|_0^x \\
+                F(x) = \frac{1}{2} &= x\\
+            \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
 
@@ -263,6 +336,21 @@
     Find $m_p$ for the distribution having density function
 
     \[f(x) = 2e^{-2x}, x \geq 0\]
+
+    \textbf{Solution}
+
+    \begin{align*}
+        F(x) &= \int_{-\infty}^x f(x)dx\\
+             &= \int_0^x 2e^{-2x} dx\\
+             &= -e^{-2x} \Big|_0^x \\
+             &= (-e^{-2x}) - (-e^{-2*0}) \\
+             &= 1 -e^{-2x}\\
+        F(x) &= 1 -e^{-2x}\\
+        F(m_p) = p &= 1 -e^{-2m_p}\\
+        1-p  &= e^{-2m_p}\\
+        \ln(1-p) &= -2m_p \ln(e)\\
+        \frac{-\ln(1-p)}{2} &= m_p\\
+    \end{align*}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[38]
@@ -279,7 +367,54 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item Find the marginal densities of $X_1$ and $X_2$.
+
+            \begin{align*}
+                f_{X_1}(x) &= \int_{-\infty}^{\infty} f(x, y)dy\\
+                           &= \int_0^{1-x} (3x+3y) dy\\
+                           &= 3xy + \frac{3y^2}{2} \Big|_0^{1-x}\\
+                           &= 3x(1-x) + \frac{3(1-x)^2}{2} - (3x(0) + \frac{3\cdot0^2}{2}) \\
+                           &= 3(x-x^2) + \frac{3(1 -2x + x^2)}{2} \\
+                           &= \frac{3(2x -2x^2 + 1 - 2x + x^2)}{2}\\
+                f_{X_1}(x) &= \frac{3(1 - x^2)}{2}
+            \end{align*}
+            \begin{align*}
+                f_{X_2}(x) &= \int_{-\infty}^{\infty} f(x, y)dx\\
+                           &= \int_0^{1-x} (3x+3y) dx\\
+                           &= 3yx + \frac{3x^2}{2} \Big|_0^{1-y}\\
+                           &= 3y(1-y) + \frac{3(1-y)^2}{2} - (3y(0) + \frac{3\cdot0^2}{2}) \\
+                           &= 3(y-y^2) + \frac{3(1 -2y + y^2)}{2} \\
+                           &= \frac{3(2y -2y^2 + 1 - 2y + y^2)}{2}\\
+                f_{X_2}(y) &= \frac{3(1 - y^2)}{2}
+            \end{align*}
         \item Find $E[X_i]$ and Var$(X_i)$ for $i = 1, 2$.
+            \begin{align*}
+                E[X_i] &= \int_{-\infty}^{\infty} x f_{X_i}(x) dx\\
+                       &= \int_0^{1} x \frac{3(1-x^2)}{2} dx\\
+                       &= \int_0^{1} \frac{3(x-x^3)}{2} dx\\
+                       &= \frac{3}{2} (\frac{x^2}{2} - \frac{x^4}{4}) \Big|_0^1\\
+                       &= \frac{3}{2} \left(
+                              (\frac{1^2}{2} - \frac{1^4}{4}) 
+                              - (\frac{0^2}{2} - \frac{0^4}{4})
+                          \right)\\
+                       &= \frac{3}{2} (\frac{1}{2} - \frac{1}{4}) \\
+                       &= \frac{3}{4} - \frac{3}{8} \\
+                E[X_i] &= \frac{3}{8} \\
+            \end{align*}
+            \begin{align*}
+                Var(X_i) &= \int_{-\infty}^{\infty} x^2 f_{X_i}(x) dx - E[X_i]^2\\
+                         &= \int_0^{1} x^2 \frac{3(1-x^2)}{2} dx - \left(\frac{3}{8}\right)^2\\
+                         &= \int_0^{1} \frac{3(x^2-x^4)}{2} dx - \frac{9}{64}\\
+                         &= \frac{3}{2} (\frac{x^3}{3} - \frac{x^5}{5}) \Big|_0^1 - \frac{9}{64}\\
+                         &= \frac{3}{2} \left(
+                                (\frac{1^3}{3} - \frac{1^5}{5}) 
+                                - (\frac{0^3}{3} - \frac{0^5}{5})
+                            \right) - \frac{9}{64}\\
+                         &= \frac{3}{2} \left(
+                                (\frac{1}{3} - \frac{1}{5}) 
+                            \right) - \frac{9}{64}\\
+                         &= \frac{1}{5} - \frac{9}{64}\\
+                Var(X_i) &= \frac{19}{320}
+            \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
 
@@ -334,253 +469,4 @@
 
     Hint: X has the same distribution as what other random variable?
 \end{homeworkProblem}
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-\begin{homeworkProblem}
-    The distribution function of the random variable X is given
-
-    \[
-        F(x) = 
-        \begin{cases}
-            0 & x < 0\\        
-            \frac{x}{2} & 0 \leq x < 1\\
-            \frac{2}{3} & 1 \leq x < 2\\
-            \frac{11}{12} & 2 \leq x < 3\\
-            1 & 3 \leq x
-        \end{cases}
-    \]
-
-    \begin{enumerate}[label=(\alph*)]
-        \item Plot this distribution function.
-
-            \begin{center}
-                \begin{tikzpicture}
-                    [
-                        declare function={
-                            func(\x)= (\x<0) * (0)   +
-                            and(\x>=0, \x<1) * (\x / 2)     +
-                            and(\x>=1, \x<2) * (2/3) +
-                            and(\x>=2, \x<3) * (11/12) +
-                            (\x>=3) * (1);
-                        }
-                    ]
-                    \begin{axis}[ 
-                            xlabel=$x$,
-                            ylabel={$f(x)$}
-                        ] 
-                        \addplot[blue, domain=-1:4] {
-                                func(x)
-                        }; 
-                    \end{axis}
-                \end{tikzpicture}
-            \end{center}
-
-        \item What is $P\{X > \frac{1}{2} \}$?
-            \[
-                P\{X>\frac{1}{2}\} = 1 - F(\frac{1}{2}) 
-                = 1 - \frac{\frac{1}{2}}{2} = \frac{3}{4}
-            \]
-        \item What is $P\{2 < X \leq 4\}$?
-            \[
-                P\{2 < X \leq 4\} = F(4) - F(2)) 
-                = 1 - \frac{11}{12} = \frac{1}{12}
-            \]
-        \item What is $P\{X < 3\}$?
-            \[
-                P\{X<3\} = \lim_{t\rightarrow 0}F(3-t) = \frac{11}{12}
-            \]
-        \item What is $P\{X = 1\}$?
-            \[
-                P\{X=1\} = F(1) - \lim_{t\rightarrow 0}F(1-t) 
-                = \frac{2}{3} - \frac{1}{2} = \frac{1}{6}
-            \]
-    \end{enumerate}
-
-\end{homeworkProblem}
-
-\pagebreak
-
-\begin{homeworkProblem}
-    Suppose the random variable X has probability density function
-
-    \[
-        f(x) =
-        \begin{cases}
-            cx^3, & \text{if } 0\leq x \leq 1\\
-            0, & \text{otherwise}\\
-        \end{cases}
-    \]
-    \begin{enumerate}[label=(\alph*)]
-        \item Find the value of c.
-            \begin{align*}
-                \int_0^1cx^3dx &= 1\\
-                \frac{c}{4}x^4 \Big|_0^1 &= 1\\
-                \frac{c}{4}(1-0) &= 1\\
-                c = 4
-            \end{align*}
-        \item Find $P\{.4 < X < .8\}$.
-            \[
-                4\int_{.4}^{.8}x^3dx = \frac{4}{4}x^4 \Big|_{.4}^{.8} 
-                = .8^4 - .4^4 = .38
-            \]
-    \end{enumerate}
-\end{homeworkProblem}
-
-\begin{homeworkProblem}[9]
-    A set of five transistors are to be tested, one at a time in a random order, to see which of them are defective. Suppose that three of the five transistors are defective, and let $N_1$ denote the number of tests made until the first defective is spotted, and let $N_2$ denote the number of additional tests until the second defective is spotted.  Find the joint probability mass function of $N_1$ and $N_2$.\\
-
-    \textbf{Solution:}
-    Let a 0 represent a working transistor, and let a 1 represent a defective transistor. Each ordering of 5 transistors with 3 defective and 2 working can be represented as a 5 bit binary number. All possible orderings are as follows.\\
-    \begin{center}
-        00111\\
-        01011\\
-        01101\\
-        10011\\
-        10101\\
-        10110\\
-    \end{center}
-
-    Let f(x, y) be the probability mass function of $N_1$ and $N_2$ such that $x$ is a value of $N_1$ and $y$ is a value of $N_2$.\\
-
-    \[
-        f(x, y) =
-        \begin{cases}
-            \frac{2}{5}\frac{1}{4}            = \frac{1}{10} & x = 3, y = 1\\
-            \frac{2}{5}\frac{3}{4}\frac{1}{3} = \frac{1}{10} & x = 2, y = 2\\
-            \frac{2}{5}\frac{3}{4}\frac{2}{3} = \frac{2}{10} & x = 2, y = 1\\
-            \frac{3}{5}\frac{2}{4}\frac{1}{3} = \frac{1}{10} & x = 1, y = 3\\
-            \frac{3}{5}\frac{2}{4}\frac{2}{3} = \frac{2}{10} & x = 1, y = 2\\
-            \frac{3}{5}\frac{2}{4}            = \frac{3}{10} & x = 1, y = 1\\
-            0                                       & otherwise\\
-        \end{cases}
-    \]
-
-\end{homeworkProblem}
-
-\pagebreak
-
-\begin{homeworkProblem}
-    The joint probability density function of X and Y is given by
-    \[
-        f(x,y) = \frac{6}{7}(x^2 + \frac{xy}{2}), 0 < x < 1, 0 < y < 2
-    \]
-    \begin{enumerate}[label=(\alph*)]
-        \item Verify that this is indeed a joint density function.
-            The integral of a PDF must be 1.
-            \begin{align*}
-                \frac{6}{7}\int_0^2\int_0^1(x^2 + \frac{xy}{2})\,dx\,dy \\
-                \frac{6}{7}\int_0^2(\frac{x^3}{3} + \frac{y}{2}\frac{x^2}{2})\Big|_0^1\,dy \\
-                \frac{6}{7}\int_0^2(\frac{1^3}{3} + \frac{y}{2}\frac{1^2}{2})\,dy \\
-                \frac{6}{7}\int_0^2(\frac{1}{3} + \frac{y}{4})\,dy \\
-                \frac{6}{7}(\frac{y}{3} + \frac{y^2}{8})\Big|_0^2 \\
-                \frac{6}{7}(\frac{2}{3} + \frac{2^2}{8}) = \frac{6}{7}(\frac{7}{6}) = 1 \\
-            \end{align*}
-        \item Compute the density function of X.
-            \begin{align*}
-                \frac{6}{7}\int_0^2(x^2 + \frac{xy}{2})\,dy \\
-                \frac{6}{7}(yx^2 + \frac{xy^2}{4})\Big|_0^2 \\
-                \frac{12x^2}{7} + \frac{6x}{7} \\
-                \frac{6x(2x+1)}{7} \\
-            \end{align*}
-        \item Find $P\{X>Y\}$.
-            \begin{align*}
-                \frac{6}{7}\int_0^1\int_0^x(x^2 + \frac{xy}{2})\,dy\,dx \\
-                \frac{6}{7}\int_0^1(yx^2 + \frac{xy^2}{4})\Big|_0^x\,dx \\
-                \frac{6}{7}\int_0^1(x^3 + \frac{x^3}{4})\,dx \\
-                \frac{6}{7}(\frac{x^4}{4} + \frac{x^4}{16})\Big|_0^1 \\
-                \frac{6}{7}(\frac{1^4}{4} + \frac{1^4}{16}) \\
-                \frac{6}{7}(\frac{5}{16}) \\
-                \frac{15}{56} \\
-            \end{align*}
-    \end{enumerate}
-\end{homeworkProblem}
-
-\pagebreak
-
-\begin{homeworkProblem}[12]
-    The joint density of X and Y is given by
-    \[
-        f(x, y) =
-        \begin{cases}
-            xe^{-(x+y)}, & x > 0, y > 0\\
-            0, & \text{otherwise}\\
-        \end{cases}
-    \]
-    \begin{enumerate}[label=(\alph*)]
-        \item Compute the denisty of X.
-            \begin{align*}
-                \int_0^{\infty}f(x, y)\,dy \\
-                \int_0^{\infty}(xe^{-(x+y)})\,dy \\
-                -xe^{-(x+y)}\Big|_0^{\infty} \\
-                -xe^{-(x+\infty)} + xe^{-(x+0)} \\
-                xe^{-x} \\
-            \end{align*}
-        \item Compute the density of Y.
-            \begin{align*}
-                \int_0^{\infty}f(x, y)\,dx \\
-                \int_0^{\infty}(xe^{-(x+y)})\,dx \\
-                (x+1)(-e^{-(x+y)})\Big|_0^{\infty}\\
-                (\infty+1)(-e^{-(\infty+y)}) - (0+1)(-e^{-(0+y)}) \\
-                e^{-y}
-            \end{align*}
-        \item Are X and Y independent?\\
-            Yes. (Density of X) $\times$ (density of Y) = joint density of X and Y.
-    \end{enumerate}
-\end{homeworkProblem}
-
-\pagebreak
-
-\begin{homeworkProblem}
-    The joint density of X and Y is given by
-    \[
-        f(x, y) =
-        \begin{cases}
-            2, & 0 < x < y, 0 < y < 1\\
-            0, & \text{otherwise}\\
-        \end{cases}
-    \]
-    \begin{enumerate}[label=(\alph*)]
-        \item Compute the density of X.
-            \begin{align*}
-                \int_0^1f(x, y)\,dy \\
-                \int_0^1 2 \,dy \\
-                2y\Big|_0^1 \\
-                2(1) - 2(0) \\
-                2
-            \end{align*}
-        \item Compute the density of Y.
-            \begin{align*}
-                \int_0^yf(x, y)\,dx \\
-                \int_0^y 2 \,dx \\
-                2x\Big|_0^y \\
-                2(y) - 2(0) \\
-                2y
-            \end{align*}
-        \item Are X and Y independent?\\
-            No. (Density of X) $\times$ (density of Y) $\neq$ joint density of X and Y.
-    \end{enumerate}
-\end{homeworkProblem}
-
 \end{document}
