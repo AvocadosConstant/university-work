@@ -406,8 +406,36 @@
     \end{align*}
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}[38]
     Compute the expectation and variance of the number of successes in $n$ independent trials, each of which results in a success with probability $p$. Is independence necessary?
+
+    \textbf{Solution}
+
+    Let random variable $X$ represent the number of successes in n independent trials.\\
+
+    Each trial can be a success (1) or a failure (0). We can denote the success of an arbitrary $i^{th}$ trial with $X_i = 0 \text{ or } 1$.\\
+
+    If each trial has a success chance of $p$ and there are $n$ trials, then the expectation of $X$ must be
+    \[E[X] = \sum_{i = 1}^n p = np\]
+
+    To calculate variance, we must first calculate the variance of one arbitrary trial $X_i$.
+    \begin{align*}
+        Var(X_i) &= E[X_i ^2] - (E[X_i])^2\\
+                 &= E[(\text{0 or 1}) ^2] - (p)^2\\
+                 &= E[X_i] - p^2\\
+                 &= p - p^2\\
+    \end{align*}
+
+    The sum of the variances for each trial $X_i$ is the variance of $X$.
+
+    \begin{align*}
+        Var(X) &= \sum_{i=0}^n p-p^2\\
+        Var(X) &= n(p-p^2)\\
+    \end{align*}
+
+    Independence is necessary for $\sum Var(X_i) = Var(X)$ to hold.
 \end{homeworkProblem}
 
 \pagebreak
@@ -561,61 +589,54 @@
 
     \begin{align*}
         E[X_1X_2] &= \int \int xy f_{X_1, X_2}(x, y) \,dx \,dy\\
-                  &= \int_0^1 \int_0^{y-1} (xy) 3(x+y) \,dx \,dy\\
-                  &= 3 \int_0^1 y \int_0^{y-1} x^2 + xy \,dx \,dy\\
-                  &= 3 \int_0^1 y \left(\frac{x^3}{3} + \frac{x^2y}{2} \Big|_0^{y-1}\right) \,dy\\
+                  &= \int_0^1 \int_0^{1-y} (xy) 3(x+y) \,dx \,dy\\
+                  &= 3 \int_0^1 y \int_0^{1-y} x^2 + xy \,dx \,dy\\
+                  &= 3 \int_0^1 y \left(\frac{x^3}{3} + \frac{x^2y}{2} \Big|_0^{1-y}\right) \,dy\\
                   &= 3 \int_0^1 y \left(
-                      \left(\frac{(y-1)^3}{3} + \frac{(y-1)^2y}{2} \right) - 
+                      \left(\frac{(1-y)^3}{3} + \frac{(1-y)^2y}{2} \right) - 
                       \left(\frac{0^3}{3} + \frac{0^2y}{2} \right)
                   \right) \,dy\\
                   &= 3 \int_0^1 y
-                      \left(\frac{(y-1)^3}{3} + \frac{(y-1)^2y}{2} \right)
+                      \left(\frac{(1-y)^3}{3} + \frac{(1-y)^2y}{2} \right)
                   \,dy\\
                   &= 3 \int_0^1 y
-                      \left(\frac{y^3-3y^2+3y-1}{3} 
+                      \left(\frac{-y^3+3y^2-3y+1}{3} 
                       + \frac{(y^2-2y+1)y}{2} \right)
                   \,dy\\
                   &= 3 \int_0^1
-                      \frac{y^4-3y^3+3y^2-y}{3} 
+                      \frac{-y^4+3y^3-3y^2+y}{3} 
                       + \frac{y^4-2y^3+y^2}{2}
                   \,dy\\
                   &= \int_0^1
-                      \frac{2y^4}{2}
-                      -\frac{6y^3}{2}
-                      +\frac{6y^2}{2}
-                      -\frac{2y}{2}
+                      -\frac{2y^4}{2}
+                      +\frac{6y^3}{2}
+                      -\frac{6y^2}{2}
+                      +\frac{2y}{2}
                       +\frac{3y^4}{2}
                       -\frac{6y^3}{2}
                       +\frac{3y^2}{2}
                   \,dy\\
                   &= \frac{1}{2}\int_0^1
-                       5y^4
-                      -12y^3
-                      +9y^2
-                      -2y
+                       y^4
+                      -3y^2
+                      +2y
                   \,dy\\
-                  &= \frac{1}{2} \left(
-                       y^5 -3y^4 +3y^3 -y^2
+                  &= \frac{1}{2}\left(
+                  \frac{y^5}{5} -y^3 +y^2
                   \right) \Big|_0^1\\
-                  &= \frac{1}{2} \left(
-                       1^5 -3\cdot1^4 +3\cdot1^3 -1^2
-                  \right)
-                  - \left(
-                       0^5 -3\cdot0^4 +3\cdot0^3 -0^2
-                  \right)\\
-                  &= \frac{1}{2} \left(
-                       1 -3 +3 -1
-                   \right)\\
-        E[X_1X_2] &= 0
+                  &= \frac{1}{2}
+                  \left( \frac{1^5}{5} -1^3 +1^2 \right) - \left( \frac{0^5}{5} -0^3 +0^2 \right) \\
+                  &= \frac{1}{2} \left( \frac{1}{5} -1 +1 \right) \\
+                  &= \frac{1}{10} -\frac{1}{2} +\frac{1}{2} \\
+         E[X_1X_2] &= \frac{1}{10}
     \end{align*}
-\begin{center}\LARGE{IS IT ACTUALLY 0? WHY DID I DO ALL THIS WORK?!}\end{center}
 
     Now we will solve for the correlation.
     \begin{align*}
         Corr(X_1, X_2) &= \frac{E[X_1X_2] - E[X_1]E[X_2]}{\sqrt{Var(X_1)}\sqrt{Var(X_2)}}\\
-                       &= \frac{0 - \frac{3}{8}\frac{3}{8}}{\sqrt{\frac{19}{320}}\sqrt{\frac{19}{320}}}\\
-                       &= \frac{(\frac{9}{64})}{(\frac{19}{320})}\\
-        Corr(X_1, X_2) &= \frac{45}{19}
+                       &= \frac{\frac{1}{10} - \frac{3}{8}\frac{3}{8}}{\sqrt{\frac{19}{320}}\sqrt{\frac{19}{320}}}\\
+                       &= \frac{\frac{1}{10} - \frac{9}{64}}{\frac{19}{320}}\\
+        Corr(X_1, X_2) &= -\frac{13}{19} = -0.68\dots
     \end{align*}
 
 \end{homeworkProblem}
@@ -683,11 +704,23 @@
     
     \[F_X(x) = F_Y(\frac{x-a}{b})\]
 
+    Hint: X has the same distribution as what other random variable?\\
+
     \begin{enumerate}[label=(\alph*)]
         \item Determine $E[X]$ in terms of $E[Y]$.
+
+            \begin{align*}
+                F_X(x) &= F_Y(\frac{x-a}{b})\\
+                P(X\leq x) &= P(Y \leq \frac{x-a}{b})\\
+                P(X\leq x) &= P(bY \leq x-a)\\
+                P(X\leq x) &= P(bY + a \leq x)\\
+                X &= bY + a\\
+                E[X] &= E[bY + a]
+            \end{align*}
+
         \item Determine Var(X) in terms of Var(Y).
+            \[Var(X) &= Var(bY + a)\]
     \end{enumerate}
 
-    Hint: X has the same distribution as what other random variable?
 \end{homeworkProblem}
 \end{document}
