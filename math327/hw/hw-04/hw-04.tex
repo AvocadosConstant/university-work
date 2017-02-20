@@ -276,13 +276,57 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item by computing the density of $X^n$ and then using the definition of expectation
+
+            \textbf{Solution}
+
+            Let $Y$ be $X^n$. $\forall \, 0\leq y \leq 1$, let the cumulative distribution function of $Y$ be
+            \begin{align*}
+                F_Y(y) &= P\{Y \leq y\}\\
+                       &= P\{X^n \leq y\}\\
+                       &= P\{X \leq \sqrt[n]y\}\\
+                       &= \int_0^{\sqrt[n]y} 1 \,dx\\
+                       &= x \Big|_0^{\sqrt[n]y} \\
+                F_Y(y) &= \sqrt[n]y \\
+            \end{align*}
+            Now we differentiate $F_Y(y)$ to get the density function of $Y$.
+            \begin{align*}
+                f_Y(y) &= \frac{d}{dy} F_Y(y) \\
+                       &= \frac{d}{dy} \sqrt[n]y \\
+                       &= \frac{y^{\frac{1}{n} - 1}}{n} \\
+                f_Y(y) &= \frac{1}{n} y^{\frac{1-n}{n}}, 0 \leq y \leq 1\\
+            \end{align*}
+
+            Now we use the definition of expectation to find $E[Y]$.
+            \begin{align*}
+                E[Y] &= \int_{-\infty}^{\infty} y f_Y(y) \,dy\\
+                     &= \int_0^1 y\left(\frac{1}{n} y^{\frac{1-n}{n}}\right) \,dy\\
+                     &= \frac{1}{n} \int_0^1 y^{\frac{1-n}{n} + 1} \,dy\\
+                     &= \frac{1}{n} \int_0^1 y^{\frac{1}{n}} \,dy\\
+                     &= \frac{1}{n} \left(\frac{n}{1+n}\right) y^{\frac{1+n}{n}} \Big|_0^1 \\
+                     &= \frac{1}{n+1} 1^{\frac{1+n}{n}} \\
+                E[Y] = E[X^n] &= \frac{1}{n+1}\\
+            \end{align*}
         \item by using Proposition 4.5.1
             
-           If X is a continuous random variable with probability density function f(x), then for any real-valued function g,
-                    \[E[g(x)] = \int_{-\infty}^{\infty}g(x)f(x)dx\]
+            If X is a continuous random variable with probability density function f(x), then for any real-valued function g,
+            \[E[g(X)] = \int_{-\infty}^{\infty}g(x)f(x)dx\]
+
+            \textbf{Solution}
+            \begin{align*}
+                E[g(X)] &= \int_{-\infty}^{\infty}g(x)f(x)dx \\
+                E[X^n] &= \int_{-\infty}^{\infty}x^n f(x)dx \\
+                       &= \int_0^1 x^n 1 \,dx \\
+                       &= \frac{x^{n+1}}{n+1} \Big|_0^1 \\
+                       &= \left(\frac{1^{n+1}}{n+1}\right) - 
+                          \left(\frac{0^{n+1}}{n+1}\right) \\
+                E[X^n] &= \frac{1}{n+1} \\
+            \end{align*}
+
             
     \end{enumerate}
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[32]
     If $E[X] = 2$ and $E[X^2] = 8$, calculate
@@ -290,13 +334,18 @@
         \item 
             \begin{align*}
                 E[(2+4X)^2] &= E[4+ 16X + 16X^2] \\
+                            &= E[4] + E[16X] + E[16X^2] \\
+                            &= E[4] + 16E[X] + 16E[X^2] \\
+                            &= 4 + 16\cdot 2 + 16\cdot 8 \\
                             &= 164
             \end{align*}
         \item $E[X^2 + (X+1)^2]$
             \begin{align*}
                 E[X^2 + (X+1)^2] &= E[X^2 + X^2 + 2X + 1]\\
                                  &= E[2X^2 + 2X + 1]\\
-                                 &= 21;
+                                 &= 2E[X^2] + 2E[X] + E[1]\\
+                                 &= 2\cdot 8 + 2\cdot 2 + 1\\
+                                 &= 21
             \end{align*}
     \end{enumerate}
 \end{homeworkProblem}
@@ -361,6 +410,8 @@
     Compute the expectation and variance of the number of successes in $n$ independent trials, each of which results in a success with probability $p$. Is independence necessary?
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}[44]
     Let $X_i$ denote the percentage of votes cast in a given election that are for candidate $i$, and suppose that $X_1$ and $X_2$ have a joint density function
 
@@ -422,6 +473,8 @@
     \end{enumerate}
 \end{homeworkProblem}
 
+\pagebreak
+
 \begin{homeworkProblem}
     A product is classified according to the number of defects it contains and the factory that produces it. Let $X_1$ and $X_2$ be the random variables that represent the number of defects per unit (taking on possible values of 0, 1, 2, or 3) and the factory number (taking on possible values 1 or 2), respectively. The entries in the table represent the joint possibility mass function of a randomly chosen product.
 
@@ -446,17 +499,14 @@
 
             \[P_{X_2}(x) = \frac{1}{2}\]
         \item Find $E[X_1]$, $E[X_2]$, Var$(X_1)$, Var$(X_2)$, and Cov$(X_1, X_2)$.
-            \[
-                E[X_1] = (0)\frac{3}{16} + 
+            \begin{align*}
+                E[X_1] &= (0)\frac{3}{16} + 
                          (1)\frac{2}{16} + 
                          (2)\frac{5}{16} + 
                          (3)\frac{6}{16} 
-                       = \frac{30}{16}
-
-            \]
-            \[
-                E[X_2] = (1)\frac{1}{2} + (2)\frac{1}{2} = \frac{3}{2}
-            \]
+                         = \frac{30}{16}\\
+                E[X_2] &= (1)\frac{1}{2} + (2)\frac{1}{2} = \frac{3}{2}
+            \end{align*}
             \begin{align*}
                 Var(X_1) &= \sum_{x = 0}^3 P_{X_1}x^2 - \left(E[X_1]\right)^2\\
                          &= (0)^2\frac{3}{16} +
@@ -464,27 +514,25 @@
                             (2)^2\frac{5}{16} +
                             (3)^2\frac{6}{16} 
                             - (\frac{30}{16})^2\\
-                            &= \frac{76}{16} - (\frac{30}{16})^2\\
-                            &= \frac{79}{64}
+                            &= \frac{76}{16} - (\frac{30}{16})^2 = \frac{79}{64}
             \end{align*}
             \begin{align*}
                 Var(X_2) &= \sum_{x = 1}^2 P_{X_2}x^2 - \left(E[X_2]\right)^2\\
                          &= (1)^2\frac{1}{2} +
                             (2)^2\frac{1}{2}
                             - (\frac{3}{2})^2\\
-                            &= \frac{5}{2} - \frac{9}{4}\\
-                            &= \frac{1}{4}
+                            &= \frac{5}{2} - \frac{9}{4} = \frac{1}{4}
             \end{align*}
             \begin{align*}
                 cov(X_1, X_2) &= \sum_{0\leq x\leq 3, 1\leq y\leq 2} (x - E[X_1])(y - E[X_2])P(x, y)\\
-                              &= (0 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{8}) + \\
-                              & (1 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{16}) + \\
-                              & (2 - \frac{30}{16})(1 - \frac{3}{2})(\frac{3}{16}) + \\
-                              & (3 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{8}) + \\
-                              & (0 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{16}) + \\
-                              & (1 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{16}) + \\
-                              & (2 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{8}) + \\
-                              & (3 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{4}) \\
+                              &= (0 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{8}) + 
+                               (1 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{16}) + 
+                               (2 - \frac{30}{16})(1 - \frac{3}{2})(\frac{3}{16}) + 
+                               (3 - \frac{30}{16})(1 - \frac{3}{2})(\frac{1}{8}) + \\
+                              & (0 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{16}) + 
+                               (1 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{16}) + 
+                               (2 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{8}) + 
+                               (3 - \frac{30}{16})(2 - \frac{3}{2})(\frac{1}{4}) \\
             \end{align*}
             
     \end{enumerate}
@@ -577,15 +625,57 @@
 
     \[\text{Cov}(X_1 - X_2, X_1 + X_2) = 0\]
 
-    Note that independence is not being assumed.
+    Note that independence is not being assumed.\\
+
+    \textbf{Solution}
+    \begin{align*}
+        Cov(A, B) &= E[AB] - E[A]E[B]\\
+        Cov(X_1 - X_2, X_1 + X_2) &= E[X_1 - X_2X_1 + X_2] - E[X_1 - X_2]E[X_1 + X_2]\\
+                                  &= E[X_1 - X_2X_1 + X_2] - (E[X_1] - E[X_2])(E[X_1] + E[X_2])\\
+                                  &= E[0\,(X_1 + X_2)] - (0)(0)\\
+                                  &= 0
+    \end{align*}
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}
     Suppose that X has density function
-
     \[f(x) = e^{-x}, x>0\]
-
     Compute the moment generating function of X and use your result to determine its mean and variance. Check your answer for the mean by a direct calculation.
+
+    \textbf{Solution}
+    \begin{align*}
+        M_x(t) &= \int_{-\infty}^{\infty} e^{tx} f(x) \,dx\\
+        &= \int_0^{\infty} e^{tx}e^{-x} \,dx\\
+        &= \int_0^{\infty} e^{tx-x} \,dx\\
+        &= \int_0^{\infty} e^{x(t-1)} \,dx\\
+        &= \frac{e^{x(t-1)}}{t-1} \Big|_0^{\infty} \\
+        &= \left(\frac{e^{\infty(t-1)}}{t-1}\right) - \left(\frac{e^{0(t-1)}}{t-1}\right)\\
+        M_x(t) &= \frac{-1}{t-1}\\
+    \end{align*}
+    Calculating the mean
+    \begin{align*}
+        \mu &= \frac{d}{dt} M_x(t = 0) \\
+            &= \frac{d}{dt} -(t-1)^{-1}\\
+            &= (t-1)^{-2} \cdot 1\\
+            &= (t-1)^{-2} \\
+            &= (0-1)^{-2} \\
+        \mu &= 1
+    \end{align*}
+    Calculating the variance
+    \begin{align*}
+        E[X^2] &= \frac{d^2}{dt} M_x(t = 0) \\
+               &= \frac{d^2}{dt} -(t-1)^{-1}\\
+               &= -2(t-1)^{-3} \\
+               &= -2(0-1)^{-3} \\
+        E[X^2] &= 2
+    \end{align*}
+    \begin{align*}
+        \sigma^2 &= E[X^2] - (E[X])^2\\
+                 &= 2 - (1)^2\\
+        \sigma^2 &= 1
+    \end{align*}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[57]
