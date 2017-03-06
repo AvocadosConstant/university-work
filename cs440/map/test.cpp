@@ -6,7 +6,7 @@
 int main() {
   cs540::Map<int, int> int_int_map;
 
-  cs540::SkipList<int, int> skip;
+  cs540::Map<int, int>::SkipList skip;
   for(int i = 0; i < 10; i++) {
     skip.insert({i, i});
   }

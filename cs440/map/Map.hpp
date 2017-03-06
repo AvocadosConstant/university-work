@@ -1,20 +1,25 @@
 #ifndef _MAP_HPP_
 #define _MAP_HPP_
 
+#include <stdio.h>
+#include <stdlib.h>
 #include <iostream>
 #include <utility>
+#include <vector>
 #include <initializer_list>
-#include "SkipList.hpp"
+//#include "SkipList.hpp"
 
 namespace cs540 {
   template <typename Key_T, typename Mapped_T> class Map {
     typedef std::pair<Key_T, Mapped_T> ValueType;
+    //friend class cs540::SkipList<Key_T, Mapped_T>;
 
     public:
+      class SkipList;
       struct Iterator;
       struct ConstIterator;
       struct ReverseIterator;
-      SkipList<Key_T, Mapped_T> skiplist;
+      SkipList skiplist;
 
       /****************************************/
       /* Constructors and Assignment Operator */
@@ -138,6 +143,138 @@ namespace cs540 {
       // Removes all elements from the map.
       void clear();
 
+      /******************/
+      /* Nested Classes */
+      /******************/
+      struct Iterator {
+        Iterator(const Iterator &) {}
+
+        // Might not be necessary to implement
+        Iterator& operator=(const Iterator &);
+
+        Iterator& operator++();
+
+        Iterator& operator++(int);
+
+        Iterator& operator--();
+
+        Iterator& operator--(int);
+
+        ValueType &operator*() const;
+
+        ValueType *operator->() const;
+      };
+
+      class SkipList {
+        struct S_Pillar {
+          std::size_t height;
+          std::vector<S_Pillar *> right_links;
+          std::vector<S_Pillar *> left_links;
+        };
+
+        struct Pillar : public S_Pillar {
+          ValueType data;
+
+          Pillar() : S_Pillar() {}
+          Pillar(Key_T key, Mapped_T value) : data{key, value} {}
+          Pillar(ValueType data) : data{data} {}
+        };
+
+        public:
+
+          S_Pillar *head;
+          std::size_t height;
+          std::size_t num_elements;
+          static const std::size_t DEFAULT_HEIGHT = 16;
+
+          SkipList() {
+            num_elements = 0;
+            head = new S_Pillar();
+            height = DEFAULT_HEIGHT;
+            for(std::size_t i = 0; i < height; i++) {
+              head->right_links.push_back(head);
+              head->left_links.push_back(head);
+            }
+            srand(time(NULL));
+          }
+
+          Iterator find(const Key_T &);
+
+          ConstIterator find(const Key_T &) const;
+
+          Mapped_T &at(const Key_T &);
+
+          const Mapped_T &at(const Key_T &) const;
+
+          // TODO Replace return type with std::pair<Iterator, bool>
+          void insert(const ValueType &element) {
+
+            Pillar *tmp = new Pillar(element);
+            tmp->height = coin_flip(height);
+            //std::cout << "Inserting " << tmp->data.first << ", " << tmp->data.second << std::endl;
+
+            for(std::size_t i = 0; i < tmp->height; i++) {
+              tmp->right_links.push_back(head);
+              head->left_links[i]->right_links[i] = tmp;
+              tmp->left_links.push_back(head->left_links[i]);
+              head->left_links[i] = tmp;
+            }
+            /*
+            std::cout << "tmp has " << tmp->right_links.size() << " right links" << std::endl;
+            std::cout << "tmp has " << tmp->left_links.size() << " left links" << std::endl;
+            if(tmp->left_links[0] != head) {
+              std::cout << "tmp prev is " << ((Pillar *)tmp->left_links[0])->data.second << std::endl;
+            }
+            if(tmp->right_links[0] != head) {
+              std::cout << "tmp next is " << ((Pillar *)tmp->right_links[0])->data.second << std::endl;
+            }
+            */
+            num_elements++;
+          }
+
+          void erase(Iterator pos);
+
+          void erase(const Key_T &);
+
+          void print() {
+            std::vector<std::vector<Mapped_T>> matrix;
+
+            //for(std::size_t i = 0; i < num_elements; i++) {
+            for(S_Pillar *p = head->right_links[0]; p != head; p = p->right_links[0]) {
+              std::vector<Mapped_T> value_vec;
+              for(std::size_t i = 0; i < p->height; i++) {
+                value_vec.push_back(((Pillar *)p)->data.second);
+              }
+              matrix.push_back(value_vec);
+              //std::cout << "Pushed to matrix value_vec of size " << value_vec.size() << std::endl;
+            }
+            //std::cout << "Matrix is " << matrix.size() << "x" << num_elements << std::endl;
+
+            for(std::size_t i = height - 1; height > i; i--) {
+              //std::cout << "Iterating through layer " << i << std::endl;
+              std::cout << "H";
+              for(std::size_t j = 0; j < matrix.size(); j++) {
+                //std::cout << "Iterating through column " << j << std::endl;
+                //std::cout << "matrix[j].size() = " << matrix[j].size() << std::endl;
+
+                std::cout << "\t";
+
+                if(i < matrix[j].size()) {
+                  //std::cout << "mat[" << i << "][" << j << "] = " << matrix[j][i];
+                  std::cout << matrix[j][i];
+                }
+              }
+              std::cout << "\tH" << std::endl;
+            }
+          }
+
+          int coin_flip(int max) {
+            int ret = 1;
+            while(rand() % 2 == 0) ret++;
+            if(ret > max) ret = max;
+            return ret;
+          }
+      };
   };
 
   /**************/
