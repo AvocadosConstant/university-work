@@ -167,6 +167,8 @@ namespace cs540 {
 
       class SkipList {
         struct S_Pillar {
+          ~S_Pillar() {
+          }
           std::size_t height;
           std::vector<S_Pillar *> right_links;
           std::vector<S_Pillar *> left_links;
@@ -198,11 +200,37 @@ namespace cs540 {
             srand(time(NULL));
           }
 
+          ~SkipList() {
+            for(S_Pillar *p = head->right_links[0]->right_links[0]; p != head && p->right_links[0] != NULL; p = p->right_links[0]) {
+              delete p->left_links[0];
+            }
+            if(head->left_links[0] != head) delete head->left_links[0];
+            delete head;
+          }
+
           Iterator find(const Key_T &);
 
           ConstIterator find(const Key_T &) const;
 
-          Mapped_T &at(const Key_T &);
+          Mapped_T &at(const Key_T & target) {
+            S_Pillar *cur = head;
+            int level = height - 1;
+
+            while(level >= 0) {
+              if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > target) {
+                // Go 1 level down
+                level--;
+              } else {
+                // Go right
+                cur = cur->right_links[level];
+              }
+              // Did we find the target key?
+              if(level >= 0 && ((Pillar *)cur)->data.first == target) {
+                return ((Pillar *)cur)->data.first;
+              }
+            }
+            throw std::out_of_range("Could not find value with given key.");
+          }
 
           const Mapped_T &at(const Key_T &) const;
 
