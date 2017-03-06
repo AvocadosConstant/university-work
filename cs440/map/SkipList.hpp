@@ -38,13 +38,14 @@ namespace cs540 { template <typename Key_T, typename Mapped_T> class SkipList {
           head->left_links.push_back(head);
         }
         std::cout << "Constructed" << std::endl;
+        srand(time(NULL));
       }
 
       // TODO Replace return type with std::pair<Iterator, bool> 
       void insert(const ValueType &element) {
 
         Pillar *tmp = new Pillar(element);
-        tmp->height = 1 + (rand() % 16);
+        tmp->height = coin_flip(height);
         std::cout << "Inserting " << tmp->data.first << ", " << tmp->data.second << std::endl;
 
         for(std::size_t i = 0; i < tmp->height; i++) {
@@ -103,6 +104,13 @@ namespace cs540 { template <typename Key_T, typename Mapped_T> class SkipList {
           }
           std::cout << std::endl;
         }
+      }
+
+      int coin_flip(int max) {
+        int ret = 1;
+        while(rand() % 2 == 0) ret++;
+        if(ret > max) ret = max;
+        return ret;
       }
   };
 }
