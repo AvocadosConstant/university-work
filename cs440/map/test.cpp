@@ -14,30 +14,30 @@ int main() {
   assert(skip.empty());
 
   // Test insertion
-  for(int i = 0; i < 20; i++) {
+  for(int i = 0; i < 20; i+=2) {
     skip.insert({i, 'a' + i});
   }
 
   // Test size and empty after insertions
-  assert(skip.size() == 20);
+  assert(skip.size() == 10);
   assert(!skip.empty());
 
   skip.print();
 
   // Test find and at
   assert(skip.find(6)->second == ('a' + 6));
-  assert(skip.at(19) == ('a' + 19));
+  assert(skip.at(8) == ('a' + 8));
 
   // Test skiplist iterators
   skip.end();
   cs540::Map<int, char>::SkipList::Iterator it = skip.begin();
   for(int i = 0; i < 10; i++) {
+    cout << "Incrementing iterator to " << (*it).first << endl;
     it++;
-    cout << (*it).first << endl;
   }
   for(int i = 0; i < 5; i++) {
     it--;
-    cout << (*it).first << endl;
+    cout << "Decrementing iterator to " << (*it).first << endl;
   }
   (*it).second = '!';
 
@@ -46,6 +46,22 @@ int main() {
   cout << copy_it->first << endl;
 
   skip.print();
+
+  // Testing insertion in between other elements
+  for(int i = 1; i < 20; i+=2) {
+    assert(skip.insert({i, 'a' + i}).second);
+  }
+
+  assert(skip.size() == 20);
+  skip.print();
+  
+  // Printing in order using ranged based for loop
+  for(auto i : skip) {
+    cout << i.second << " ";
+  } cout << endl;
+
+  // Test insertion of duplicate key
+  assert(!skip.insert({5, '?'}).second);
 
   return 0;
 }

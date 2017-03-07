@@ -209,6 +209,16 @@ namespace cs540 {
             // Implicit one works fine
             //Iterator& operator=(const Iterator &);
 
+            bool operator==(const Iterator &that) {
+              // Check for matching keys
+              return ((Pillar *)this->data) == that.data;
+            }
+
+            bool operator!=(const Iterator &that) {
+              // Check for matching keys
+              return !(((Pillar *)this->data) == that.data);
+            }
+
             Iterator& operator++() {
               data = data->right_links[0];
               return *this;
@@ -310,19 +320,44 @@ namespace cs540 {
 
           const Mapped_T &at(const Key_T &) const;
 
-          // TODO Replace return type with std::pair<Iterator, bool>
-          void insert(const ValueType &element) {
+          std::pair<Iterator, bool> insert(const ValueType &element) {
+            // The pillar to be inserted
+            S_Pillar *new_pillar = new Pillar(element);
+            new_pillar->height = coin_flip(height);
+            new_pillar->right_links.resize(new_pillar->height);
+            new_pillar->left_links.resize(new_pillar->height);
 
-            Pillar *tmp = new Pillar(element);
-            tmp->height = coin_flip(height);
+            S_Pillar *cur = head;
+            int level = height - 1;
 
-            for(std::size_t i = 0; i < tmp->height; i++) {
-              tmp->right_links.push_back(head);
-              head->left_links[i]->right_links[i] = tmp;
-              tmp->left_links.push_back(head->left_links[i]);
-              head->left_links[i] = tmp;
+            while(level >= 0) {
+              if(cur != head && ((Pillar *)cur)->data.first == element.first) {
+                // Found a pillar that already has the key we want to insert
+                delete new_pillar;
+                return std::make_pair(Iterator(cur), false);
+              }
+              if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > element.first) {
+                // Go 1 level down
+                if((unsigned int)level < new_pillar->height) {
+                  // Set up new_pillar's links at the current level
+                  new_pillar->left_links[level] = cur;
+                  new_pillar->right_links[level] = cur->right_links[level];
+                }
+                level--;
+              } else {
+                // Go right
+                cur = cur->right_links[level];
+              }
+            }
+            // didn't find it so we can insert
+
+            // Attach pointers to new_pillar
+            for(std::size_t i = 0; i < new_pillar->height; i++) {
+              new_pillar->left_links[i]->right_links[i] = new_pillar;
+              new_pillar->right_links[i]->left_links[i] = new_pillar;
             }
             num_elements++;
+            return std::make_pair(Iterator(new_pillar), true);
           }
 
           void erase(Iterator pos);
