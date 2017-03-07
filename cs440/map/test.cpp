@@ -63,5 +63,27 @@ int main() {
   // Test insertion of duplicate key
   assert(!skip.insert({5, '?'}).second);
 
+  // Test deletions of all even elements
+  for(int i = 0; i < 20; i+=2) {
+    skip.erase(i);
+  }
+
+  assert(skip.size() == 10);
+  skip.print();
+
+  // Delete after find
+  skip.erase(skip.find(5));
+
+  assert(skip.size() == 9);
+  skip.print();
+
+  // Test deletions of rest of elements with iterators
+  while(!skip.empty()) {
+    skip.erase(skip.begin());
+  }
+
+  assert(skip.size() == 0);
+  skip.print();
+
   return 0;
 }

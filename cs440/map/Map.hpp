@@ -360,14 +360,23 @@ namespace cs540 {
             return std::make_pair(Iterator(new_pillar), true);
           }
 
-          void erase(Iterator pos);
+          void erase(Iterator pos) {
+            Pillar *cur = ((Pillar*)pos.data);
+            for(std::size_t i = 0; i < cur->height; i++) {
+              cur->left_links[i]->right_links[i] = cur->right_links[i];
+              cur->right_links[i]->left_links[i] = cur->left_links[i];
+            }
+            delete cur;
+            num_elements--;
+          }
 
-          void erase(const Key_T &);
+          void erase(const Key_T &target) {
+            erase(find(target));
+          }
 
           void print() {
             std::vector<std::vector<Mapped_T>> matrix;
 
-            //for(std::size_t i = 0; i < num_elements; i++) {
             for(S_Pillar *p = head->right_links[0]; p != head; p = p->right_links[0]) {
               std::vector<Mapped_T> value_vec;
               for(std::size_t i = 0; i < p->height; i++) {
@@ -375,13 +384,10 @@ namespace cs540 {
               }
               matrix.push_back(value_vec);
             }
-
             for(std::size_t i = height - 1; height > i; i--) {
               std::cout << "H";
               for(std::size_t j = 0; j < matrix.size(); j++) {
-
                 std::cout << "\t";
-
                 if(i < matrix[j].size()) {
                   std::cout << matrix[j][i];
                 }
