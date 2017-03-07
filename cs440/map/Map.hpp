@@ -280,13 +280,11 @@ namespace cs540 {
             return Iterator(head);
           }
 
-          /*
           Iterator find(const Key_T &target) {
             S_Pillar *cur = head;
             int level = height - 1;
 
             while(level >= 0) {
-              std::cout << "Searching" << std::endl;
               if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > target) {
                 // Go 1 level down
                 level--;
@@ -296,34 +294,18 @@ namespace cs540 {
               }
               // Did we find the target key?
               if(level >= 0 && cur != head && ((Pillar *)cur)->data.first == target) {
-                Iterator it = new Iterator(*cur);
-                return this->end();
+                return Iterator(cur);
               }
             }
             return this->end();
           }
-          */
 
           ConstIterator find(const Key_T &) const;
 
           Mapped_T &at(const Key_T & target) {
-            S_Pillar *cur = head;
-            int level = height - 1;
-
-            while(level >= 0) {
-              if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > target) {
-                // Go 1 level down
-                level--;
-              } else {
-                // Go right
-                cur = cur->right_links[level];
-              }
-              // Did we find the target key?
-              if(level >= 0 && cur != head && ((Pillar *)cur)->data.first == target) {
-                return ((Pillar *)cur)->data.second;
-              }
-            }
-            throw std::out_of_range("Could not find value with given key.");
+            Iterator it = find(target);
+            if(it.data == head) throw std::out_of_range("Could not find value!");
+            return it->second;
           }
 
           const Mapped_T &at(const Key_T &) const;
@@ -333,7 +315,6 @@ namespace cs540 {
 
             Pillar *tmp = new Pillar(element);
             tmp->height = coin_flip(height);
-            //std::cout << "Inserting " << tmp->data.first << ", " << tmp->data.second << std::endl;
 
             for(std::size_t i = 0; i < tmp->height; i++) {
               tmp->right_links.push_back(head);
@@ -341,16 +322,6 @@ namespace cs540 {
               tmp->left_links.push_back(head->left_links[i]);
               head->left_links[i] = tmp;
             }
-            /*
-            std::cout << "tmp has " << tmp->right_links.size() << " right links" << std::endl;
-            std::cout << "tmp has " << tmp->left_links.size() << " left links" << std::endl;
-            if(tmp->left_links[0] != head) {
-              std::cout << "tmp prev is " << ((Pillar *)tmp->left_links[0])->data.second << std::endl;
-            }
-            if(tmp->right_links[0] != head) {
-              std::cout << "tmp next is " << ((Pillar *)tmp->right_links[0])->data.second << std::endl;
-            }
-            */
             num_elements++;
           }
 
