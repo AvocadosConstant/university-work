@@ -14,3 +14,7 @@ all: $(OBJ)
 clean:
 	rm -f *.o
 	rm $(BIN)
+
+test: clean
+	make
+	./test

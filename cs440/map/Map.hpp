@@ -7,12 +7,10 @@
 #include <utility>
 #include <vector>
 #include <initializer_list>
-//#include "SkipList.hpp"
 
 namespace cs540 {
   template <typename Key_T, typename Mapped_T> class Map {
     typedef std::pair<Key_T, Mapped_T> ValueType;
-    //friend class cs540::SkipList<Key_T, Mapped_T>;
 
     public:
       class SkipList;
@@ -20,6 +18,7 @@ namespace cs540 {
       struct ConstIterator;
       struct ReverseIterator;
       SkipList skiplist;
+      using sk_iter = typename SkipList::S_Pillar;
 
       /****************************************/
       /* Constructors and Assignment Operator */
@@ -147,6 +146,8 @@ namespace cs540 {
       /* Nested Classes */
       /******************/
       struct Iterator {
+        Iterator() = delete;
+
         Iterator(const Iterator &) {}
 
         // Might not be necessary to implement
@@ -166,23 +167,57 @@ namespace cs540 {
       };
 
       class SkipList {
-        struct S_Pillar {
-          ~S_Pillar() {
-          }
-          std::size_t height;
-          std::vector<S_Pillar *> right_links;
-          std::vector<S_Pillar *> left_links;
-        };
-
-        struct Pillar : public S_Pillar {
-          ValueType data;
-
-          Pillar() : S_Pillar() {}
-          Pillar(Key_T key, Mapped_T value) : data{key, value} {}
-          Pillar(ValueType data) : data{data} {}
-        };
-
         public:
+          struct S_Pillar {
+            ~S_Pillar() {
+            }
+            std::size_t height;
+            std::vector<S_Pillar *> right_links;
+            std::vector<S_Pillar *> left_links;
+          };
+
+          struct Pillar : public S_Pillar {
+            ValueType data;
+
+            Pillar() : S_Pillar() {}
+            Pillar(Key_T key, Mapped_T value) : data{key, value} {}
+            Pillar(ValueType data) : data{data} {}
+          };
+
+          struct Iterator {
+            S_Pillar *data;
+
+            Iterator() = delete;
+
+            Iterator(S_Pillar *seed) {
+              this->data = seed;
+            }
+
+            Iterator(const Iterator &that) {
+              this->data = that.data;
+            }
+
+            ~Iterator() {}
+
+            ValueType value() {
+              return ((Pillar *)data)->data;
+            }
+
+            Iterator& operator=(const Iterator &);
+
+            Iterator& operator++() {
+            };
+
+            Iterator& operator++(int);
+
+            Iterator& operator--();
+
+            Iterator& operator--(int);
+
+            ValueType &operator*() const;
+
+            ValueType *operator->() const;
+          };
 
           S_Pillar *head;
           std::size_t height;
@@ -208,7 +243,50 @@ namespace cs540 {
             delete head;
           }
 
-          Iterator find(const Key_T &);
+          size_t size() const {
+            return num_elements;
+          }
+
+          bool empty() const {
+            return num_elements == 0;
+          }
+
+          /*
+          Iterator begin() {
+            Iterator *it = new Iterator(head->right_links[0]);
+            return *it;
+          }
+          */
+
+          Iterator end() {
+            //Iterator *it = new Iterator(head);
+            //return *it;
+            return Iterator(head);
+          }
+
+          /*
+          Iterator find(const Key_T &target) {
+            S_Pillar *cur = head;
+            int level = height - 1;
+
+            while(level >= 0) {
+              std::cout << "Searching" << std::endl;
+              if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > target) {
+                // Go 1 level down
+                level--;
+              } else {
+                // Go right
+                cur = cur->right_links[level];
+              }
+              // Did we find the target key?
+              if(level >= 0 && cur != head && ((Pillar *)cur)->data.first == target) {
+                Iterator it = new Iterator(*cur);
+                return this->end();
+              }
+            }
+            return this->end();
+          }
+          */
 
           ConstIterator find(const Key_T &) const;
 
@@ -225,8 +303,8 @@ namespace cs540 {
                 cur = cur->right_links[level];
               }
               // Did we find the target key?
-              if(level >= 0 && ((Pillar *)cur)->data.first == target) {
-                return ((Pillar *)cur)->data.first;
+              if(level >= 0 && cur != head && ((Pillar *)cur)->data.first == target) {
+                return ((Pillar *)cur)->data.second;
               }
             }
             throw std::out_of_range("Could not find value with given key.");
@@ -274,21 +352,15 @@ namespace cs540 {
                 value_vec.push_back(((Pillar *)p)->data.second);
               }
               matrix.push_back(value_vec);
-              //std::cout << "Pushed to matrix value_vec of size " << value_vec.size() << std::endl;
             }
-            //std::cout << "Matrix is " << matrix.size() << "x" << num_elements << std::endl;
 
             for(std::size_t i = height - 1; height > i; i--) {
-              //std::cout << "Iterating through layer " << i << std::endl;
               std::cout << "H";
               for(std::size_t j = 0; j < matrix.size(); j++) {
-                //std::cout << "Iterating through column " << j << std::endl;
-                //std::cout << "matrix[j].size() = " << matrix[j].size() << std::endl;
 
                 std::cout << "\t";
 
                 if(i < matrix[j].size()) {
-                  //std::cout << "mat[" << i << "][" << j << "] = " << matrix[j][i];
                   std::cout << matrix[j][i];
                 }
               }
