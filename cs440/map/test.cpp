@@ -7,6 +7,9 @@ using std::cout;
 using std::endl;
 
 int main() {
+
+  ///////////////////////////////////////////////////////// Testing SkipList
+
   cs540::Map<int, char>::SkipList skip;
 
   // Test size and empty
@@ -84,6 +87,32 @@ int main() {
 
   assert(skip.size() == 0);
   skip.print();
+
+  ///////////////////////////////////////////////////////// Testing Map
+
+  cs540::Map<int, char> map;
+
+  // Test size and empty
+  assert(map.size() == 0);
+  assert(map.empty());
+
+  map.insert({1, 'a'});
+
+  // Test size and empty
+  assert(map.size() == 1);
+  assert(!map.empty());
+
+  cs540::Map<int, char> map2{{1, 'a'}, {2, 'b'}, {3, 'c'}, {4, 'd'}};
+
+  // Test size and empty
+  assert(map2.size() == 4);
+  assert(!map2.empty());
+
+  // Test adding duplicate key
+  map2.insert({1, 'a'});
+
+  // Size should stay the same
+  assert(map2.size() == 4);
 
   return 0;
 }

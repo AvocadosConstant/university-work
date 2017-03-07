@@ -18,16 +18,14 @@ namespace cs540 {
       struct ConstIterator;
       struct ReverseIterator;
       SkipList skiplist;
-      using sk_iter = typename SkipList::S_Pillar;
+      using Skip_Iter = typename SkipList::Iterator;
 
       /****************************************/
       /* Constructors and Assignment Operator */
       /****************************************/
 
-      Map() {
-        // TODO
-        std::cout << "Default constructed" << std::endl;
-      }
+      Map() : skiplist{} {}
+
       Map(const Map &) {
         // TODO
         std::cout << "Copy constructed" << std::endl;
@@ -40,6 +38,7 @@ namespace cs540 {
       Map(std::initializer_list<std::pair<const Key_T, Mapped_T>> elements) {
         // TODO
         std::cout << "Initializer list constructed" << std::endl;
+        for(auto elem : elements) this->insert(elem);
       }
 
       // Destructor
@@ -53,10 +52,10 @@ namespace cs540 {
       /********/
 
       // Returns number of elements
-      std::size_t size() const;
+      std::size_t size() const { return skiplist.size(); }
 
       // Returns true if the Map has no entries in it
-      bool empty() const;
+      bool empty() const { return skiplist.empty(); }
 
       /*************/
       /* Iterators */
@@ -117,7 +116,10 @@ namespace cs540 {
       // true. If the key already exists, no insertion is performed nor is the 
       // mapped object changed, and it returns an iterator pointing to the 
       // element with the same key, and false.
-      std::pair<Iterator, bool> insert(const ValueType &);
+      std::pair<Iterator, bool> insert(const ValueType &element) {
+        auto skip_pair = skiplist.insert(element);
+        return std::make_pair(Iterator(&(skip_pair.first)), skip_pair.second);
+      }
 
       // Inserts the given object or range of objects into the map. In the 
       // second version, the range of objects inserted includes the object 
@@ -146,9 +148,16 @@ namespace cs540 {
       /* Nested Classes */
       /******************/
       struct Iterator {
+
+        Skip_Iter *data;
+
         Iterator() = delete;
 
         Iterator(const Iterator &) {}
+
+        Iterator(Skip_Iter *seed) {
+          this->data = seed;
+        }
 
         // Might not be necessary to implement
         Iterator& operator=(const Iterator &);
@@ -263,6 +272,7 @@ namespace cs540 {
               head->right_links.push_back(head);
               head->left_links.push_back(head);
             }
+            // TODO Remove seed before submitting
             srand(time(NULL));
           }
 
@@ -274,21 +284,13 @@ namespace cs540 {
             delete head;
           }
 
-          size_t size() const {
-            return num_elements;
-          }
+          size_t size() const { return num_elements; }
 
-          bool empty() const {
-            return num_elements == 0;
-          }
+          bool empty() const { return num_elements == 0; }
 
-          Iterator begin() {
-            return Iterator(head->right_links[0]);
-          }
+          Iterator begin() { return Iterator(head->right_links[0]); }
 
-          Iterator end() {
-            return Iterator(head);
-          }
+          Iterator end() { return Iterator(head); }
 
           Iterator find(const Key_T &target) {
             S_Pillar *cur = head;
