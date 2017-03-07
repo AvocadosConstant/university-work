@@ -193,30 +193,51 @@ namespace cs540 {
               this->data = seed;
             }
 
+            /* Implicit one works fine here too!
             Iterator(const Iterator &that) {
               this->data = that.data;
             }
+            */
 
-            ~Iterator() {}
+            // Implicit one works fine
+            //~Iterator() {}
 
             ValueType value() {
               return ((Pillar *)data)->data;
             }
 
-            Iterator& operator=(const Iterator &);
+            // Implicit one works fine
+            //Iterator& operator=(const Iterator &);
 
             Iterator& operator++() {
+              data = data->right_links[0];
+              return *this;
             };
 
-            Iterator& operator++(int);
+            Iterator& operator++(int) {
+              Iterator *tmp = this;
+              operator++();
+              return *tmp;
+            }
 
-            Iterator& operator--();
+            Iterator& operator--() {
+              data = data->left_links[0];
+              return *this;
+            }
 
-            Iterator& operator--(int);
+            Iterator& operator--(int) {
+              Iterator *tmp = this;
+              operator--();
+              return *tmp;
+            }
 
-            ValueType &operator*() const;
+            ValueType &operator*() const {
+              return ((Pillar *)data)->data;
+            }
 
-            ValueType *operator->() const;
+            ValueType *operator->() const {
+              return &(((Pillar *)data)->data);
+            }
           };
 
           S_Pillar *head;
@@ -251,16 +272,11 @@ namespace cs540 {
             return num_elements == 0;
           }
 
-          /*
           Iterator begin() {
-            Iterator *it = new Iterator(head->right_links[0]);
-            return *it;
+            return Iterator(head->right_links[0]);
           }
-          */
 
           Iterator end() {
-            //Iterator *it = new Iterator(head);
-            //return *it;
             return Iterator(head);
           }
 

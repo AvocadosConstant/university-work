@@ -23,8 +23,23 @@ int main() {
 
   assert(skip.at(19) == ('a' + 19));
 
-  //cs540::Map<int, char>::SkipList::Iterator it = skip.end();
+  // Test skiplist iterators
   skip.end();
-  cs540::Map<int, char>::SkipList::Iterator it = skip.end();
+  cs540::Map<int, char>::SkipList::Iterator it = skip.begin();
+  for(int i = 0; i < 10; i++) {
+    it++;
+    std::cout << (*it).first << std::endl;
+  }
+  for(int i = 0; i < 5; i++) {
+    it--;
+    std::cout << (*it).first << std::endl;
+  }
+  (*it).second = '!';
+
+  cs540::Map<int, char>::SkipList::Iterator begin = skip.begin();
+  auto copy_it = cs540::Map<int, char>::SkipList::Iterator(begin);
+  std::cout << copy_it->first << std::endl;
+
+  skip.print();
   return 0;
 }

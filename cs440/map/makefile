@@ -18,3 +18,6 @@ clean:
 test: clean
 	make
 	./test
+
+v: all
+	valgrind -v --leak-check=full ./test
