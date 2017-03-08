@@ -91,6 +91,18 @@ int main() {
   assert(map.size() == 9);
   map.print();
 
+  cout << "Printing in order with const iterator" << endl;
+  cs540::Map<int, char>::ConstIterator m_it = map.begin();
+  for(; m_it != map.end(); m_it++) {
+    cout << (*m_it).second << " ";
+  } cout << endl;
+
+  cout << "Printing in reverse with ReverseIterator" << endl;
+  cs540::Map<int, char>::ReverseIterator r_it = map.rbegin();
+  for(; r_it != map.rend(); r_it++) {
+    cout << (*r_it).second << " ";
+  } cout << endl;
+
   // Test deletions of rest of elements with iterators
   while(!map.empty()) {
     map.erase(map.begin());

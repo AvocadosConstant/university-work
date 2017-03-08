@@ -79,14 +79,18 @@ namespace cs540 {
       Iterator begin() { return Iterator(head->right_links[0]); }
       Iterator end() { return Iterator(head); }
 
-      // TODO
-      ConstIterator begin() const;
-      // TODO
-      ConstIterator end() const;
-      // TODO
-      ReverseIterator rbegin();
-      // TODO
-      ReverseIterator rend();
+      ConstIterator begin() const {
+        return ConstIterator(head->right_links[0]);
+      }
+      ConstIterator end() const {
+        return ConstIterator(head);
+      }
+      ReverseIterator rbegin() {
+        return ReverseIterator(head->left_links[0]);
+      }
+      ReverseIterator rend() {
+        return ReverseIterator(head);
+      }
 
 
       /////////////////////
@@ -283,6 +287,87 @@ namespace cs540 {
         }
       };
 
+      struct ConstIterator {
+        S_Pillar *data;
+
+        ConstIterator() = delete;
+
+        ConstIterator(const Iterator &seed) {
+          data = seed.data;
+        }
+
+        ConstIterator(S_Pillar *seed) { this->data = seed; }
+        ValueType value() { return ((Pillar *)data)->data; }
+
+        ConstIterator& operator++() {
+          data = data->right_links[0];
+          return *this;
+        };
+
+        ConstIterator& operator++(int) {
+          ConstIterator *tmp = this;
+          operator++();
+          return *tmp;
+        }
+
+        ConstIterator& operator--() {
+          data = data->left_links[0];
+          return *this;
+        }
+
+        ConstIterator& operator--(int) {
+          ConstIterator *tmp = this;
+          operator--();
+          return *tmp;
+        }
+
+        const ValueType &operator*() const {
+          return ((Pillar *)data)->data;
+        }
+
+        const ValueType *operator->() const {
+          return &(((Pillar *)data)->data);
+        }
+      };
+
+      struct ReverseIterator {
+        S_Pillar *data;
+
+        ReverseIterator() = delete;
+        ReverseIterator(S_Pillar *seed) { this->data = seed; }
+        ValueType value() { return ((Pillar *)data)->data; }
+
+        ReverseIterator& operator++() {
+          data = data->left_links[0];
+          return *this;
+        };
+
+        ReverseIterator& operator++(int) {
+          ReverseIterator *tmp = this;
+          operator++();
+          return *tmp;
+        }
+
+        ReverseIterator& operator--() {
+          data = data->right_links[0];
+          return *this;
+        }
+
+        ReverseIterator& operator--(int) {
+          ReverseIterator *tmp = this;
+          operator--();
+          return *tmp;
+        }
+
+        ValueType &operator*() const {
+          return ((Pillar *)data)->data;
+        }
+
+        ValueType *operator->() const {
+          return &(((Pillar *)data)->data);
+        }
+      };
+
 
       /////////////////////////////////////////
       // Comparison Operators for Iterators //
@@ -290,10 +375,35 @@ namespace cs540 {
       friend bool operator==(const Iterator &lhs, const Iterator &rhs) {
         return lhs.data == rhs.data;
       }
+      friend bool operator==(const ConstIterator &lhs, const ConstIterator &rhs) {
+        return lhs.data == rhs.data;
+      }
+      friend bool operator==(const Iterator &lhs, const ConstIterator &rhs) {
+        return lhs.data == rhs.data;
+      }
+      friend bool operator==(const ConstIterator &lhs, const Iterator &rhs) {
+        return lhs.data == rhs.data;
+      }
+
       friend bool operator!=(const Iterator &lhs, const Iterator &rhs) {
         return lhs.data != rhs.data;
       }
-      // TODO Implement comparisons for const and reverse iterators
+      friend bool operator!=(const ConstIterator &lhs, const ConstIterator &rhs) {
+        return lhs.data != rhs.data;
+      }
+      friend bool operator!=(const Iterator &lhs, const ConstIterator &rhs) {
+        return lhs.data != rhs.data;
+      }
+      friend bool operator!=(const ConstIterator &lhs, const Iterator &rhs) {
+        return lhs.data != rhs.data;
+      }
+
+      friend bool operator==(const ReverseIterator &lhs, const ReverseIterator &rhs) {
+        return lhs.data == rhs.data;
+      }
+      friend bool operator!=(const ReverseIterator &lhs, const ReverseIterator &rhs) {
+        return lhs.data != rhs.data;
+      }
   }; // Map
 
 
