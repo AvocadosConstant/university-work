@@ -38,7 +38,7 @@ namespace cs540 {
       Map(std::initializer_list<std::pair<const Key_T, Mapped_T>> elements) {
         // TODO
         std::cout << "Initializer list constructed" << std::endl;
-        for(auto elem : elements) this->insert(elem);
+        for(auto elem : elements) insert(elem);
       }
 
       // Destructor
@@ -62,10 +62,16 @@ namespace cs540 {
       /*************/
 
       // Returns an Iterator pointing to the first element in order.
-      Iterator begin();
+      Iterator begin() {
+        Skip_Iter sk_it = skiplist.begin();
+        return Iterator(sk_it);
+      }
 
       // Returns an Iterator pointing one past the last element, in order.
-      Iterator end();
+      Iterator end() { 
+        Skip_Iter sk_it = skiplist.end();
+        return Iterator(sk_it);
+      }
 
       // Returns a ConstIterator pointing to the first element, in order.
       ConstIterator begin() const;
@@ -87,7 +93,11 @@ namespace cs540 {
 
       // Returns an iterator to the given key. If the key is not found, return 
       // the end() iterator.
-      Iterator find(const Key_T &);
+      Iterator find(const Key_T &target) { 
+        Skip_Iter sk_iter = skiplist.find(target);
+        Iterator it = Iterator(sk_iter);
+        return it;
+      }
 
       // Returns an const iterator to the given key. If the key is not found, 
       // return the end() iterator.
@@ -95,7 +105,7 @@ namespace cs540 {
 
       // Returns a reference to the mapped object at the specified key. If the
       // key is not in the Map, throws std::out_of_range.
-      Mapped_T &at(const Key_T &) const;
+      Mapped_T &at(const Key_T &target) { return skiplist.at(target);}
 
       // Returns a const reference to the mapped object at the specified key.
       // If the key is not in the map, throws std::out_of_range.
@@ -105,7 +115,7 @@ namespace cs540 {
       // object. If it is not, value initialize a mapped object for that key 
       // and returns a reference to it. This operator may not be used for a 
       // Mapped_T class type that does not support default construction.
-      Mapped_T &operator[](const Key_T &);
+      Mapped_T &operator[](const Key_T &target) { return at(target); }
 
       /*************/
       /* Modifiers */
@@ -117,8 +127,9 @@ namespace cs540 {
       // mapped object changed, and it returns an iterator pointing to the 
       // element with the same key, and false.
       std::pair<Iterator, bool> insert(const ValueType &element) {
+        std::cout << "In map, inserting element with key " << element.first << std::endl;
         auto skip_pair = skiplist.insert(element);
-        return std::make_pair(Iterator(&(skip_pair.first)), skip_pair.second);
+        return std::make_pair(Iterator(skip_pair.first), skip_pair.second);
       }
 
       // Inserts the given object or range of objects into the map. In the 
@@ -135,45 +146,85 @@ namespace cs540 {
       template <typename IT_T> void insert(IT_T range_beg, IT_T range_end);
 
       // Removes the given object from the map.
-      void erase(Iterator pos);
+      void erase(Iterator pos) {
+        skiplist.erase(pos.data);
+      }
 
       // Removes the given object from the map. Throws std::out_of_range if the
       // key is not in the Map.
-      void erase(const Key_T &);
+      void erase(const Key_T &target) {
+        erase(find(target));
+      }
 
       // Removes all elements from the map.
-      void clear();
+      void clear() {
+        while(!skiplist.empty()) {
+          skiplist.erase(skiplist.begin());
+        }
+      }
+
+      void print() {
+        skiplist.print();
+      }
 
       /******************/
       /* Nested Classes */
       /******************/
       struct Iterator {
 
-        Skip_Iter *data;
+        Skip_Iter data;
 
         Iterator() = delete;
 
-        Iterator(const Iterator &) {}
+        //Iterator(const Iterator &) {}
 
-        Iterator(Skip_Iter *seed) {
-          this->data = seed;
+        Iterator(typename cs540::Map<Key_T, Mapped_T>::SkipList::Iterator seed) {
+          //std::cout << "Constructing Map::Iterator from a Skip_Iter with key " << seed->value().first << std::endl;
+          data = seed;
         }
 
         // Might not be necessary to implement
-        Iterator& operator=(const Iterator &);
+        //Iterator& operator=(const Iterator &);
 
-        Iterator& operator++();
+        Iterator& operator++() {
+          std::cout << "Iterator::operator++()" << std::endl;
+          data++;
+          //++this->data;
+          return *this;
+        }
 
-        Iterator& operator++(int);
+        Iterator& operator++(int) {
+          std::cout << "Iterator::operator++(int)" << std::endl;
+          Iterator tmp = this;
+          operator++();
+          return tmp;
+        }
 
-        Iterator& operator--();
+        Iterator& operator--() {
+          data--;
+          return this;
+        }
 
-        Iterator& operator--(int);
+        Iterator& operator--(int) {
+          Iterator tmp = this;
+          operator--();
+          return tmp;
+        }
 
-        ValueType &operator*() const;
+        ValueType &operator*() const {
+          //return ((typename cs540::Map<Key_T, Mapped_T>::SkipList::Pillar *)data->data)->data;
+          return *data;
+        }
 
-        ValueType *operator->() const;
+        ValueType *operator->() const {
+          //return &(((typename cs540::Map<Key_T, Mapped_T>::SkipList::Pillar *)data->data)->data);
+          return &(*data);
+        }
       };
+
+      friend bool operator==(const Iterator &lhs, const Iterator &rhs) {
+        return lhs.data == rhs.data;
+      }
 
       class SkipList {
         public:
@@ -196,7 +247,7 @@ namespace cs540 {
           struct Iterator {
             S_Pillar *data;
 
-            Iterator() = delete;
+            //Iterator() = delete;
 
             Iterator(S_Pillar *seed) {
               this->data = seed;
@@ -229,11 +280,15 @@ namespace cs540 {
             }
 
             Iterator& operator++() {
+              std::cout << "SkipList::Iterator::operator++()" << std::endl;
+              std::cout << "Key before increment" << (((Pillar *)data)->data).first << std::endl;
               data = data->right_links[0];
+              std::cout << "Key after increment" << value().first << std::endl;
               return *this;
             };
 
             Iterator& operator++(int) {
+              std::cout << "SkipList::Iterator::operator++(int)" << std::endl;
               Iterator *tmp = this;
               operator++();
               return *tmp;
