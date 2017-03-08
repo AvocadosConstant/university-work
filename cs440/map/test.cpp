@@ -8,7 +8,14 @@ using std::endl;
 
 int main() {
 
-  cs540::Map<int, char> map;
+  cs540::Map<int, char> map{{1, 'a'}, {2, 'b'}, {3, 'c'}, {4, 'd'}};
+  map.print();
+
+  // Test size and empty
+  assert(map.size() == 4);
+  assert(!map.empty());
+
+  map.clear();
 
   // Test size and empty
   assert(map.size() == 0);

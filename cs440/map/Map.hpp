@@ -24,6 +24,9 @@ namespace cs540 {
       std::size_t num_elements;
       static const std::size_t DEFAULT_HEIGHT = 16;
 
+      ///////////////////////////////////////////
+      // Constructors and Assignment Operator //
+      /////////////////////////////////////////
       Map() {
         num_elements = 0;
         head = new S_Pillar();
@@ -36,6 +39,24 @@ namespace cs540 {
         srand(time(NULL));
       }
 
+      // TODO Copy assignment operator
+      Map &operator=(const Map &);
+
+      // Initializer list constructor
+      Map(std::initializer_list<std::pair<const Key_T, Mapped_T>> elements) {
+        num_elements = 0;
+        head = new S_Pillar();
+        height = DEFAULT_HEIGHT;
+        for(std::size_t i = 0; i < height; i++) {
+          head->right_links.push_back(head);
+          head->left_links.push_back(head);
+        }
+        for(auto elem : elements) insert(elem);
+
+        // TODO Remove seed before submitting
+        srand(time(NULL));
+      }
+
       ~Map() {
         for(S_Pillar *p = head->right_links[0]->right_links[0]; p != head && p->right_links[0] != NULL; p = p->right_links[0]) {
           delete p->left_links[0];
@@ -44,18 +65,36 @@ namespace cs540 {
         delete head;
       }
 
-      size_t size() const { return num_elements; }
 
+      ///////////
+      // Size //
+      /////////
+      size_t size() const { return num_elements; }
       bool empty() const { return num_elements == 0; }
 
-      Iterator begin() { return Iterator(head->right_links[0]); }
 
+      ////////////////
+      // Iterators //
+      //////////////
+      Iterator begin() { return Iterator(head->right_links[0]); }
       Iterator end() { return Iterator(head); }
 
-      Iterator find(const Key_T &target) {
-        S_Pillar *cur = head;
-        int level = height - 1;
+      // TODO
+      ConstIterator begin() const;
+      // TODO
+      ConstIterator end() const;
+      // TODO
+      ReverseIterator rbegin();
+      // TODO
+      ReverseIterator rend();
 
+
+      /////////////////////
+      // Element Access //
+      ///////////////////
+      Iterator find(const Key_T &target) {
+        int level = height - 1;
+        S_Pillar *cur = head;
         while(level >= 0) {
           if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > target) {
             // Go 1 level down
@@ -72,6 +111,7 @@ namespace cs540 {
         return this->end();
       }
 
+      // TODO
       ConstIterator find(const Key_T &) const;
 
       Mapped_T &at(const Key_T & target) {
@@ -80,8 +120,16 @@ namespace cs540 {
         return it->second;
       }
 
+      // TODO
       const Mapped_T &at(const Key_T &) const;
 
+      // TODO
+      Mapped_T &operator[](const Key_T &target) { return at(target); }
+
+
+      ////////////////
+      // Modifiers //
+      //////////////
       std::pair<Iterator, bool> insert(const ValueType &element) {
         // The pillar to be inserted
         S_Pillar *new_pillar = new Pillar(element);
@@ -122,6 +170,9 @@ namespace cs540 {
         return std::make_pair(Iterator(new_pillar), true);
       }
 
+      // TODO
+      template <typename IT_T> void insert(IT_T range_beg, IT_T range_end);
+
       void erase(Iterator pos) {
         Pillar *cur = ((Pillar*)pos.data);
         for(std::size_t i = 0; i < cur->height; i++) {
@@ -136,6 +187,15 @@ namespace cs540 {
         erase(find(target));
       }
 
+      void clear() {
+        while(!empty()) {
+          erase(begin());
+        }
+      }
+
+      /////////////////
+      // Miscellany //
+      ///////////////
       void print() {
         std::vector<std::vector<Mapped_T>> matrix;
 
@@ -167,8 +227,9 @@ namespace cs540 {
 
 
       
-      /* NESTED CLASSES */
-
+      /////////////////////
+      // Nested Classes //
+      ///////////////////
       struct S_Pillar {
         ~S_Pillar() {
         }
