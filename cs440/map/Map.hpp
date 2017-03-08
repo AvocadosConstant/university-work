@@ -7,6 +7,7 @@
 #include <utility>
 #include <vector>
 #include <initializer_list>
+#include <algorithm>
 
 namespace cs540 {
   template <typename Key_T, typename Mapped_T> class Map {
@@ -257,8 +258,10 @@ namespace cs540 {
         Pillar(ValueType data) : data{data} {}
       };
 
-      struct Iterator {
+      struct Iterator : public std::iterator<std::output_iterator_tag, Mapped_T> {
         S_Pillar *data;
+        //using value_type = Mapped_T;
+        typedef Mapped_T value_type;
 
         Iterator() = delete;
         Iterator(S_Pillar *seed) { this->data = seed; }
@@ -295,8 +298,10 @@ namespace cs540 {
         }
       };
 
-      struct ConstIterator {
+      struct ConstIterator : public std::iterator<std::output_iterator_tag, Mapped_T>{
         S_Pillar *data;
+        //using value_type = Mapped_T;
+        typedef Mapped_T value_type;
 
         ConstIterator() = delete;
 
@@ -338,8 +343,10 @@ namespace cs540 {
         }
       };
 
-      struct ReverseIterator {
+      struct ReverseIterator : public std::iterator<std::output_iterator_tag, Mapped_T> {
         S_Pillar *data;
+        //using value_type = Mapped_T;
+        typedef Mapped_T value_type;
 
         ReverseIterator() = delete;
         ReverseIterator(S_Pillar *seed) { this->data = seed; }
@@ -420,15 +427,15 @@ namespace cs540 {
   /////////////////// TODO Implement the 3 map comparison functions
   template <typename Key_T, typename Mapped_T>
   bool operator==(const Map<Key_T, Mapped_T> &lhs, const Map<Key_T, Mapped_T> &rhs) {
-    return true;
+    return std::equal(lhs.begin(), lhs.end(), rhs.begin());
   }
   template <typename Key_T, typename Mapped_T>
   bool operator!=(const Map<Key_T, Mapped_T> &lhs, const Map<Key_T, Mapped_T> &rhs) {
-    return true;
+    return !(lhs == rhs);
   }
   template <typename Key_T, typename Mapped_T>
   bool operator<(const Map<Key_T, Mapped_T> &lhs, const Map<Key_T, Mapped_T> &rhs) {
-    return true;
+    return std::lexicographical_compare(lhs.begin(), lhs.end(), rhs.begin(), rhs.end());
   }
 
 } // namespace cs540

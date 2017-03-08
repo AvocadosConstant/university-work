@@ -121,17 +121,24 @@ int main() {
 
   cs540::Map<int, char> map_copy;
   map_copy = map;
+  assert(map_copy == map);
   cout << "Printing a different map that was operator= assigned to" << endl;
   map_copy.print();
 
   cout << "Modifying map_copy[7] to '?'" << endl;
   map_copy[7] = '?';
   assert(map_copy[7] != map[7]);
+  assert(map_copy != map);
 
   cout << "Printing map_copy" << endl;
   map_copy.print();
   cout << "Printing map, should still be '&' not '?'" << endl;
   map.print();
+
+  map[3] = 'a';
+  assert(map < map_copy);
+  assert(!(map_copy < map));
+  assert(!(map_copy == map));
 
   // Test deletions of rest of elements with iterators
   while(!map.empty()) {
