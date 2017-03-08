@@ -105,7 +105,7 @@ namespace cs540 {
         int level = height - 1;
         S_Pillar *cur = head;
         while(level >= 0) {
-          if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > target) {
+          if(cur->right_links[level] == head || target < ((Pillar *)cur->right_links[level])->data.first) {
             // Go 1 level down
             level--;
           } else {
@@ -156,7 +156,7 @@ namespace cs540 {
             delete new_pillar;
             return std::make_pair(Iterator(cur), false);
           }
-          if(cur->right_links[level] == head || ((Pillar *)cur->right_links[level])->data.first > element.first) {
+          if(cur->right_links[level] == head || element.first < ((Pillar *)cur->right_links[level])->data.first) {
             // Go 1 level down
             if((unsigned int)level < new_pillar->height) {
               // Set up new_pillar's links at the current level
