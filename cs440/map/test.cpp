@@ -2,6 +2,8 @@
 
 #include <iostream>
 #include <cassert>
+#include <stdio.h>
+#include <stdlib.h>
 
 using std::cout;
 using std::endl;
@@ -368,5 +370,38 @@ int main() {
 
   assert(t_map.size() == 0);
   
+
+  //-------------------------- Stress Test
+  unsigned int STRESS_COUNT = 1000000;
+  cout << "\n\n------------------------------------\nStress Test " << STRESS_COUNT << " things happening..." << endl;
+  cout << "Takes < 3 seconds without valgrind, and about 30 sec with valgrind on my implementation" << endl << endl;
+
+  cs540::Map<int, int> stress_map;
+
+  unsigned int duplicate_inserts = 0;
+  for(unsigned int i = 0; i < STRESS_COUNT; i++) {
+    int rand_int = std::rand() % STRESS_COUNT;
+    if(!(stress_map.insert({rand_int, rand_int}).second)) duplicate_inserts++;
+  }
+  assert(stress_map.size() + duplicate_inserts == STRESS_COUNT);
+  cout << "Size after many random insertions:\t" << stress_map.size() << endl;
+  cout << "Number of redundant inserts attempted:\t" << duplicate_inserts << endl;
+  cout << endl << endl;
+
+  cout << 
+    "  __     ______  _    _   _____         _____ _____ ______ _____             _      _        __  ____     __  _______ ______  _____ _______ _____ \n"
+    "  \\ \\   / / __ \\| |  | | |  __ \\ /\\    / ____/ ____|  ____|  __ \\      /\\   | |    | |      |  \\/  \\ \\   / / |__   __|  ____|/ ____|__   __/ ____|\n"
+    "   \\ \\_/ / |  | | |  | | | |__) /  \\  | (___| (___ | |__  | |  | |    /  \\  | |    | |      | \\  / |\\ \\_/ /     | |  | |__  | (___    | | | (___  \n"
+    "    \\   /| |  | | |  | | |  ___/ /\\ \\  \\___ \\\\___ \\|  __| | |  | |   / /\\ \\ | |    | |      | |\\/| | \\   /      | |  |  __|  \\___ \\   | |  \\___ \\ \n"
+    "     | | | |__| | |__| | | |  / ____ \\ ____) |___) | |____| |__| |  / ____ \\| |____| |____  | |  | |  | |       | |  | |____ ____) |  | |  ____) |\n"
+    "     |_|  \\____/ \\____/  |_|_/_/ _  \\_\\_____/_____/|______|_____/_ /_/___ \\_\\______|______| |_|_ |_|  |_|       |_|  |______|_____/   |_| |_____/ \n"
+    "                                                                                                                                                  \n"
+    "           __          _______ _   _ _   _ ______ _____    _____  _____  __     ______  _    _ \n"
+    "    /\\     \\ \\        / /_   _| \\ | | \\ | |  ____|  __ \\  |_   _|/ ____| \\ \\   / / __ \\| |  | |                                                   \n"
+    "   /  \\     \\ \\  /\\  / /  | | |  \\| |  \\| | |__  | |__) |   | | | (___    \\ \\_/ / |  | | |  | |                                                   \n"
+    "  / /\\ \\     \\ \\/  \\/ /   | | | . ` | . ` |  __| |  _  /    | |  \\___ \\    \\   /| |  | | |  | |                                                   \n"
+    " / ____ \\     \\  /\\  /   _| |_| |\\  | |\\  | |____| | \\ \\   _| |_ ____) |    | | | |__| | |__| |                                                   \n"
+    "/_/    \\_\\     \\/  \\/   |_____|_| \\_|_| \\_|______|_|  \\_\\ |_____|_____/     |_|  \\____/ \\____/                                                    \n"
+  << endl;
   return 0;
 }

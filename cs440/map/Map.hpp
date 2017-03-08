@@ -187,6 +187,7 @@ namespace cs540 {
       }
 
       void erase(Iterator pos) {
+        if(pos == end()) throw std::out_of_range("Attempt to erase non-existing element");
         Pillar *cur = ((Pillar*)pos.data);
         for(std::size_t i = 0; i < cur->height; i++) {
           cur->left_links[i]->right_links[i] = cur->right_links[i];
@@ -197,7 +198,9 @@ namespace cs540 {
       }
 
       void erase(const Key_T &target) {
-        erase(find(target));
+        Iterator it = find(target);
+        if(it == end()) throw std::out_of_range("Attempt to erase non-existing element");
+        erase(it);
       }
 
       void clear() {
