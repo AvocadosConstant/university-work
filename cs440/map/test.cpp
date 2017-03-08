@@ -48,6 +48,14 @@ int main() {
     it--;
     cout << "Decrementing iterator to " << (*it).first << endl;
   }
+  for(int i = 0; i < 10; i++) {
+    cout << "Incrementing iterator to " << (*it).first << endl;
+    ++it;
+  }
+  for(int i = 0; i < 10; i++) {
+    --it;
+    cout << "Decrementing iterator to " << (*it).first << endl;
+  }
 
   // Test iterator equality
   assert(it == map.begin());

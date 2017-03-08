@@ -272,10 +272,10 @@ namespace cs540 {
           return *this;
         };
 
-        Iterator& operator++(int) {
-          Iterator *tmp = this;
+        Iterator operator++(int) {
+          Iterator tmp(*this);
           operator++();
-          return *tmp;
+          return tmp;
         }
 
         Iterator& operator--() {
@@ -283,10 +283,10 @@ namespace cs540 {
           return *this;
         }
 
-        Iterator& operator--(int) {
-          Iterator *tmp = this;
+        Iterator operator--(int) {
+          Iterator tmp(*this);
           operator--();
-          return *tmp;
+          return tmp;
         }
 
         ValueType &operator*() const {
@@ -317,10 +317,10 @@ namespace cs540 {
           return *this;
         };
 
-        ConstIterator& operator++(int) {
-          ConstIterator *tmp = this;
+        ConstIterator operator++(int) {
+          ConstIterator tmp(*this);
           operator++();
-          return *tmp;
+          return tmp;
         }
 
         ConstIterator& operator--() {
@@ -328,10 +328,10 @@ namespace cs540 {
           return *this;
         }
 
-        ConstIterator& operator--(int) {
-          ConstIterator *tmp = this;
+        ConstIterator operator--(int) {
+          ConstIterator tmp(*this);
           operator--();
-          return *tmp;
+          return tmp;
         }
 
         const ValueType &operator*() const {
@@ -357,10 +357,10 @@ namespace cs540 {
           return *this;
         };
 
-        ReverseIterator& operator++(int) {
-          ReverseIterator *tmp = this;
+        ReverseIterator operator++(int) {
+          ReverseIterator tmp(*this);
           operator++();
-          return *tmp;
+          return tmp;
         }
 
         ReverseIterator& operator--() {
@@ -368,10 +368,10 @@ namespace cs540 {
           return *this;
         }
 
-        ReverseIterator& operator--(int) {
-          ReverseIterator *tmp = this;
+        ReverseIterator operator--(int) {
+          ReverseIterator tmp(*this);
           operator--();
-          return *tmp;
+          return tmp;
         }
 
         ValueType &operator*() const {
