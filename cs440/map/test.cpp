@@ -374,7 +374,7 @@ int main() {
   //-------------------------- Stress Test
   unsigned int STRESS_COUNT = 1000000;
   cout << "\n\n------------------------------------\nStress Test " << STRESS_COUNT << " things happening..." << endl;
-  cout << "Takes < 3 seconds without valgrind, and about 30 sec with valgrind on my implementation" << endl << endl;
+  cout << "Takes < 3 seconds without valgrind, and about 1 minute with valgrind on my implementation" << endl << endl;
 
   cs540::Map<int, int> stress_map;
 
@@ -402,6 +402,6 @@ int main() {
     "  / /\\ \\     \\ \\/  \\/ /   | | | . ` | . ` |  __| |  _  /    | |  \\___ \\    \\   /| |  | | |  | |                                                   \n"
     " / ____ \\     \\  /\\  /   _| |_| |\\  | |\\  | |____| | \\ \\   _| |_ ____) |    | | | |__| | |__| |                                                   \n"
     "/_/    \\_\\     \\/  \\/   |_____|_| \\_|_| \\_|______|_|  \\_\\ |_____|_____/     |_|  \\____/ \\____/                                                    \n"
-  << endl;
+  << endl << endl;
   return 0;
 }
