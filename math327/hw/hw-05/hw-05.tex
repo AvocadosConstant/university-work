@@ -1,0 +1,225 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{diagbox}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+    }{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Problem Set\ \#5}
+\newcommand{\hmwkDueDate}{March 8, 2017}
+\newcommand{\hmwkClass}{MATH 327}
+\newcommand{\hmwkClassInstructor}{Professor Mei-Hsiu Chen}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 2:10pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}
+    A satellite system consists of 4 components and can function adequately if at least 2 of the 4 components are in working condition. If each component is, independently, in working condition with probability .6, what is the probability that the system functions adequately?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    A communications channel transmits the digits 0 and 1. However, due to static, the digit transmitted is incorrectly received with probability .2. Suppose that we want to transmit an important message consisting of one binary digit. To reduce the chance of error, we transmit 00000 instead of 0 and 11111 instead of 1.  If the receiver of the message uses “majority” decoding, what is the probability that the message will be incorrectly decoded? What independence assumptions are you making? (By majority decoding we mean that the message is decoded as “0” if there are at least three zeros in the message received and as “1” otherwise.)
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[4]
+    Suppose that a particular trait (such as eye color or left-handedness) of a person is classified on the basis of one pair of genes, and suppose that d represents a dominant gene and r a recessive gene. Thus, a person with dd genes is pure dominance, one with rr is pure recessive, and one with rd is hybrid. The pure dominance and the hybrid are alike in appearance. Children receive 1 gene from each parent. If, with respect to a particular trait, 2 hybrid parents have a total of 4 children, what is the probability that 3 of the 4 children have the outward appearance of the dominant gene?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[6]
+    Let X be a binomial random variable with
+
+    \[E[X]=7\]
+
+    \[\text{Var}(X) = 2.1\]
+
+    Find
+    \begin{enumerate}[label=(\alph*)]
+        \item $P\{X = 4\}$
+        \item $P\{X > 12\}$
+    \end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[9]
+    Derive the moment generating function of a binomial random variable and then use your result to verify the formulas for the mean and variance given in the text.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Compare the Poisson approximation with the correct binomial probability for the following cases:
+
+    \begin{enumerate}[label=(\alph*)]
+        \item $P\{X = 2\}$ when n = 10, p = .1;
+        \item $P\{X = 0\}$ when n = 10, p = .1;
+        \item $P\{X = 4\}$ when n = 9, p = .2.
+    \end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    If you buy a lottery ticket in 50 lotteries, in each of which your chance of winning a prize is $\frac{1}{100}$, what is the (approximate) probability that you will win a prize 
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item at least once
+        \item exactly once
+        \item at least twice
+    \end{enumerate}
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    The number of times that an individual contracts a cold in a given year is a Poisson random variable with parameter $\lambda = 3$. Suppose a new wonder drug (based on large quantities of vitamin C) has just been marketed that reduces the Poisson parameter to $\lambda = 2$ for 75 percent of the population. For the other 25 percent of the population, the drug has no appreciable effect on colds. If an individual tries the drug for a year and has 0 colds in that time, how likely is it that the drug is beneficial for him or her?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    In the 1980s, an average of 121.95 workers died on the job each week. Give estimates of the following quantities:
+    \begin{enumerate}[label=(\alph*)]
+        \item the proportion of weeks having 130 deaths or more;
+        \item the proportion of weeks having 100 deaths or less.
+    \end{enumerate}
+    Explain your reasoning.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[18]
+    A contractor purchases a shipment of 100 transistors. It is his policy to test 10 of these transistors and to keep the shipment only if at least 9 of the 10 are in working condition. If the shipment contains 20 defective transistors, what is the probability it will be kept?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}
+    Let X denote a hypergeometric random variable with parameters n, m, and k. That is
+
+    \begin{align*}
+        P\{X=i\} = \frac{{n \choose i}{m \choose k-i}}{{n+m \choose k}}
+        &, 
+        i = 0, 1, ... , min(k, n)
+    \end{align*}
+
+    \begin{enumerate}[label=(\alph*)]
+        \item Derive a formula for $P\{X = i\}$ in terms of $P\{X = i − 1\}$.
+        \item Use part (a) to compute $P\{X = i\}$ for $i = 0, 1, 2, 3, 4, 5$ when $n = m = 10, k = 5$, by starting with $P\{X = 0\}$.
+    \end{enumerate}
+\end{homeworkProblem}
+
+\end{document}
