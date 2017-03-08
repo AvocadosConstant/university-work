@@ -226,7 +226,6 @@ namespace cs540 {
       }
 
 
-      
       /////////////////////
       // Nested Classes //
       ///////////////////
@@ -252,15 +251,6 @@ namespace cs540 {
         Iterator() = delete;
         Iterator(S_Pillar *seed) { this->data = seed; }
         ValueType value() { return ((Pillar *)data)->data; }
-
-        // TODO Remove
-        bool operator==(const Iterator &that) {
-          return ((Pillar *)this->data) == that.data;
-        }
-        // TODO Remove
-        bool operator!=(const Iterator &that) {
-          return !(((Pillar *)this->data) == that.data);
-        }
 
         Iterator& operator++() {
           data = data->right_links[0];
@@ -292,6 +282,36 @@ namespace cs540 {
           return &(((Pillar *)data)->data);
         }
       };
-  };
-}
+
+
+      /////////////////////////////////////////
+      // Comparison Operators for Iterators //
+      ///////////////////////////////////////
+      friend bool operator==(const Iterator &lhs, const Iterator &rhs) {
+        return lhs.data == rhs.data;
+      }
+      friend bool operator!=(const Iterator &lhs, const Iterator &rhs) {
+        return lhs.data != rhs.data;
+      }
+      // TODO Implement comparisons for const and reverse iterators
+  }; // Map
+
+
+  /////////////////////
+  // Map Comparison //
+  /////////////////// TODO Implement the 3 map comparison functions
+  template <typename Key_T, typename Mapped_T>
+  bool operator==(const Map<Key_T, Mapped_T> &lhs, const Map<Key_T, Mapped_T> &rhs) {
+    return true;
+  }
+  template <typename Key_T, typename Mapped_T>
+  bool operator!=(const Map<Key_T, Mapped_T> &lhs, const Map<Key_T, Mapped_T> &rhs) {
+    return true;
+  }
+  template <typename Key_T, typename Mapped_T>
+  bool operator<(const Map<Key_T, Mapped_T> &lhs, const Map<Key_T, Mapped_T> &rhs) {
+    return true;
+  }
+
+} // namespace cs540
 #endif
