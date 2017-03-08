@@ -8,33 +8,30 @@ using std::endl;
 
 int main() {
 
-  ///////////////////////////////////////////////////////// Testing SkipList
-
-  /*
-  cs540::Map<int, char>::SkipList skip;
+  cs540::Map<int, char> map;
 
   // Test size and empty
-  assert(skip.size() == 0);
-  assert(skip.empty());
+  assert(map.size() == 0);
+  assert(map.empty());
 
   // Test insertion
   for(int i = 0; i < 20; i+=2) {
-    skip.insert({i, 'a' + i});
+    map.insert({i, 'a' + i});
   }
 
   // Test size and empty after insertions
-  assert(skip.size() == 10);
-  assert(!skip.empty());
+  assert(map.size() == 10);
+  assert(!map.empty());
 
-  skip.print();
+  map.print();
 
   // Test find and at
-  assert(skip.find(6)->second == ('a' + 6));
-  assert(skip.at(8) == ('a' + 8));
+  assert(map.find(6)->second == ('a' + 6));
+  assert(map.at(8) == ('a' + 8));
 
-  // Test skiplist iterators
-  skip.end();
-  cs540::Map<int, char>::SkipList::Iterator it = skip.begin();
+  // Test maplist iterators
+  map.end();
+  cs540::Map<int, char>::Iterator it = map.begin();
   for(int i = 0; i < 10; i++) {
     cout << "Incrementing iterator to " << (*it).first << endl;
     it++;
@@ -45,53 +42,53 @@ int main() {
   }
   (*it).second = '!';
 
-  cs540::Map<int, char>::SkipList::Iterator begin = skip.begin();
-  auto copy_it = cs540::Map<int, char>::SkipList::Iterator(begin);
+  cs540::Map<int, char>::Iterator begin = map.begin();
+  auto copy_it = cs540::Map<int, char>::Iterator(begin);
   cout << copy_it->first << endl;
 
-  skip.print();
+  map.print();
 
   // Testing insertion in between other elements
   for(int i = 1; i < 20; i+=2) {
-    assert(skip.insert({i, 'a' + i}).second);
+    assert(map.insert({i, 'a' + i}).second);
   }
 
-  assert(skip.size() == 20);
-  skip.print();
+  assert(map.size() == 20);
+  map.print();
   
   // Printing in order using ranged based for loop
-  for(auto i : skip) {
+  for(auto i : map) {
     cout << i.second << " ";
   } cout << endl;
 
   // Test insertion of duplicate key
-  assert(!skip.insert({5, '?'}).second);
+  assert(!map.insert({5, '?'}).second);
 
   // Test deletions of all even elements
   for(int i = 0; i < 20; i+=2) {
-    skip.erase(i);
+    map.erase(i);
   }
 
-  assert(skip.size() == 10);
-  skip.print();
+  assert(map.size() == 10);
+  map.print();
 
   // Delete after find
-  skip.erase(skip.find(5));
+  map.erase(map.find(5));
 
-  assert(skip.size() == 9);
-  skip.print();
+  assert(map.size() == 9);
+  map.print();
 
   // Test deletions of rest of elements with iterators
-  while(!skip.empty()) {
-    skip.erase(skip.begin());
+  while(!map.empty()) {
+    map.erase(map.begin());
   }
 
-  assert(skip.size() == 0);
-  skip.print();
-  */
+  assert(map.size() == 0);
+  map.print();
 
   ///////////////////////////////////////////////////////// Testing Map
 
+  /*
   cout << "-----------------------------------------------Testing map" << endl;
 
   cs540::Map<int, char> map;
@@ -177,7 +174,6 @@ int main() {
   cout << "m_it = " << (*m_it).first << ", " << (*m_it).second << endl;
   cout << "m_it = " << (*m_it).first << ", " << (*m_it).second << endl;
 
-  /*
   map.end();
   cs540::Map<int, char>::Iterator m_it(map.begin());
   ++m_it;
