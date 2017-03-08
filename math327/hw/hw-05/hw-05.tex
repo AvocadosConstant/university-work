@@ -192,6 +192,22 @@
 
 \begin{homeworkProblem}[9]
     Derive the moment generating function of a binomial random variable and then use your result to verify the formulas for the mean and variance given in the text.
+
+    \[
+        M(t) = (pe^t - p + 1)^n
+    \]
+    Mean should be $np$.
+    \[
+        \frac{d}{dt}M(0) = np
+    \]
+
+    Variance should be $np(1-p)$.
+    \[
+        \frac{d^2}{dt}M(0) = np(1-p)
+    \]
+
+    Both check out!
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
@@ -230,7 +246,7 @@
 
 \begin{homeworkProblem}
     The number of times that an individual contracts a cold in a given year is a Poisson random variable with parameter $\lambda = 3$. Suppose a new wonder drug (based on large quantities of vitamin C) has just been marketed that reduces the Poisson parameter to $\lambda = 2$ for 75 percent of the population. For the other 25 percent of the population, the drug has no appreciable effect on colds. If an individual tries the drug for a year and has 0 colds in that time, how likely is it that the drug is beneficial for him or her?
-    \[=.89...\]
+    \[P(\text{beneficial} | \text{no colds}) = \frac{3e^{-2}}{3e^{-2} + e^{-3}} =.89...\]
 \end{homeworkProblem}
 
 \begin{homeworkProblem}
@@ -245,7 +261,6 @@
                 \sum^{100}_i \frac{e^{-\lambda}\lambda^i}{i!}
             \]
     \end{enumerate}
-    Explain your reasoning.
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[18]
@@ -270,6 +285,45 @@
                 \frac{(n-i+1)(k-i+1)}{i(m-k+i)}
             \]
         \item Use part (a) to compute $P\{X = i\}$ for $i = 0, 1, 2, 3, 4, 5$ when $n = m = 10, k = 5$, by starting with $P\{X = 0\}$.
+            \[
+                \frac{(10-i+1)(5-i+1)}{i(10-5+i)}
+                = \frac{(9-i)(6-i)}{i(5+i)}
+            \]
+
+            \[
+                P(X=0) = \frac{(9-i)(6-i)}{i(5+i)}\\
+                       = \frac{(9-0)(6-0)}{0(5+0)}\\
+                       = \text{Undefined}
+            \]
+            \[
+                P(X=1) = \frac{(9-i)(6-i)}{i(5+i)}\\
+                       = \frac{(9-1)(6-1)}{1(5+1)}\\
+                       = 6.67...
+            \]
+
+            \[
+                P(X=2) = \frac{(9-i)(6-i)}{i(5+i)}\\
+                       = \frac{(9-2)(6-2)}{2(5+2)}\\
+                       = 2
+            \]
+
+            \[
+                P(X=3) = \frac{(9-i)(6-i)}{i(5+i)}\\
+                       = \frac{(9-3)(6-3)}{3(5+3)}\\
+                       = .75
+            \]
+
+            \[
+                P(X=4) = \frac{(9-i)(6-i)}{i(5+i)}\\
+                       = \frac{(9-4)(6-4)}{4(5+4)}\\
+                       = .28...
+            \]
+
+            \[
+                P(X=5) = \frac{(9-i)(6-i)}{i(5+i)}\\
+                       = \frac{(9-5)(6-5)}{5(5+5)}\\
+                       = .08
+            \]
     \end{enumerate}
 \end{homeworkProblem}
 
