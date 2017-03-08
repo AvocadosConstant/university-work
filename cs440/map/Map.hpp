@@ -39,8 +39,12 @@ namespace cs540 {
         srand(time(NULL));
       }
 
-      // TODO Copy assignment operator
-      Map &operator=(const Map &);
+      Map &operator=(const Map &that) {
+        for(auto i : that) {
+          insert(i);
+        }
+        return *this;
+      }
 
       // Initializer list constructor
       Map(std::initializer_list<std::pair<const Key_T, Mapped_T>> elements) {
@@ -115,8 +119,7 @@ namespace cs540 {
         return this->end();
       }
 
-      // TODO
-      ConstIterator find(const Key_T &) const;
+      ConstIterator find(const Key_T &target) const { return ConstIterator(find(target)); }
 
       Mapped_T &at(const Key_T & target) {
         Iterator it = find(target);
@@ -124,10 +127,12 @@ namespace cs540 {
         return it->second;
       }
 
-      // TODO
-      const Mapped_T &at(const Key_T &) const;
+      const Mapped_T &at(const Key_T &target) const {
+        Iterator it = find(target);
+        if(it.data == head) throw std::out_of_range("Could not find value!");
+        return it->second;
+      }
 
-      // TODO
       Mapped_T &operator[](const Key_T &target) { return at(target); }
 
 
@@ -174,8 +179,11 @@ namespace cs540 {
         return std::make_pair(Iterator(new_pillar), true);
       }
 
-      // TODO
-      template <typename IT_T> void insert(IT_T range_beg, IT_T range_end);
+      template <typename IT_T> void insert(IT_T range_beg, IT_T range_end) {
+        for(auto i = range_beg; i != range_end; i++) {
+          insert(*i);
+        }
+      }
 
       void erase(Iterator pos) {
         Pillar *cur = ((Pillar*)pos.data);

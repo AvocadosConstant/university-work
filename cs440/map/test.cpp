@@ -91,17 +91,47 @@ int main() {
   assert(map.size() == 9);
   map.print();
 
-  cout << "Printing in order with const iterator" << endl;
+  cout << "Printing in order with const iterator: ";
   cs540::Map<int, char>::ConstIterator m_it = map.begin();
   for(; m_it != map.end(); m_it++) {
     cout << (*m_it).second << " ";
   } cout << endl;
 
-  cout << "Printing in reverse with ReverseIterator" << endl;
+  cout << "Printing in reverse with ReverseIterator: ";
   cs540::Map<int, char>::ReverseIterator r_it = map.rbegin();
   for(; r_it != map.rend(); r_it++) {
     cout << (*r_it).second << " ";
   } cout << endl;
+
+  m_it = map.find(3);
+  cout << "Printing in order with const iterator starting from key 3 and value " << (*m_it).second << ": ";
+  for(; m_it != map.end(); m_it++) {
+    cout << (*m_it).second << " ";
+  } cout << endl;
+
+  it = map.find(7);
+  assert((*it).second == 'a' + 7);
+  cout << "Modifying map[7] = &" << endl;
+  map[7] = '&';
+  cout << "Printing in order with normal iterator starting from key 7 and value " << (*it).second << ": ";
+  for(; it != map.end(); it++) {
+    cout << (*it).second << " ";
+  } cout << endl;
+  map.print();
+
+  cs540::Map<int, char> map_copy;
+  map_copy = map;
+  cout << "Printing a different map that was operator= assigned to" << endl;
+  map_copy.print();
+
+  cout << "Modifying map_copy[7] to '?'" << endl;
+  map_copy[7] = '?';
+  assert(map_copy[7] != map[7]);
+
+  cout << "Printing map_copy" << endl;
+  map_copy.print();
+  cout << "Printing map, should still be '&' not '?'" << endl;
+  map.print();
 
   // Test deletions of rest of elements with iterators
   while(!map.empty()) {
