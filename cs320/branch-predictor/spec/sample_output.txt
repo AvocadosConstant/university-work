@@ -1,0 +1,9 @@
+x,y; <- Always Taken (x=number of correct predictions, y=number of branches)
+x,y; <- Always NT
+x,y; x,y; x,y; x,y; x,y; x,y; x,y; <- Single bit Bimodal predictors
+x,y; x,y; x,y; x,y; x,y; x,y; x,y; <- Two bit saturating Bimodal Predictors
+x,y; x,y; x,y; x,y; x,y; x,y; x,y; x,y; x,y; <- Gshare
+x,y; <- Tournament
+
+Note: This line any anything after the <- shouldn't actually be in the output,
+it is only given in this example to clarify what each line is.
