@@ -30,6 +30,16 @@ bool operator<(const TimValue &lhs, const TimValue &rhs) {
   return lhs.data < rhs.data;
 }
 
+struct DefaultTimValue {
+  char data;
+};
+bool operator==(const DefaultTimValue &lhs, const DefaultTimValue &rhs) {
+  return lhs.data == rhs.data;
+}
+bool operator<(const DefaultTimValue &lhs, const DefaultTimValue &rhs) {
+  return lhs.data < rhs.data;
+}
+
 int main() {
 
   cs540::Map<int, char> map{{1, 'a'}, {2, 'b'}, {3, 'c'}, {4, 'd'}};
@@ -267,10 +277,9 @@ int main() {
   assert(t_it == t_map.begin());
   assert(t_it != t_map.end());
 
-  // Test modifying with [] after find
   t_it = t_map.find(TimKey{8});
   (*t_it).second = TimValue{'!'};
-  assert(t_map[TimKey{8}] == TimValue{'!'});
+  assert(t_map.at(TimKey{8}) == TimValue{'!'});
 
   // Make sure pre and post fix increments and decrements work like they should
   assert((++t_it)->first == TimKey{10});
@@ -331,8 +340,8 @@ int main() {
 
   t_it = t_map.find(TimKey{7});
   assert((*t_it).second == TimValue{'a' + 7});
-  cout << "Modifying t_map[7] = &" << endl;
-  t_map[TimKey{7}] = TimValue{'&'};
+  //cout << "Modifying t_map[7] = &" << endl;
+  //t_map[TimKey{7}] = TimValue{'&'};
   cout << "Printing in order with normal iterator starting from key 7 and value " << (*t_it).second.data << ": ";
   for(; t_it != t_map.end(); t_it++) {
     cout << (*t_it).second.data << " ";
@@ -343,11 +352,11 @@ int main() {
   assert(t_map_copy == t_map);
 
   cout << "Modifying t_map_copy[7] to '?'" << endl;
-  t_map_copy[TimKey{7}] = TimValue{'?'};
-  assert(!(t_map_copy[TimKey{7}] == t_map[TimKey{7}]));
+  t_map_copy.at(TimKey{7}) = TimValue{'?'};
+  assert(!(t_map_copy.at(TimKey{7}) == t_map.at(TimKey{7})));
   assert(t_map_copy != t_map);
 
-  t_map[TimKey{3}] = TimValue{'a'};
+  t_map.at(TimKey{3}) = TimValue{'a'};
   assert(t_map < t_map_copy);
   assert(!(t_map_copy < t_map));
   assert(!(t_map_copy == t_map));
@@ -370,6 +379,20 @@ int main() {
 
   assert(t_map.size() == 0);
   
+
+
+  // Test insertion using [] operator
+  cs540::Map<TimKey, DefaultTimValue> dt_map;
+  dt_map[TimKey{100}] = DefaultTimValue{'C'};
+  assert(dt_map[TimKey{100}] == DefaultTimValue{'C'});
+  cout << "Did the value get inserted?: dt_map[TimKey{100}] == " << dt_map[TimKey{100}].data << endl;
+
+  // Test modifying with [] after find
+  cs540::Map<TimKey, DefaultTimValue>::Iterator dt_it = dt_map.find(TimKey{100});
+  (*dt_it).second = DefaultTimValue{'!'};
+  assert(dt_map[TimKey{100}] == DefaultTimValue{'!'});
+
+
 
   //-------------------------- Stress Test
   unsigned int STRESS_COUNT = 1000000;

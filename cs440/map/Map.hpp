@@ -127,7 +127,13 @@ namespace cs540 {
       return it->second;
     }
 
-    Mapped_T &operator[](const Key_T &target) { return at(target); }
+    Mapped_T &operator[](const Key_T &target) { 
+      Iterator it = find(target);
+      if(it != end()) return it->second;
+      ValueType element{target, Mapped_T()};
+      Iterator element_it = (insert(element)).first;
+      return element_it->second;; 
+    }
 
 
     ////////////////
