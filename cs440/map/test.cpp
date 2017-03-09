@@ -171,6 +171,7 @@ int main() {
   } cout << endl;
   //map.print();
 
+  // Testing copy of map
   cs540::Map<int, char> map_copy;
   map_copy = map;
   assert(map_copy == map);
@@ -186,6 +187,15 @@ int main() {
   //map_copy.print();
   cout << "Printing map, should still be '&' not '?'" << endl;
   //map.print();
+
+  // Test copy constructor is by value
+  auto map_copy2(map_copy);
+  assert(map_copy2.begin() != map_copy.begin());
+  assert(map_copy2.end() != map_copy.end());
+  // Correct value should still copy
+  assert(map_copy2.at(7) == map_copy.at(7));
+  // But iterators should be different
+  assert(map_copy2.find(7) != map_copy.find(7));
 
   map[3] = 'a';
   assert(map < map_copy);
@@ -397,7 +407,7 @@ int main() {
   //-------------------------- Stress Test
   unsigned int STRESS_COUNT = 1000000;
   cout << "\n\n------------------------------------\nStress Test " << STRESS_COUNT << " things happening..." << endl;
-  cout << "Takes < 3 seconds without valgrind, and about 1 minute with valgrind on my implementation" << endl << endl;
+  cout << "Takes < 4 seconds without valgrind, and about 1 minute with valgrind on my implementation" << endl << endl;
 
   cs540::Map<int, int> stress_map;
 
@@ -417,7 +427,7 @@ int main() {
     "   \\ \\_/ / |  | | |  | | | |__) /  \\  | (___| (___ | |__  | |  | |    /  \\  | |    | |      | \\  / |\\ \\_/ /     | |  | |__  | (___    | | | (___  \n"
     "    \\   /| |  | | |  | | |  ___/ /\\ \\  \\___ \\\\___ \\|  __| | |  | |   / /\\ \\ | |    | |      | |\\/| | \\   /      | |  |  __|  \\___ \\   | |  \\___ \\ \n"
     "     | | | |__| | |__| | | |  / ____ \\ ____) |___) | |____| |__| |  / ____ \\| |____| |____  | |  | |  | |       | |  | |____ ____) |  | |  ____) |\n"
-    "     |_|  \\____/ \\____/  |_|_/_/ _  \\_\\_____/_____/|______|_____/_ /_/___ \\_\\______|______| |_|_ |_|  |_|       |_|  |______|_____/   |_| |_____/ \n"
+    "     |_|  \\____/ \\____/  |_| /_/    \\_\\_____/_____/|______|_____/  /_/    \\_\\______|______| |_|  |_|  |_|       |_|  |______|_____/   |_| |_____/ \n"
     "                                                                                                                                                  \n"
     "           __          _______ _   _ _   _ ______ _____    _____  _____  __     ______  _    _ \n"
     "    /\\     \\ \\        / /_   _| \\ | | \\ | |  ____|  __ \\  |_   _|/ ____| \\ \\   / / __ \\| |  | |                                                   \n"

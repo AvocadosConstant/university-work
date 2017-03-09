@@ -36,6 +36,19 @@ namespace cs540 {
       }
     }
 
+    Map(const Map& that) {
+      num_elements = that.size();
+      head = new S_Pillar();
+      height = DEFAULT_HEIGHT;
+      for(std::size_t i = 0; i < height; i++) {
+        head->right_links.push_back(head);
+        head->left_links.push_back(head);
+      }
+      for(auto i : that) {
+        insert(i);
+      }
+    }
+
     Map &operator=(const Map &that) {
       for(auto i : that) {
         insert(i);
