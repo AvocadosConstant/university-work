@@ -7,7 +7,6 @@
 
 int main(int argc, char *argv[]) {
 
-  // TODO Replace with < 3 after implementing write to output
   if(argc < 2) {
     std::cerr << "Please run with format: ./predictors input_trace.txt output.txt" << std::endl;
     return 1;
