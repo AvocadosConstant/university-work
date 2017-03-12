@@ -2,6 +2,7 @@
 #define _BRANCHPREDICTOR_HPP_
 
 #include <cmath>
+#include <bitset>
 
 struct BranchPredictor {
   typedef std::vector<std::pair<unsigned long long, bool>> TraceType;
@@ -45,8 +46,8 @@ struct BranchPredictor {
         else if(!(bht[bht_index] || branch.second)) correct++;
         bht[bht_index] = branch.second;
       } else {
-        if(bht2[bht_index].predict_taken() && branch.second) correct ++;
-        else if(bht2[bht_index].predict_not_taken() && !branch.second) correct ++;
+        if(bht2[bht_index].predict_taken() && branch.second) correct++;
+        else if(bht2[bht_index].predict_not_taken() && !branch.second) correct++;
         if(branch.second) bht2[bht_index].train_taken();
         else bht2[bht_index].train_not_taken();
       }
@@ -55,8 +56,26 @@ struct BranchPredictor {
   }
 
   // Measures the accurracy of the "GShare" branch predictor
-  unsigned long gshare(int history_length) {
-    // TODO
+  unsigned long gshare(const int history_length) {
+    int table_size = 2048;
+
+    int history = 0;
+    TwoBitCounter bht[table_size];
+
+    unsigned long correct = 0;
+    for(auto branch : trace) {
+      int bht_index = (branch.first ^ history) % table_size;
+
+      if(bht[bht_index].predict_taken() && branch.second) correct++;
+      else if(bht[bht_index].predict_not_taken() && !branch.second) correct++;
+      if(branch.second) bht[bht_index].train_taken();
+      else bht[bht_index].train_not_taken();
+
+      // Update history: shift left 1 bit, update with new, remove overflow
+      history += history + branch.second;
+      if(history >= std::pow(2, history_length)) history -= std::pow(2, history_length);
+    }
+    return correct;
     return 0;
   }
 
