@@ -30,8 +30,17 @@ struct BranchPredictor {
 
   // Measures the accurracy of the "Bimodal" branch predictors
   unsigned long bimodal(bool single_bit, int table_size) {
-    // TODO
-    return 0;
+    bool bht[table_size];
+    // BHT is seeded with taken
+    std::fill_n(bht, table_size, true);
+    unsigned long correct = 0;
+    for(auto branch : trace) {
+      int bht_index = branch.first % table_size;
+      if(bht[bht_index] && branch.second) correct++;
+      else if(!(bht[bht_index] || branch.second)) correct++;
+      bht[bht_index] = branch.second;
+    }
+    return correct;
   }
 
   // Measures the accurracy of the "GShare" branch predictor
