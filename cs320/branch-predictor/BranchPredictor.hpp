@@ -2,8 +2,7 @@
 #define _BRANCHPREDICTOR_HPP_
 
 #include <cmath>
-#include <bitset>
-
+#include <bitset> 
 struct BranchPredictor {
   typedef std::vector<std::pair<unsigned long long, bool>> TraceType;
   struct TwoBitCounter;
@@ -81,8 +80,51 @@ struct BranchPredictor {
 
   // Measures the accurracy of the "tournament" branch predictor
   unsigned long tournament(){
-    // TODO
-    return 0;
+    int table_size = 2048;
+    int history = 0;
+    int history_length = 11;
+
+    TwoBitCounter bht_bimodal[table_size];
+    TwoBitCounter bht_gshare[table_size];
+    TwoBitCounter selector[table_size];
+
+    unsigned long correct = 0;
+    for(auto branch : trace) {
+      bool gshare_correct = false;
+      bool bimodal_correct = false;
+
+      int bht_index = branch.first % table_size;
+      int gshare_index = (branch.first ^ history) % table_size;
+
+      ////////////
+      // GSHARE //
+      ////////////
+      if(bht_gshare[gshare_index].predict_taken() && branch.second) gshare_correct = true;
+      else if(bht_gshare[gshare_index].predict_not_taken() && !branch.second) gshare_correct = true;
+
+      if(branch.second) bht_gshare[gshare_index].train_taken();
+      else bht_gshare[gshare_index].train_not_taken();
+
+      history += history + branch.second;
+      if(history >= std::pow(2, history_length)) history -= std::pow(2, history_length);
+
+      /////////////
+      // BIMODAL //
+      /////////////
+      if(bht_bimodal[bht_index].predict_taken() && branch.second) bimodal_correct = true;
+      else if(bht_bimodal[bht_index].predict_not_taken() && !branch.second) bimodal_correct = true;
+      if(branch.second) bht_bimodal[bht_index].train_taken();
+      else bht_bimodal[bht_index].train_not_taken();
+
+      //////////////
+      // SELECTOR //
+      //////////////
+      if(selector[bht_index].predict_gshare() && gshare_correct) correct++;
+      else if(selector[bht_index].predict_bimodal() && bimodal_correct) correct++;
+      if(gshare_correct != bimodal_correct)
+        (gshare_correct) ? selector[bht_index].train_gshare() : selector[bht_index].train_bimodal();
+    }
+    return correct;
   }
 
   // Runs all tests according to project specifications
@@ -117,14 +159,19 @@ struct BranchPredictor {
     int WEAK_NOT_TAKEN = 1;
     int WEAK_TAKEN = 2;
     int STRONG_TAKEN = 3;
-
     void train_taken() { if(state < 3) state++; }
-
     void train_not_taken() { if(state > 0) state--; }
-
     bool predict_taken() { return state >= 2; }
-
     bool predict_not_taken() { return state <= 1; }
+
+    int STRONG_BIMODAL = 0;
+    int WEAK_BIMODAL = 1;
+    int WEAK_GSHARE = 2;
+    int STRONG_GSHARE = 3;
+    void train_gshare() { if(state < 3) state++; }
+    void train_bimodal() { if(state > 0) state--; }
+    bool predict_gshare() { return state >= 2; }
+    bool predict_bimodal() { return state <= 1; }
   };
 };
 
