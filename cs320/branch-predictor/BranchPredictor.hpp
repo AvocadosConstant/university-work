@@ -5,6 +5,7 @@
 
 struct BranchPredictor {
   typedef std::vector<std::pair<unsigned long long, bool>> TraceType;
+  struct TwoBitCounter;
 
   const TraceType &trace;
 
@@ -30,15 +31,25 @@ struct BranchPredictor {
 
   // Measures the accurracy of the "Bimodal" branch predictors
   unsigned long bimodal(bool single_bit, int table_size) {
-    bool bht[table_size];
     // BHT is seeded with taken
+    bool bht[table_size];
     std::fill_n(bht, table_size, true);
+
+    TwoBitCounter bht2[table_size];
+
     unsigned long correct = 0;
     for(auto branch : trace) {
       int bht_index = branch.first % table_size;
-      if(bht[bht_index] && branch.second) correct++;
-      else if(!(bht[bht_index] || branch.second)) correct++;
-      bht[bht_index] = branch.second;
+      if(single_bit) {
+        if(bht[bht_index] && branch.second) correct++;
+        else if(!(bht[bht_index] || branch.second)) correct++;
+        bht[bht_index] = branch.second;
+      } else {
+        if(bht2[bht_index].predict_taken() && branch.second) correct ++;
+        else if(bht2[bht_index].predict_not_taken() && !branch.second) correct ++;
+        if(branch.second) bht2[bht_index].train_taken();
+        else bht2[bht_index].train_not_taken();
+      }
     }
     return correct;
   }
@@ -80,6 +91,22 @@ struct BranchPredictor {
 
     return output.str();
   }
+
+  struct TwoBitCounter {
+    int state = 3;
+    int STRONG_NOT_TAKEN = 0;
+    int WEAK_NOT_TAKEN = 1;
+    int WEAK_TAKEN = 2;
+    int STRONG_TAKEN = 3;
+
+    void train_taken() { if(state < 3) state++; }
+
+    void train_not_taken() { if(state > 0) state--; }
+
+    bool predict_taken() { return state >= 2; }
+
+    bool predict_not_taken() { return state <= 1; }
+  };
 };
 
 #endif
