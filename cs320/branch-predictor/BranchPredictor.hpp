@@ -3,6 +3,7 @@
 
 #include <cmath>
 #include <bitset> 
+
 struct BranchPredictor {
   typedef std::vector<std::pair<unsigned long long, bool>> TraceType;
   struct TwoBitCounter;
@@ -127,29 +128,52 @@ struct BranchPredictor {
     return correct;
   }
 
-  // Runs all tests according to project specifications
-  std::string test_all() {
+  ////////////
+  // TESTS //
+  //////////
+  std::string test_always() {
     std::ostringstream output;
-    output << always(true) << "," << size() << ";" << std::endl;
-    output << always(false) << "," << size() << ";" << std::endl;
+    output << always(true) << "," << size() << ";";
+    output << always(false) << "," << size() << ";";
+    return output.str();
+  }
 
-    std::ostringstream bim_one_output, bim_two_output, gshare_output;
+  std::string test_bimodal() {
+    std::ostringstream output, bim_one_output, bim_two_output;
     // We want to loop from a table size of 16 (2^4), to 2048 (2^11) excluding 64 (2^6)
     for(int pow_of_2 = 4; pow_of_2 <= 11; pow_of_2++) {
+      // Skip 2^6 = 64
       if(pow_of_2 == 6) continue;
       unsigned long table_size = std::pow(2, pow_of_2);
       bim_one_output << bimodal(true, table_size) << "," << size() << ((pow_of_2 < 11) ? "; " : ";");
       bim_two_output << bimodal(false, table_size) << "," << size() << ((pow_of_2 < 11) ? "; " : ";");
     }
-    output << bim_one_output.str() << std::endl << bim_two_output.str() << std::endl;
+    output << bim_one_output.str() << std::endl << bim_two_output.str();
+    return output.str();
+  }
 
+  std::string test_gshare() {
+    std::ostringstream output;
+    // Test histories of lengths from 3 through 11 inclusive
     for(int history_length = 3; history_length <= 11; history_length++) {
-      gshare_output << gshare(history_length) << "," << size() << ((history_length < 11) ? "; " : ";");
+      output << gshare(history_length) << "," << size() << ((history_length < 11) ? "; " : ";");
     }
-    output << gshare_output.str() << std::endl;
+    return output.str();
+  }
 
-    output << tournament() << "," << size() << ";" << std::endl;
+  std::string test_tournament() {
+    std::ostringstream output;
+    output << tournament() << "," << size() << ";";
+    return output.str();
+  }
 
+  // Runs all tests according to project specifications
+  std::string test_all() {
+    std::ostringstream output;
+    output << test_always()     << std::endl;
+    output << test_bimodal()    << std::endl;
+    output << test_gshare()     << std::endl;
+    output << test_tournament() << std::endl;
     return output.str();
   }
 
