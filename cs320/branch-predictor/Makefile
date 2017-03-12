@@ -22,18 +22,17 @@ clean:
 	-rm $(EXECUTABLE) *.o
 
 test: all
-	$(RUN) ./spec/traces/short_trace1.txt
-#tar -xf traces.tar.gz
-#$(RUN) ./traces/short_trace1.txt out.txt
-#diff out.txt ./correct_outputs/short_trace1-output.txt
-#$(RUN) ./traces/short_trace2.txt out.txt
-#diff out.txt ./correct_outputs/short_trace2-output.txt
-#$(RUN) ./traces/short_trace3.txt out.txt
-#diff out.txt ./correct_outputs/short_trace3-output.txt
-## Long
-#$(RUN) ./traces/long_trace1.txt out.txt
-#diff out.txt ./correct_outputs/long_trace1-output.txt
-#$(RUN) ./traces/long_trace2.txt out.txt
-#diff out.txt ./correct_outputs/long_trace2-output.txt
-#$(RUN) ./traces/long_trace3.txt out.txt
-#diff out.txt ./correct_outputs/long_trace3-output.txt
+	# Short Tests
+	$(RUN) ./spec/traces/short_trace1.txt out.txt
+	diff out.txt ./spec/correct_outputs/short_trace1-output.txt
+	$(RUN) ./spec/traces/short_trace2.txt out.txt
+	diff out.txt ./spec/correct_outputs/short_trace2-output.txt
+	$(RUN) ./spec/traces/short_trace3.txt out.txt
+	diff out.txt ./spec/correct_outputs/short_trace3-output.txt
+	# Long Tests
+	$(RUN) ./spec/traces/long_trace1.txt out.txt
+	diff out.txt ./spec/correct_outputs/long_trace1-output.txt
+	$(RUN) ./spec/traces/long_trace2.txt out.txt
+	diff out.txt ./spec/correct_outputs/long_trace2-output.txt
+	$(RUN) ./spec/traces/long_trace3.txt out.txt
+	diff out.txt ./spec/correct_outputs/long_trace3-output.txt

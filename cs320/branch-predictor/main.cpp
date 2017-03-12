@@ -26,8 +26,17 @@ int main(int argc, char *argv[]) {
 
   BranchPredictor pred(trace);
 
-  // TODO Write to output file or standard out if none specified
-  std::cout << pred.test_all();
+  //////////////////////
+  // Output handling //
+  ////////////////////
+  std::ostream* output = &std::cout;
+  std::ofstream fout;
+  if(argc == 3) {
+    std::cout << "Outputting to " << argv[2] << "..." << std::endl;
+    fout.open(argv[2]);
+    output = &fout;
+  } else std::cout << "Outputting to standard out..." << std::endl;
+  *output << pred.test_all();
 
   return 0;
 }
