@@ -16,6 +16,7 @@ operator<<(std::ostream &os, const MyClass &obj) {
 
 int
 main() {
+    std::cout << "START" << std::endl;
 
     // Must work with classes with no default ctor.
     List<MyClass> l1;
