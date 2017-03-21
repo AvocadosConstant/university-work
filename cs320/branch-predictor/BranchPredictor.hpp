@@ -64,7 +64,7 @@ struct BranchPredictor {
 
     unsigned long correct = 0;
     for(auto branch : trace) {
-      int bht_index = (branch.first ^ history) % table_size;
+      int bht_index = (branch.first % table_size) ^ history;
 
       if(bht[bht_index].predict_taken() && branch.second) correct++;
       else if(bht[bht_index].predict_not_taken() && !branch.second) correct++;
@@ -95,7 +95,7 @@ struct BranchPredictor {
       bool bimodal_correct = false;
 
       int bht_index = branch.first % table_size;
-      int gshare_index = (branch.first ^ history) % table_size;
+      int gshare_index = (branch.first % table_size) ^ history;
 
       ////////////
       // GSHARE //
