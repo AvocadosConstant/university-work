@@ -1,0 +1,17 @@
+Print 1
+Print 2
+-1
+Print 3
+Print 4
+100
+Print 5
+Print 6
+1
+2
+2.9
+3
+4.1
+6
+7
+8
+9
