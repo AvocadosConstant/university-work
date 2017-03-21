@@ -133,7 +133,7 @@ struct BranchPredictor {
   //////////
   std::string test_always() {
     std::ostringstream output;
-    output << always(true) << "," << size() << ";";
+    output << always(true) << "," << size() << ";" << std::endl;
     output << always(false) << "," << size() << ";";
     return output.str();
   }
