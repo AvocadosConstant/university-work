@@ -1,0 +1,275 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{diagbox}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+    }{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+\newcommand{\hmwkTitle}{Problem Set\ \#6}
+\newcommand{\hmwkDueDate}{March 22, 2017}
+\newcommand{\hmwkClass}{MATH 327}
+\newcommand{\hmwkClassInstructor}{Professor Mei-Hsiu Chen}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 2:10pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}[22]
+    You arrive at a bus stop at 10 o’clock, knowing that the bus will arrive at some time uniformly distributed between 10 and 10:30. What is the probability that you will have to wait longer than 10 minutes? If at 10:15 the bus has not yet arrived, what is the probability that you will have to wait at least an additional 10 minutes?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[23]
+    If X is a normal random variable with parameters μ = 10, σ2 = 36, compute
+    (a) P{X > 5};
+    (b) P{4 < X < 16};
+    (c) P{X < 8};
+    (d) P{X < 20};
+    (e) P{X > 16}.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[24]
+    The Scholastic Aptitude Test mathematics test scores across the population of
+    high school seniors follow a normal distribution with mean 500 and standard
+    deviation 100. If five seniors are randomly chosen, find the probability that
+    (a) all scored below 600 and (b) exactly three of them scored above 640.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[26]
+    The weekly demand for a product approximately has a normal distribution with
+    mean 1,000 and standard deviation 200. The current on hand inventory is 2,200
+    and no deliveries will be occurring in the next two weeks. Assuming that the
+    demands in different weeks are independent,
+    (a) what is the probability that the demand in each of the next 2 weeks is less
+    than 1,100?
+    (b) what is the probability that the total of the demands in the next 2 weeks
+    exceeds 2,200?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[27]
+    A certain type of lightbulb has an output that is normally distributed with mean
+    2,000 end foot candles and standard deviation 85 end foot candles. Determine a
+    lower specification limit L so that only 5 percent of the lightbulbs produced will
+    be below this limit. (That is, determine L so that P{X ≥ L} = .95, where X is
+    the output of a bulb.)
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[28]
+    A manufacturer produces bolts that are specified to be between 1.19 and
+    1.21 inches in diameter. If its production process results in a bolt’s diameter
+    being normally distributed with mean 1.20 inches and standard deviation .005,
+    what percentage of bolts will not meet specifications?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[30]
+    A random variable X is said to have a lognormal distribution if log X is normally
+    distributed. If X is lognormal with E[log X] = μ and Var(log X) = σ2, determine
+    the distribution function of X. That is, what is P{X ≤ x}?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[32]
+    The sample mean and sample standard deviation on your economics examination
+    were 60 and 20, respectively; the sample mean and sample standard deviation
+    on your statistics examination were 55 and 10, respectively. You scored 70
+    on the economics exam and 62 on the statistics exam. Assuming that the two
+    histograms of test scores are approximately normal histograms,
+    (a) on which exam was your percentile score highest?
+    (b) approximate the percentage of the scores on the economics exam that were
+    below your score.
+    (c) approximate the percentage of the scores on the statistics exam that were
+    below your score.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[35]
+    The height of adult women in the United States is normally distributed with
+    mean 64.5 inches and standard deviation 2.4 inches. Find the probability that
+    a randomly chosen woman is
+    (a) less than 63 inches tall;
+    (b) less than 70 inches tall;
+    (c) between 63 and 70 inches tall.
+    (d) Alice is 72 inches tall. What percentage of women is shorter than Alice?
+    (e) Find the probability that the average of the heights of two randomly chosen
+    women exceeds 66 inches.
+    (f ) Repeat part (e) for four randomly chosen women.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[38]
+    The number of years a radio functions is exponentially distributed with parameter
+    λ = 1
+    8 . If Jones buys a used radio, what is the probability that it will be
+    working after an additional 10 years?
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[39]
+    Jones figures that the total number of thousands of miles that a used auto can be
+    driven before it would need to be junked is an exponential random variable with
+    parameter 1
+    20 . Smith has a used car that he claims has been driven only 10,000
+    miles. If Jones purchases the car, what is the probability that she would get
+    at least 20,000 additional miles out of it? Repeat under the assumption that
+    the lifetime mileage of the car is not exponentially distributed but rather is (in
+    thousands of miles) uniformly distributed over (0, 40).
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[43]
+    If X is a chi-square random variable with 6 degrees of freedom, find
+    (a) P{X ≤ 6};
+    (b) P{3 ≤ X ≤ 9}.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[44]
+    If X and Y are independent chi-square random variables with 3 and 6 degrees of
+    freedom, respectively, determine the probability that X + Y will exceed 10.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[46]
+    If T has a t-distribution with 8 degrees of freedom, find (a) P{T ≥ 1},
+    (b) P{T ≤ 2}, and (c) P{−1 < T < 1}.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[48]
+    Let be the standard normal distribution function. If, for constants a and b > 0
+    P{X ≤ x} =
+    x − a
+    b
+
+    characterize the distribution of X.
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[In Class]
+    $\chi ~ \chi^2_i$ use A1 *Normal Table) $P[X < 0.2809] = ?$
+
+    $X ~ t_6$
+
+    $P[-x < X < x] = .95$ What is x?
+\end{homeworkProblem}
+
+\pagebreak
+
+
+\end{document}
