@@ -141,23 +141,52 @@
 \pagebreak
 
 \begin{homeworkProblem}[22]
-    You arrive at a bus stop at 10 o’clock, knowing that the bus will arrive at some time uniformly distributed between 10 and 10:30. What is the probability that you will have to wait longer than 10 minutes? If at 10:15 the bus has not yet arrived, what is the probability that you will have to wait at least an additional 10 minutes?
+    You arrive at a bus stop at 10 o’clock, knowing that the bus will arrive at
+    some time uniformly distributed between 10 and 10:30. What is the probability
+    that you will have to wait longer than 10 minutes? 
+
+    \textbf{Solution} $p = 2/3$ \\
+    
+    If at 10:15 the bus has not yet arrived, what is the probability that you 
+    will have to wait at least an additional 10 minutes?
+
+    \textbf{Solution} $p = 1/3$
+    
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[23]
-    If X is a normal random variable with parameters μ = 10, σ2 = 36, compute
-    (a) P{X > 5};
-    (b) P{4 < X < 16};
-    (c) P{X < 8};
-    (d) P{X < 20};
-    (e) P{X > 16}.
+    If X is a normal random variable with parameters $\mu = 10, \sigma^2 = 36$, compute
+    \begin{enumerate}[label=(\alph*)]
+        \item $P\{X > 5\}$
+
+            $1-\phi(\frac{-5}{6}) = \phi(\frac{5}{6}) = .80...$
+        \item $P\{4 < X < 16\}$
+
+            $\phi(1)-\phi(-1)=2\phi(1)-1=.68...$
+        \item $P\{X < 8\}$
+
+            $\phi(\frac{-1}{3}) = .37...$
+        \item $P\{X < 20\}$
+
+            $\phi(\frac{10}{6}) = .95...$
+        \item $P\{X > 16\}$
+
+            $1 - \phi(1) = .16...$
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[24]
     The Scholastic Aptitude Test mathematics test scores across the population of
     high school seniors follow a normal distribution with mean 500 and standard
     deviation 100. If five seniors are randomly chosen, find the probability that
-    (a) all scored below 600 and (b) exactly three of them scored above 640.
+    \begin{enumerate}[label=(\alph*)]
+        \item all scored below 600
+            
+            $\phi(1)^5 = .42...$
+        \item all scored below 600 and exactly three of them scored above 640.
+
+            $10\phi(1.4)^2 \phi(1.4)^3 = .00...$
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[26]
@@ -165,31 +194,52 @@
     mean 1,000 and standard deviation 200. The current on hand inventory is 2,200
     and no deliveries will be occurring in the next two weeks. Assuming that the
     demands in different weeks are independent,
-    (a) what is the probability that the demand in each of the next 2 weeks is less
-    than 1,100?
-    (b) what is the probability that the total of the demands in the next 2 weeks
-    exceeds 2,200?
+    \begin{enumerate}[label=(\alph*)]
+        \item what is the probability that the demand in each of the next 2 weeks is less than 1,100?
+
+            $P(D_1 < 1100)\times P(D_2 < 1100) = \phi(.5)\phi(.5) = .49...$
+        \item what is the probability that the total of the demands in the next 2 weeks exceeds 2,200?
+
+            $P(D_1 + D_2 > 2000) = P(\frac{D_1+D_2-2000}{\sigma} > \frac{2200-2000}{\sigma}) = 1-.76... = .2400$
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[27]
     A certain type of lightbulb has an output that is normally distributed with mean
     2,000 end foot candles and standard deviation 85 end foot candles. Determine a
     lower specification limit L so that only 5 percent of the lightbulbs produced will
-    be below this limit. (That is, determine L so that P{X ≥ L} = .95, where X is
-    the output of a bulb.)
+    be below this limit. (That is, determine L so that $P\{X ≥ L\} = .95$, where X is
+    the output of a bulb.)\\
+
+    \textbf{Solution}
+
+    $P\{X ≥ L\} = .95 = 1-\phi(\frac{L-2000}{85})$
+
+    $\frac{L-2000}{85} = -.16... \rightarrow L = 1900...$
+
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[28]
     A manufacturer produces bolts that are specified to be between 1.19 and
     1.21 inches in diameter. If its production process results in a bolt’s diameter
     being normally distributed with mean 1.20 inches and standard deviation .005,
-    what percentage of bolts will not meet specifications?
+    what percentage of bolts will not meet specifications?\\
+
+    \textbf{Solution}
+
+    $P\{|X − 1.2| > .01\} = 2P\{Z > \frac{.01}{.005}\} = 2(1 − \phi(2)) = .05...$
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[30]
-    A random variable X is said to have a lognormal distribution if log X is normally
-    distributed. If X is lognormal with E[log X] = μ and Var(log X) = σ2, determine
-    the distribution function of X. That is, what is P{X ≤ x}?
+    A random variable X is said to have a lognormal distribution if log(X) is normally
+    distributed. If X is lognormal with $E[log(X)] = \mu$ and $Var(log(X)) = \sigma^2$, determine
+    the distribution function of X. That is, what is $P\{X \leq x\}$?\\
+
+    \textbf{Solution}
+
+    $P\{X \leq x\} = P\{log(X)\leq log(x)\} = \phi(\frac{[log(x) - \mu]}{\sigma})$
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[32]
@@ -198,70 +248,129 @@
     on your statistics examination were 55 and 10, respectively. You scored 70
     on the economics exam and 62 on the statistics exam. Assuming that the two
     histograms of test scores are approximately normal histograms,
-    (a) on which exam was your percentile score highest?
-    (b) approximate the percentage of the scores on the economics exam that were
-    below your score.
-    (c) approximate the percentage of the scores on the statistics exam that were
-    below your score.
+    \begin{enumerate}[label=(\alph*)]
+        \item on which exam was your percentile score highest?
+
+            $\frac{70-60}{20} < \frac{62-55}{10}$
+
+            Therefore, you scored highest on your statistics exam
+
+        \item approximate the percentage of the scores on the economics exam that were below your score.
+
+            $P(X < 70) = P(Z<.5) = .69...$
+
+        \item approximate the percentage of the scores on the statistics exam that were below your score.
+
+            $P(X < 62) = P(Z<.7) = .76...$
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[35]
     The height of adult women in the United States is normally distributed with
     mean 64.5 inches and standard deviation 2.4 inches. Find the probability that
     a randomly chosen woman is
-    (a) less than 63 inches tall;
-    (b) less than 70 inches tall;
-    (c) between 63 and 70 inches tall.
-    (d) Alice is 72 inches tall. What percentage of women is shorter than Alice?
-    (e) Find the probability that the average of the heights of two randomly chosen
-    women exceeds 66 inches.
-    (f ) Repeat part (e) for four randomly chosen women.
+    \begin{enumerate}[label=(\alph*)]
+        \item less than 63 inches tall
+
+            $\phi(\frac{-1.5}{2.4}) = .27...$
+
+        \item less than 70 inches tall
+
+            $\phi(\frac{5.5}{2.4}) = .99...$
+
+        \item between 63 and 70 inches tall
+
+            $\phi(\frac{5.5}{2.4}) - \phi(\frac{-1.5}{2.4}) = .72...$
+
+        \item Alice is 72 inches tall. What percentage of women is shorter than Alice?
+
+            $\phi(\frac{7.5}{2.4}) = 1.0...$
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[38]
     The number of years a radio functions is exponentially distributed with parameter
-    λ = 1
-    8 . If Jones buys a used radio, what is the probability that it will be
-    working after an additional 10 years?
+    $\lambda = \frac{1}{8}$. 
+    If Jones buys a used radio, what is the probability that it will be working after an additional 10 years?\\
+
+    \textbf{Solution}
+
+    $e^{\frac{-10}{8}} = .29...$
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[39]
     Jones figures that the total number of thousands of miles that a used auto can be
     driven before it would need to be junked is an exponential random variable with
-    parameter 1
-    20 . Smith has a used car that he claims has been driven only 10,000
-    miles. If Jones purchases the car, what is the probability that she would get
-    at least 20,000 additional miles out of it? Repeat under the assumption that
-    the lifetime mileage of the car is not exponentially distributed but rather is (in
-    thousands of miles) uniformly distributed over (0, 40).
+    parameter $\frac{1}{20}$. 
+    Smith has a used car that he claims has been driven only 10,000 miles. If Jones purchases the car, what is the probability that she would get at least 20,000 additional miles out of it? \\
+    
+    \textbf{Solution}
+
+    $e^{-1} = .37...$\\
+
+
+    Repeat under the assumption that the lifetime mileage of the car is not exponentially distributed but rather is (in thousands of miles) uniformly distributed over (0, 40).\\
+
+    \textbf{Solution}
+
+    $\frac{1}{4} + \frac{3}{4} = \frac{1}{3}$
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[43]
     If X is a chi-square random variable with 6 degrees of freedom, find
-    (a) P{X ≤ 6};
-    (b) P{3 ≤ X ≤ 9}.
+    \begin{enumerate}[label=(\alph*)]
+        \item $P\{X \leq 6\}$
+
+            .5770
+        \item $P\{3 \leq X \leq 9\}$
+
+            .6354
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[44]
     If X and Y are independent chi-square random variables with 3 and 6 degrees of
     freedom, respectively, determine the probability that X + Y will exceed 10.
+
+    \textbf{Solution}
+
+    .3504
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[46]
-    If T has a t-distribution with 8 degrees of freedom, find (a) P{T ≥ 1},
-    (b) P{T ≤ 2}, and (c) P{−1 < T < 1}.
+    If T has a t-distribution with 8 degrees of freedom, find 
+    
+    \begin{enumerate}[label=(\alph*)]
+        \item $P\{T ≥ 1\}$
+
+            .1732
+        \item $P\{T ≤ 2\}$
+
+            .9597
+        \item $P\{−1 < T < 1\}$
+
+            .6536
+    \end{enumerate}
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[48]
-    Let be the standard normal distribution function. If, for constants a and b > 0
-    P{X ≤ x} =
-    x − a
-    b
+    Let be the standard normal distribution function. If, for constants a and $b > 0$
+    \[
+        P\{X \leq x\} = \phi(\frac{x - a}{b})
+    \]
+    characterize the distribution of X.\\
 
-    characterize the distribution of X.
+    \textbf{Solution}
+
+    Not sure, but it is normally distributed with $\bar{x}= a$, and $\sigma = b$?
 \end{homeworkProblem}
 
-\begin{homeworkProblem}[In Class]
+\pagebreak
+
+{\Huge In class homeworks}
+
+\begin{homeworkProblem}[1]
     $\chi ~ \chi^2_i$ use A1 *Normal Table) $P[X < 0.2809] = ?$
 
     $X ~ t_6$
