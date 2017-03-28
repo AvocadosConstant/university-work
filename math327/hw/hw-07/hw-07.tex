@@ -151,10 +151,18 @@
     \begin{enumerate}[label=(\alph*)]
         \item Plot the probability mass function of 
             $ \overline{X_2} = \frac{X_1 + X_2}{2} $.
+
+            
         \item Determine $\E [\overline{X_2}]$ and $\Var(\overline{X_2})$.  
+
+            \[ \E [\overline{X_2}] = 1.8 \]
+            \[ \Var(\overline{X_2}) = 0.8... \]
 
         \stepcounter{enumi}
         \item Determine $\E [\overline{X_3}]$ and $\Var(\overline{X_3})$.  
+
+            \[ \E [\overline{X_3}] = 1.8 \]
+            \[ \Var(\overline{X_3}) = 0.5... \]
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -166,16 +174,27 @@
 
     \textbf{Solution} 
 
+    \begin{align*}
+        P\{30\leq X\leq40\} &= P\{29.5\leq X \leq 40.5\} \\
+                            &\cong P\left\{\frac{29.5-35}{\sqrt{\frac{350}{12}}}\leq Z \leq \frac{40.5-35}{\sqrt{\frac{350}{12}}}\right\} \\
+                            &= \Phi(1.02) - \Phi(-1.02) = .6922
+    \end{align*}
+    
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[3]
 
-    Approximate the probability that the sum of 16 independent uniform (0, 1) random\\
-    variables exceeds 10.
+    Approximate the probability that the sum of 16 independent uniform (0, 1) random
+    variables exceeds 10. \\
 
     \textbf{Solution} 
-    
+
+    \[ P\{S>10\} \cong 1-\Phi\left(\frac{2}{\sqrt{\frac{4}{3}}}\right) = .42 \]
+
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[5]
 
@@ -185,8 +204,15 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item Approximate the probability that the salt on hand will suffice for the next 50 days.
+
+            \[ \Phi\left(\frac{80-50(1.5)}{.3\sqrt{50}}\right) = \Phi(2.36...) = .99...\]
         \item What assumption did you make in solving part (a)?
+            
+            That the snowfall is independent of each other every day.
+
         \item Do you think this assumption is justified? Explain briefly
+
+            Probably not, because snowstorms can last for multiple days etc. Weather is pretty cyclic.
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -199,7 +225,11 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item less than 104;
+
+            \[ P\{\overline{X} < 104\} \cong \Phi\left( \frac{52-60}{1.5\sqrt{52}} \right) = .23 \]
         \item between 98 and 104 hours.
+
+            \[ .79 - \Phi(\frac{-8}{40}) = .443 \]
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -213,8 +243,12 @@
     high or higher than 3.1 if the company’s claims were true?\\
 
     \textbf{Solution} 
+
+    \[ 1-\Phi(\frac{9}{.3}) = 0 \]
     
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[12]
 
@@ -224,9 +258,17 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item Approximate the probability that the average test score in the class of size 25 lies between 72 and 82.
+
+            \[ \Phi(\frac{25}{15}) - \Phi(\frac{-25}{15}) = .90 \]
         \item Repeat part (a) for a class of size 64.
+
+            \[ \Phi(\frac{40}{15}) - \Phi(\frac{-40}{15}) = .99 \]
         \item What is the approximate probability that the average test score in the class of size 25 is higher than that of the class of size 64?
+
+            \[.5\]
         \item Suppose the average scores in the two classes are 76 and 83. Which class, the one of size 25 or the one of size 64, do you think was more likely to have averaged 83?
+
+            The class of size 25.
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -239,7 +281,10 @@
 
     \textbf{Solution} 
     
+    \[ P\{X < 199.5\} \cong \Phi\left(\frac{-50.5}{\sqrt{\frac{3000}{16}}}\right) = \Phi(-3.7...) = .0001 \]
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[15]
 
@@ -252,9 +297,20 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item Is X a binomial random variable?
+
+            It is not a binomial random variable.
+
         \item Let $X_A$ and $X_B$ denote, respectively, the number of victories against class A and class B teams. What are the distributions of $X_A$ and $X_B$?
+
+            Both are binomially distributed.
+
         \item What is the relationship between $X_A$, $X_B$, and $X$?
+
+            X is the sum of the other two random variables.
+
         \item Approximate the probability that the team wins 40 or more games.
+
+            \[ P\{X > 39.5\} \cong .148 \]
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -266,7 +322,11 @@
     
     \begin{enumerate}[label=(\alph*)]
         \item Poisson approximation
+
+            \[ .583 \]
         \item Normal approximation
+
+            \[ .566 \]
     \end{enumerate}
         In using the normal approximation, write the desired probability as $P\{X < 10.5\}$ so as to utilize the continuity correction.
     
@@ -279,12 +339,19 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item $P\{\frac{S^2}{\sigma^2} \leq 1.8\}$
+
+            \[ P\{\chi_4^2 \leq 7.2\} \]
+
         \item $P\{.85 \leq \frac{S^2}{\sigma^2} \leq 1.15\}$
+
+            \[ P\{3.4 \leq \chi_4^2 \leq 4.2\} \]
     \end{enumerate}
 
     where $S^2$ is the sample variance of the five data values.
     
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[20]
 
@@ -294,6 +361,8 @@
     sample exceeds the one from the first. (Hint: Relate it to the F-distribution.)
 
     \textbf{Solution} 
+
+    \[ P\{S_2^2 > S_1^2\} = P\{F_{9,4} < 0.5 \}\]
 
 \end{homeworkProblem}
 
@@ -305,6 +374,8 @@
 
     \textbf{Solution} 
     
+    \[ .56... \]
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[23]
@@ -321,7 +392,12 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item at least 150 of them rarely eat breakfast
+
+            \[.6711\]
+
         \item fewer than 100 of them smoke
+
+            \[.9735\]
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -333,8 +409,12 @@
     rarely eat breakfast.\\
 
     \textbf{Solution} 
+
+    \[ P\{X-Y>0\} \cong \Phi(-.84) = .2005 \]
     
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[28]
 
@@ -345,9 +425,21 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item 507
+
+            \[ .84 \] 
+
         \item 517
+
+            \[ .02 \] 
+
         \item 537
+
+            \[ .00 \] 
+
         \item 550
+
+            \[ .06 \] 
+
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -360,6 +452,8 @@
     engineers exceeds \$55,000.\\
 
     \textbf{Solution} 
+
+    \[ .06 \]
 
 \end{homeworkProblem}
 
