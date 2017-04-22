@@ -14,6 +14,8 @@ int main() {
     cs540::Array a1{1, 2, 3};
     std::cout << a1 << std::endl;
 
+
+    /*
     // Both a2 and a1 should be identical after the copy ctor.
     std::cout << "Testing copy ctor: " << std::endl;
     before = MyInt::count;
@@ -48,4 +50,5 @@ int main() {
     std::cout << "    " << a5 << std::endl;
 
     cs540::Array::move_performance_test();
+    */
 }
