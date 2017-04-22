@@ -8,12 +8,27 @@ namespace cs540 {
 
   class Array {
     public:
+      ///////////////////
+      // CONSTRUCTORS //
+      /////////////////
       Array(std::initializer_list<MyInt> init) : size(init.size()), data{new MyInt[size]} {
         int cur = 0;
         for(auto elem : init) {
           data[cur++] = elem;
         }
       }
+
+      // Copy Constructor
+      Array(const Array& that) {
+        size = that.size;
+        data = new MyInt[that.size];
+
+        for(std::size_t i = 0; i < that.size; i++) {
+          data[i] = MyInt{that.data[i]};
+        }
+      }
+
+      ~Array() { delete[] data; }
 
       void move_performance_test() {
       }
