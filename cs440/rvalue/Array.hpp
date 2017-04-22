@@ -8,9 +8,6 @@ namespace cs540 {
 
   class Array {
     public:
-      ///////////////////
-      // CONSTRUCTORS //
-      /////////////////
       Array(std::initializer_list<MyInt> init) : size(init.size()), data{new MyInt[size]} {
         int cur = 0;
         for(auto elem : init) {
@@ -18,19 +15,48 @@ namespace cs540 {
         }
       }
 
-      // Copy Constructor
+      /** Copy Constructor */
       Array(const Array& that) {
         size = that.size;
-        data = new MyInt[that.size];
+        data = new MyInt[size];
 
         for(std::size_t i = 0; i < that.size; i++) {
           data[i] = MyInt{that.data[i]};
         }
       }
 
-      ~Array() { delete[] data; }
+      /** Move Constructor */
+      Array(Array &&that) : size(that.size), data(that.data) {
+        that.data = nullptr;
+      }
 
-      void move_performance_test() {
+      /** Destructor */
+      ~Array() { if(data) delete[] data; }
+
+      /** Copy assignment operator */
+      Array& operator= (const Array& that) {
+        if(this == &that) return *this;
+        size = that.size;
+        delete[] data;
+        data = new MyInt[size];
+
+        for(std::size_t i = 0; i < that.size; i++) {
+          data[i] = MyInt{that.data[i]};
+        }
+        return *this;
+      }
+
+      /** Move assignment operator */
+      Array& operator= (Array&& that) {
+        if(this == &that) return *this;
+        size = that.size;
+        delete[] data;
+        data = that.data;
+        that.data = nullptr;
+        return *this;
+      }
+
+      static void move_performance_test() {
       }
 
       friend std::ostream& operator<< (std::ostream& stream, const Array& array) {

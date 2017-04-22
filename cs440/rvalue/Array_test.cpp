@@ -23,7 +23,6 @@ int main() {
     std::cout << "    " << a2 << std::endl;
     std::cout << "    " << a1 << std::endl;
 
-    /*
     std::cout << "Testing move ctor: " << std::endl;
     before = MyInt::count;
     cs540::Array a3{std::move(a2)};
@@ -49,5 +48,4 @@ int main() {
     std::cout << "    " << a5 << std::endl;
 
     cs540::Array::move_performance_test();
-    */
 }
