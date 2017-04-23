@@ -1,22 +1,53 @@
 #ifndef _SHARED_PTR_HPP_
 #define _SHARED_PTR_HPP_
 
+#include <iostream>
 #include <cstddef>
 
 namespace cs540 {
 
+  struct Ref_Count_Base {
+
+    Ref_Count_Base() : count(1) {}
+    virtual ~Ref_Count_Base() {}
+
+    void inc_ref() { ++count; }
+    void dec_ref() {
+      --count;
+      if(count <= 0) delete this;
+    }
+
+    std::size_t count;
+  };
+
+  template<class U> struct Ref_Count : public Ref_Count_Base {
+    Ref_Count(U *p) : ptr(p) {}
+    ~Ref_Count() { delete ptr; }
+
+    private:
+      U* ptr;
+  };
+
   template <typename T> class SharedPtr {
+
+    T *ptr;
+    Ref_Count_Base *ref;
 
     public:
       //////////////////////////////
       // CTORS, ASSIGN OPS, DTOR //
       ////////////////////////////
-      SharedPtr();
+
+      /** Default Constructor */
+      SharedPtr() : ptr(nullptr), ref(nullptr) {}
 
       template <typename U>
-        explicit SharedPtr(U *);
+        explicit SharedPtr(U *p) : ptr{p}, ref{new Ref_Count<U>(p)} {}
 
-      SharedPtr(const SharedPtr &p);
+      SharedPtr(const SharedPtr &p) : ptr{p.ptr}, ref{p.ref} {
+        std::cout << "Constructing with SharedPtr(const SharedPtr &p)" << std::endl;
+        if(ref != nullptr) ref->inc_ref();
+      }
 
       template <typename U>
         SharedPtr(const SharedPtr<U> &p);
@@ -36,7 +67,10 @@ namespace cs540 {
       template <typename U>
         SharedPtr &operator=(SharedPtr<U> &&p);
 
-      ~SharedPtr();
+      ~SharedPtr() {
+        std::cerr << "Destructing a SharedPtr" << std::endl;
+        if(ref != nullptr) ref->dec_ref();
+      }
 
       ////////////////
       // MODIFIERS //
@@ -58,6 +92,11 @@ namespace cs540 {
       T *operator->() const;
 
       explicit operator bool() const;
+
+      // Not required for project
+      std::size_t use_count() {
+        return ref->count;
+      }
 
   }; // class SharedPtr
 
