@@ -30,10 +30,11 @@ namespace cs540 {
 
   template <typename T> class SharedPtr {
 
-    T *ptr;
-    Ref_Count_Base *ref;
-
     public:
+
+      T *ptr;
+      Ref_Count_Base *ref;
+
       //////////////////////////////
       // CTORS, ASSIGN OPS, DTOR //
       ////////////////////////////
@@ -44,28 +45,68 @@ namespace cs540 {
       template <typename U>
         explicit SharedPtr(U *p) : ptr{p}, ref{new Ref_Count<U>(p)} {}
 
-      SharedPtr(const SharedPtr &p) : ptr{p.ptr}, ref{p.ref} {
-        std::cout << "Constructing with SharedPtr(const SharedPtr &p)" << std::endl;
+      /** Copy Constructor */
+      // Can be replaced by just the templated version?
+      SharedPtr(const SharedPtr &that) : ptr{that.ptr}, ref{that.ref} {
         if(ref != nullptr) ref->inc_ref();
       }
 
+      /** Templated Copy Constructor */
       template <typename U>
-        SharedPtr(const SharedPtr<U> &p);
+      SharedPtr(const SharedPtr<U> &that) : ptr{static_cast<T *>(that.ptr)}, ref{that.ref} {
+        if(ref != nullptr) ref->inc_ref();
+      }
 
-      SharedPtr(SharedPtr &&p);
+      /** Move Constructor */
+      SharedPtr(SharedPtr &&that) : ptr{that.ptr}, ref{that.ref} {
+        that.ptr = nullptr;
+        that.ref = nullptr;
+      }
 
+      /** Templated Move Constructor */
       template <typename U>
-        SharedPtr(SharedPtr<U> &&p);
+      SharedPtr(SharedPtr<U> &&that) : ptr{static_cast<T *>(that.ptr)}, ref{that.ref} {
+        that.ptr = nullptr;
+        that.ref = nullptr;
+      }
 
-      SharedPtr &operator=(const SharedPtr &);
+      /** Assignment Operator */
+      SharedPtr &operator=(const SharedPtr &that) {
+        if(that == *this) return *this;
+        if(ref != nullptr) ref->dec_ref();
+        ptr = that.ptr;
+        ref = that.ref;
+        if(ref != nullptr) ref->inc_ref();
+        return *this;
+      }
 
+      /** Templated Assignment Operator */
       template <typename U>
-        SharedPtr<T> &operator=(const SharedPtr<U> &);
+      SharedPtr<T> &operator=(const SharedPtr<U> &that) {
+        if(that == *this) return *this;
+        if(ref != nullptr) ref->dec_ref();
+        ptr = that.ptr;
+        ref = that.ref;
+        if(ref != nullptr) ref->inc_ref();
+        return *this;
+      }
 
-      SharedPtr &operator=(SharedPtr &&p);
+      /** Move Assignment Operator */
+      SharedPtr &operator=(SharedPtr &&that) {
+        ptr = that.ptr;
+        ref = that.ref;
+        that.ptr = nullptr;
+        that.ref = nullptr;
+      }
 
+      /** Templated Move Assignment Operator */
       template <typename U>
-        SharedPtr &operator=(SharedPtr<U> &&p);
+      SharedPtr &operator=(SharedPtr<U> &&that) {
+        ptr = that.ptr;
+        ref = that.ref;
+        that.ptr = nullptr;
+        that.ref = nullptr;
+      }
 
       ~SharedPtr() {
         std::cerr << "Destructing a SharedPtr" << std::endl;
@@ -95,7 +136,8 @@ namespace cs540 {
 
       // Not required for project
       std::size_t use_count() {
-        return ref->count;
+        if(ref != nullptr) return ref->count;
+        return 0;
       }
 
   }; // class SharedPtr
