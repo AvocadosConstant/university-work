@@ -97,6 +97,7 @@ namespace cs540 {
         ref = that.ref;
         that.ptr = nullptr;
         that.ref = nullptr;
+        return *this;
       }
 
       /** Templated Move Assignment Operator */
@@ -106,6 +107,7 @@ namespace cs540 {
         ref = that.ref;
         that.ptr = nullptr;
         that.ref = nullptr;
+        return *this;
       }
 
       ~SharedPtr() {
@@ -126,7 +128,7 @@ namespace cs540 {
       // OBSERVERS //
       //////////////
 
-      T *get() const;
+      T *get() const { return ptr; }
 
       T &operator*() const;
 
@@ -147,25 +149,37 @@ namespace cs540 {
   /////////////////////////////
 
   template <typename T1, typename T2>
-    bool operator==(const SharedPtr<T1> &, const SharedPtr<T2> &);
+  bool operator==(const SharedPtr<T1> &lhs, const SharedPtr<T2> &rhs) {
+    return lhs.get() == rhs.get();
+  }
   
   template <typename T>
-    bool operator==(const SharedPtr<T> &, std::nullptr_t);
+  bool operator==(const SharedPtr<T> &lhs, std::nullptr_t) {
+    return lhs == nullptr;
+  }
 
   template <typename T>
-    bool operator==(std::nullptr_t, const SharedPtr<T> &);
+  bool operator==(std::nullptr_t, const SharedPtr<T> &rhs) {
+    return rhs == nullptr;
+  }
 
   template <typename T1, typename T2>
-    bool operator!=(const SharedPtr<T1> &, const SharedPtr<T2> &);
+  bool operator!=(const SharedPtr<T1> &lhs, const SharedPtr<T2> &rhs) {
+    return !(lhs == rhs);
+  }
   
   template <typename T>
-    bool operator!=(const SharedPtr<T> &, std::nullptr_t);
+  bool operator!=(const SharedPtr<T> &lhs, std::nullptr_t) {
+    return lhs != nullptr;
+  }
 
   template <typename T>
-    bool operator!=(std::nullptr_t, const SharedPtr<T> &);
+  bool operator!=(std::nullptr_t, const SharedPtr<T> &rhs) {
+    return rhs != nullptr;
+  }
 
   template <typename T, typename U>
-    SharedPtr<T> static_pointer_cast(const SharedPtr<U> &sp);
+  SharedPtr<T> static_pointer_cast(const SharedPtr<U> &sp);
 
   template <typename T, typename U>
     SharedPtr<T> dynamic_pointer_cast(const SharedPtr<U> &sp);
