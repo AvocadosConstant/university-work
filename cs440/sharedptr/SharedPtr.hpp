@@ -119,10 +119,17 @@ namespace cs540 {
       // MODIFIERS //
       //////////////
 
-      void reset();
+      void reset() {
+        if(ref != nullptr) ref->dec_ref();
+        ptr = nullptr;
+        ref = nullptr;
+      }
 
-      template <typename U>
-        void reset(U *p);
+      template <typename U> void reset(U *p) {
+        if(ref != nullptr) ref->dec_ref();
+        ptr = p;
+        ref = new Ref_Count<U>(p);
+      }
 
       ////////////////
       // OBSERVERS //
