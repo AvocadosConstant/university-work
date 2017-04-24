@@ -162,12 +162,12 @@ namespace cs540 {
   
   template <typename T>
   bool operator==(const SharedPtr<T> &lhs, std::nullptr_t) {
-    return lhs == nullptr;
+    return !lhs;
   }
 
   template <typename T>
   bool operator==(std::nullptr_t, const SharedPtr<T> &rhs) {
-    return rhs == nullptr;
+    return !rhs;
   }
 
   template <typename T1, typename T2>
@@ -177,12 +177,12 @@ namespace cs540 {
   
   template <typename T>
   bool operator!=(const SharedPtr<T> &lhs, std::nullptr_t) {
-    return lhs != nullptr;
+    return lhs;
   }
 
   template <typename T>
   bool operator!=(std::nullptr_t, const SharedPtr<T> &rhs) {
-    return rhs != nullptr;
+    return rhs;
   }
 
   template <typename T, typename U>
