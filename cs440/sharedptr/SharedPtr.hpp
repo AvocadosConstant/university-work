@@ -79,7 +79,9 @@ namespace cs540 {
 
       /** Custom Constructor for Casts */
       template <typename U>
-      SharedPtr(SharedPtr<U> sp, T *p) : ptr{p}, ref{sp.ref} {}
+      SharedPtr(const SharedPtr<U> &sp, T *p) : ptr{p}, ref{sp.ref} {
+        if(ref) ref->inc_ref();
+      }
 
       /** Assignment Operator */
       SharedPtr &operator=(const SharedPtr &that) {
