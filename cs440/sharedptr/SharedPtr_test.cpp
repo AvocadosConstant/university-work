@@ -64,9 +64,6 @@ usage() {
 int
 main(int argc, char *argv[]) {
 
-  // Don't test yet
-  return 0;
-
     int c;
 
     setlinebuf(stdout);

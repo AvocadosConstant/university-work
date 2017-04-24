@@ -70,6 +70,10 @@ namespace cs540 {
         that.ref = nullptr;
       }
 
+      /** Custom Constructor for Casts */
+      template <typename U>
+      SharedPtr(SharedPtr<U> sp, T *p) : ptr{p}, ref{sp.ref} {}
+
       /** Assignment Operator */
       SharedPtr &operator=(const SharedPtr &that) {
         if(that == *this) return *this;
@@ -111,7 +115,6 @@ namespace cs540 {
       }
 
       ~SharedPtr() {
-        std::cerr << "Destructing a SharedPtr" << std::endl;
         if(ref != nullptr) ref->dec_ref();
       }
 
@@ -186,10 +189,14 @@ namespace cs540 {
   }
 
   template <typename T, typename U>
-  SharedPtr<T> static_pointer_cast(const SharedPtr<U> &sp);
+  SharedPtr<T> static_pointer_cast(const SharedPtr<U> &sp) {
+    return SharedPtr<T>(sp, static_cast<T *>(sp.get()));
+  }
 
   template <typename T, typename U>
-    SharedPtr<T> dynamic_pointer_cast(const SharedPtr<U> &sp);
+  SharedPtr<T> dynamic_pointer_cast(const SharedPtr<U> &sp) {
+    return SharedPtr<T>(sp, dynamic_cast<T *>(sp.get()));
+  }
 
 } // namespace cs540
 
