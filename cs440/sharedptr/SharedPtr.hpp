@@ -9,6 +9,7 @@ namespace cs540 {
 
   std::mutex mtx;
 
+  /** Reference Counting Control Block Base Class */
   struct Ref_Count_Base {
 
     Ref_Count_Base() : count{1} {}
@@ -27,6 +28,7 @@ namespace cs540 {
     std::size_t count;
   };
 
+  /** Reference Counting Control Block Derived Class */
   template<class U> struct Ref_Count : public Ref_Count_Base {
     Ref_Count(U *p) : Ref_Count_Base{}, ptr(p) {}
     ~Ref_Count() { delete ptr; }
@@ -55,13 +57,13 @@ namespace cs540 {
       /** Copy Constructor */
       // Can be replaced by just the templated version?
       SharedPtr(const SharedPtr &that) : ptr{that.ptr}, ref{that.ref} {
-        if(ref != nullptr) ref->inc_ref();
+        if(ref) ref->inc_ref();
       }
 
       /** Templated Copy Constructor */
       template <typename U>
       SharedPtr(const SharedPtr<U> &that) : ptr{static_cast<T *>(that.ptr)}, ref{that.ref} {
-        if(ref != nullptr) ref->inc_ref();
+        if(ref) ref->inc_ref();
       }
 
       /** Move Constructor */
@@ -86,10 +88,10 @@ namespace cs540 {
       /** Assignment Operator */
       SharedPtr &operator=(const SharedPtr &that) {
         if(that == *this) return *this;
-        if(ref != nullptr) ref->dec_ref();
+        if(ref) ref->dec_ref();
         ptr = that.ptr;
         ref = that.ref;
-        if(ref != nullptr) ref->inc_ref();
+        if(ref) ref->inc_ref();
         return *this;
       }
 
@@ -97,10 +99,10 @@ namespace cs540 {
       template <typename U>
       SharedPtr<T> &operator=(const SharedPtr<U> &that) {
         if(that == *this) return *this;
-        if(ref != nullptr) ref->dec_ref();
+        if(ref) ref->dec_ref();
         ptr = that.ptr;
         ref = that.ref;
-        if(ref != nullptr) ref->inc_ref();
+        if(ref) ref->inc_ref();
         return *this;
       }
 
@@ -124,7 +126,7 @@ namespace cs540 {
       }
 
       ~SharedPtr() {
-        if(ref != nullptr) ref->dec_ref();
+        if(ref) ref->dec_ref();
       }
 
       ////////////////
@@ -132,13 +134,13 @@ namespace cs540 {
       //////////////
 
       void reset() {
-        if(ref != nullptr) ref->dec_ref();
+        if(ref) ref->dec_ref();
         ptr = nullptr;
         ref = nullptr;
       }
 
       template <typename U> void reset(U *p) {
-        if(ref != nullptr) ref->dec_ref();
+        if(ref) ref->dec_ref();
         ptr = p;
         ref = new Ref_Count<U>(p);
       }
@@ -157,7 +159,7 @@ namespace cs540 {
 
       // Not required for project
       std::size_t use_count() {
-        if(ref != nullptr) return ref->count;
+        if(ref) return ref->count;
         return 0;
       }
 
