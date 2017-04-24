@@ -137,11 +137,11 @@ namespace cs540 {
 
       T *get() const { return ptr; }
 
-      T &operator*() const;
+      T &operator*() const { return *this->get(); }
 
-      T *operator->() const;
+      T *operator->() const { return this->get(); }
 
-      explicit operator bool() const;
+      explicit operator bool() const { return ptr != nullptr; }
 
       // Not required for project
       std::size_t use_count() {
