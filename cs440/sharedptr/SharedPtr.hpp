@@ -3,25 +3,32 @@
 
 #include <iostream>
 #include <cstddef>
+#include <mutex>
 
 namespace cs540 {
 
+  std::mutex mtx;
+
   struct Ref_Count_Base {
 
-    Ref_Count_Base() : count(1) {}
+    Ref_Count_Base() : count{1} {}
     virtual ~Ref_Count_Base() {}
 
-    void inc_ref() { ++count; }
+    void inc_ref() { 
+      std::unique_lock<std::mutex> lock(mtx);
+      ++count; 
+    }
     void dec_ref() {
+      std::unique_lock<std::mutex> lock(mtx);
       --count;
-      if(count <= 0) delete this;
+      if(count == 0) delete this;
     }
 
     std::size_t count;
   };
 
   template<class U> struct Ref_Count : public Ref_Count_Base {
-    Ref_Count(U *p) : ptr(p) {}
+    Ref_Count(U *p) : Ref_Count_Base{}, ptr(p) {}
     ~Ref_Count() { delete ptr; }
 
     private:

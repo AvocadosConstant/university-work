@@ -100,7 +100,7 @@ main(int argc, char *argv[]) {
 
     basic_tests_1();
     basic_tests_2();
-    threaded_test();
+    //threaded_test();
 }
 
 void *operator new(size_t sz) {
