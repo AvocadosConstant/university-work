@@ -25,10 +25,10 @@ int main(void) {
   {
     //Test default construction
     cs540::Function<int()> default_constructed;
-    
+
     //Test value construction with a free-function
     cs540::Function<int()> ret_one_hundred(ret_one_hundred_func);
-    
+
     //Test value construction with a lambda-function
     cs540::Function<int()> ret_three_hundred_lambda(ret_three_hundred_lambda_func);
     
