@@ -5,6 +5,8 @@
 #include <vector>
 #include "Cache.hpp"
 
+#define KB  * 1024
+
 int main(int argc, char *argv[]) {
 
   if(argc < 2) {
@@ -25,8 +27,8 @@ int main(int argc, char *argv[]) {
   }
 
   // TODO: Decide upon execution format for cache
-  Cache cache(trace);
-  cache.print_trace();
+  Cache cache(trace, 16 KB, 2);
+  //cache.print_trace();
 
   //////////////////////
   // Output handling //
@@ -40,7 +42,7 @@ int main(int argc, char *argv[]) {
   } else std::cout << "Outputting to standard out..." << std::endl;
 
   // TODO: Replace with test_all equivalent for cache
-  //*output << pred.test_all();
+  *output << "" << std::endl;//pred.test_all();
 
   return 0;
 }
