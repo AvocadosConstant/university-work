@@ -30,7 +30,7 @@ struct Cache {
   unsigned long set_mask_;
   unsigned long tag_mask_;
 
-  std::vector<Set> data_;
+  std::vector<Set> sets_;
 
   Cache(const TraceType &trace, unsigned long cache_size, unsigned long ways) :
     trace_(trace),
@@ -46,11 +46,12 @@ struct Cache {
     set_mask_((num_sets_ - 1) << offset_bits_),
     tag_mask_(((1 << tag_bits_) - 1) << (offset_bits_ + index_bits_)),
 
-    data_(num_sets_, Set(ways)) {
+    sets_(num_sets_, Set(ways)) {
       // These are debugging outputs, TODO: remove before submission
+      /*
       std::cerr << "Cache initialized with " << num_sets_
         << " sets of " << ways_ << " lines each for a total of "
-        << (cache_size_ / line_size_) << " lines in the cache." << std::endl;
+        << (cache_size_ / line_size_) << " lines in the cache of total size " << cache_size_ << std::endl;
 
       std::cerr << offset_bits_ << " offset_bits" << std::endl;
       std::cerr << index_bits_ << " index_bits" << std::endl;
@@ -60,6 +61,7 @@ struct Cache {
       std::cerr << "\t\t" << std::bitset<32>(trace_[0].second) << std::endl << std::endl;
       std::cerr << "Set index:\t" << std::bitset<32>(get_set_index(trace_[0].second)) << std::endl;
       std::cerr << "Tag:\t\t" << std::bitset<32>(get_tag(trace_[0].second)) << std::endl;
+      */
   };
 
   /** Processes all the instructions in the trace */
@@ -78,9 +80,10 @@ struct Cache {
     bool is_load = instr.first;
     unsigned long long addr = instr.second;
 
-    // TODO
+    unsigned long index = get_set_index(addr);
+    unsigned long tag = get_tag(addr);
 
-    return true;
+    return sets_[index].access(tag);
   }
 
   /** Returns set index for given address */

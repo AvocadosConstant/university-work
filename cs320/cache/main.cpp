@@ -27,9 +27,18 @@ int main(int argc, char *argv[]) {
   }
 
   // TODO: Decide upon execution format for cache
-  Cache cache(trace, 16 KB, 4);
+  Cache cache(trace, 1 KB, 1);
   //cache.print_trace();
   std::cerr << cache.process() << std::endl;
+
+  std::cerr << std::dec << "Processing for direct mapped caches of different sizes..." << std::endl;
+  std::ostringstream out;
+  unsigned long direct_mapped_cache_sizes[] = {1 KB, 4 KB, 16 KB, 32 KB};
+  for(auto cache_size : direct_mapped_cache_sizes) {
+    Cache dmc(trace, cache_size, 1);
+    out << dmc.process() << ((cache_size != 32 KB) ? " " : "");
+  }
+  std::cout << out.str() << std::endl;
 
   //////////////////////
   // Output handling //
