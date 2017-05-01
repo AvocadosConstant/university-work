@@ -24,6 +24,8 @@ struct Cache {
   unsigned long num_sets_;
 
   bool no_alloc_on_miss_;
+  bool prefetch_;
+  bool prefetch_on_miss_;
 
   unsigned int offset_bits_;
   unsigned int index_bits_;
@@ -34,7 +36,8 @@ struct Cache {
 
   std::vector<Set> sets_;
 
-  Cache(const TraceType &trace, unsigned long cache_size, unsigned long ways, bool no_alloc_on_miss) :
+  Cache(const TraceType &trace, unsigned long cache_size, unsigned long ways,
+      bool no_alloc_on_miss, bool prefetch, bool prefetch_on_miss) :
     trace_(trace),
     cache_size_(cache_size),
     line_size_(DEFAULT_LINE_SIZE),
@@ -42,6 +45,8 @@ struct Cache {
     num_sets_(cache_size_ / (line_size_ * ways_)),
 
     no_alloc_on_miss_(no_alloc_on_miss),
+    prefetch_(prefetch),
+    prefetch_on_miss_(prefetch_on_miss),
 
     offset_bits_((unsigned int)log2(line_size_)),
     index_bits_((unsigned int)log2(num_sets_)),
@@ -72,7 +77,7 @@ struct Cache {
   std::string process() {
     unsigned long hits = 0;
     for(auto instr : trace_) {
-      if(this->access(instr)) hits++;
+      if(this->access(instr, false)) hits++;
     }
     std::ostringstream output;
     output << hits << "," << trace_.size() << ";";
@@ -80,17 +85,33 @@ struct Cache {
   }
 
   /** Accesses cache at given address */
-  bool access(InstrType instr) {
+  bool access(InstrType instr, bool during_prefetch) {
+
     bool is_load = instr.first;
     unsigned long long addr = instr.second;
+
+    if(during_prefetch) addr += 32;
 
     unsigned long index = get_set_index(addr);
     unsigned long tag = get_tag(addr);
 
+    bool hit;
+
     if(!is_load && no_alloc_on_miss_) {
-      return sets_[index].access(tag, false);
+      hit = sets_[index].access(tag, false);
+    } else {
+      hit = sets_[index].access(tag, true);
     }
-    return sets_[index].access(tag, true);
+
+    if(!during_prefetch && prefetch_) {
+      if(prefetch_on_miss_) {
+        if(!hit) this->access(instr, true);
+      } else {
+        this->access(instr, true);
+      }
+    }
+
+    return hit;
   }
 
   /** Returns set index for given address */
