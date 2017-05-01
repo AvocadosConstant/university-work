@@ -27,8 +27,9 @@ int main(int argc, char *argv[]) {
   }
 
   // TODO: Decide upon execution format for cache
-  Cache cache(trace, 16 KB, 2);
+  Cache cache(trace, 16 KB, 4);
   //cache.print_trace();
+  std::cerr << cache.process() << std::endl;
 
   //////////////////////
   // Output handling //
