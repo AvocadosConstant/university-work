@@ -49,7 +49,7 @@ struct Cache {
     sets_(num_sets_, Set(ways)) {
       // These are debugging outputs, TODO: remove before submission
       /*
-      std::cerr << "Cache initialized with " << num_sets_
+      std::cerr << "Cache initialized with " << std::dec << num_sets_
         << " sets of " << ways_ << " lines each for a total of "
         << (cache_size_ / line_size_) << " lines in the cache of total size " << cache_size_ << std::endl;
 
