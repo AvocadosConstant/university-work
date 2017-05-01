@@ -19,15 +19,15 @@ struct Set {
     }
   };
 
-  bool access(unsigned long tag) {
+  bool access(unsigned long tag, bool write) {
     for(unsigned int i = 0; i < tags_.size(); i++) {
       if(valid_bits_[i] && (tags_[i] == tag)) {
         this->update_lru(i);
         return true;
       }
     }
-    // For now just replacing first tag
-    // TODO: Implement LRU
+
+    if(!write) return false;
 
     unsigned int lru_i = this->lru_index();
 

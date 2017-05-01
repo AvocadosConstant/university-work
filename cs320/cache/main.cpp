@@ -32,7 +32,7 @@ int main(int argc, char *argv[]) {
   std::cerr << std::dec << "Processing for direct mapped caches of different sizes..." << std::endl;
   unsigned long direct_mapped_cache_sizes[] = {1 KB, 4 KB, 16 KB, 32 KB};
   for(auto cache_size : direct_mapped_cache_sizes) {
-    Cache dmc(trace, cache_size, 1);
+    Cache dmc(trace, cache_size, 1, false);
     out << dmc.process() << ((cache_size != 32 KB) ? " " : "");
   }
 
@@ -40,15 +40,25 @@ int main(int argc, char *argv[]) {
 
   unsigned long set_assoc_cache_ways[] = {2, 4, 8, 16};
   for(auto way : set_assoc_cache_ways) {
-    Cache sac(trace, 16 KB, way);
+    Cache sac(trace, 16 KB, way, false);
     out << sac.process() << ((way != 16) ? " " : "");
   }
 
   out << std::endl;
 
   {
-    Cache fac_lru(trace, 16 KB, (16 KB) / 32);
+    Cache fac_lru(trace, 16 KB, (16 KB) / 32, false);
     out << fac_lru.process();
+  }
+
+  out << std::endl;
+  out << "FULLY ASSOCIATIVE WITH HOT COLD" << std::endl;
+
+  {
+    for(auto way : set_assoc_cache_ways) {
+      Cache sac_noalloc(trace, 16 KB, way, true);
+      out << sac_noalloc.process() << ((way != 16) ? " " : "");
+    }
   }
 
   std::cout << out.str() << std::endl;

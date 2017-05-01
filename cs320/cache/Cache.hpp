@@ -23,6 +23,8 @@ struct Cache {
   unsigned long ways_;
   unsigned long num_sets_;
 
+  bool no_alloc_on_miss_;
+
   unsigned int offset_bits_;
   unsigned int index_bits_;
   unsigned int tag_bits_;
@@ -32,12 +34,14 @@ struct Cache {
 
   std::vector<Set> sets_;
 
-  Cache(const TraceType &trace, unsigned long cache_size, unsigned long ways) :
+  Cache(const TraceType &trace, unsigned long cache_size, unsigned long ways, bool no_alloc_on_miss) :
     trace_(trace),
     cache_size_(cache_size),
     line_size_(DEFAULT_LINE_SIZE),
     ways_(ways),
     num_sets_(cache_size_ / (line_size_ * ways_)),
+
+    no_alloc_on_miss_(no_alloc_on_miss),
 
     offset_bits_((unsigned int)log2(line_size_)),
     index_bits_((unsigned int)log2(num_sets_)),
@@ -83,7 +87,10 @@ struct Cache {
     unsigned long index = get_set_index(addr);
     unsigned long tag = get_tag(addr);
 
-    return sets_[index].access(tag);
+    if(!is_load && no_alloc_on_miss_) {
+      return sets_[index].access(tag, false);
+    }
+    return sets_[index].access(tag, true);
   }
 
   /** Returns set index for given address */
