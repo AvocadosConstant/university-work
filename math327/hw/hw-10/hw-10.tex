@@ -1,0 +1,426 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{diagbox}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+    }{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+% TODO: Replace with correct number and date
+\newcommand{\hmwkTitle}{Problem Set\ \#10}
+\newcommand{\hmwkDueDate}{May 08, 2017}
+\newcommand{\hmwkClass}{MATH 327}
+\newcommand{\hmwkClassInstructor}{Professor Mei-Hsiu Chen}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 2:10pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}[27]
+
+    A sample of 10 fish were caught at lake A and their PCB concentrations were
+    measured using a certain technique. The resulting data in parts per million were
+
+    \[ \text{Lake A:  } 11.5, 10.8, 11.6, 9.4, 12.4, 11.4, 12.2, 11, 10.6, 10.8 \]
+
+    In addition, a sample of 8 fish were caught at lake B and their levels of PCB were
+    measured by a different technique than that used at lake A. The resultant data
+    were
+
+    \[ \text{Lake B:  } 11.8, 12.6, 12.2, 12.5, 11.7, 12.1, 10.4, 12.6 \]
+
+    If it is known that the measuring technique used at lake A has a variance of .09
+    whereas the one used at lake B has a variance of .16, could you reject (at the
+    5 percent level of significance) a claim that the two lakes are equally contaminated?\\
+
+    \textbf{Solution} 
+
+    Yes, you can reject a claim that the two lakes are equally contaminated.
+
+    Calculated $p\text{-value} \approx 0$
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[28]
+
+    A method for measuring the pH level of a solution yields a measurement value
+    that is normally distributed with a mean equal to the actual pH of the solution
+    and with a standard deviation equal to .05. An environmental pollution scientist
+    claims that two different solutions come from the same source. If this were so,
+    then the pH level of the solutions would be equal. To test the plausibility of
+    this claim, 10 independent measurements were made of the pH level for both
+    solutions, with the following data resulting.
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    \begin{enumerate}[label=(\alph*)]
+        \item Do the data disprove the scientist’s claim? Use the 5 percent level of significance.
+
+            No
+
+        \item What is the p-value?
+
+            \[ p\text{-value} = P(Z > 0.81) = .420 \]
+
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[29]
+
+    The following are the values of independent samples from two different
+    populations.
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    Let $\mu_1$ and $\mu_2$ be the respective means of the two populations. Find the p-value
+    of the test of the null hypothesis
+    \[ H0 : \mu_1 \leq \mu_2 \]
+    versus the alternative
+    \[ H1 : \mu_1 > \mu_2 \]
+    when the population standard deviations are $\sigma_1 = 10$ and
+
+    \begin{enumerate}[label=(\alph*)]
+        \item $\sigma_2 = 5$
+
+            \[ p\text{-value} = 0.004 \]
+
+        \item $\sigma_2 = 10$
+
+            \[ p\text{-value} = 0.018 \]
+
+        \item $\sigma_2 = 20$
+
+            \[ p\text{-value} = 0.092 \]
+
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[31]
+
+    The viscosity of two different brands of car oil is measured and the following data
+    resulted:
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    Test the hypothesis that the mean viscosity of the two brands is equal, assuming
+    that the populations have normal distributions with equal variances.\\
+
+    \textbf{Solution} 
+    
+    \[ p\text{-value} = 2P(T_11 > 1.75) = .420 \]
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[33]
+
+    Twenty-five men between the ages of 25 and 30, who were participating in a wellknown
+    heart study carried out in Framingham, Massachusetts, were randomly
+    selected. Of these, 11 were smokers and 14 were not. The following data refer to
+    readings of their systolic blood pressure.
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    Use these data to test the hypothesis that the mean blood pressures of smokers
+    and nonsmokers are the same.\\
+
+    \textbf{Solution} 
+    
+    \[ p\text{-value} = 0.019 \]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[35]
+
+    A professor claims that the average starting salary of industrial engineering graduating
+    seniors is greater than that of civil engineering graduates. To study this
+    claim, samples of 16 industrial engineers and 16 civil engineers, all of whom graduated
+    in 2006, were chosen and sample members were queried about their starting
+    salaries. If the industrial engineers had a sample mean salary of \$72,700 and a
+    sample standard deviation of \$2,400, and the civil engineers had a sample mean
+    salary of \$71,400 and a sample standard deviation of \$2,200, has the professor’s
+    claim been verified? Find the appropriate p-value.\\
+
+    \textbf{Solution} 
+
+    \[ p\text{-value} = P(T_{30} > 1.60) = .06 \]
+    
+    Claim is unverified. Not at 5\% significance.
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[38]
+
+    To learn about the feeding habits of bats, 22 bats were tagged and tracked by
+    radio. Of these 22 bats, 12 were female and 10 were male. The distances flown
+    (in meters) between feedings were noted for each of the 22 bats, and the following
+    summary statistics were obtained.
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    Test the hypothesis that the mean distance flown between feedings is the same
+    for the populations of both male and of female bats. Use the 5 percent level of
+    significance.\\
+
+    \textbf{Solution} 
+    
+    Cannot reject null hypothesis
+
+    Test statistics = 1.15
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[42]
+
+    Ten pregnant women were given an injection of pitocin to induce labor. Their
+    systolic blood pressures immediately before and after the injection were:
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    Do the data indicate that injection of this drug changes blood pressure?\\
+
+    \textbf{Solution} 
+    
+    \[ p\text{-value} = 2P(T_9 > 2.33) = .044 \]
+
+    Data does not indicate the injection changes blood pressure: Rejected at 5\% level of significance.
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[47]
+
+    A pharmaceutical house produces a certain drug item whose weight has a standard
+    deviation of .5 milligrams. The company’s research team has proposed
+    a new method of producing the drug. However, this entails some costs and
+    will be adopted only if there is strong evidence that the standard deviation of
+    the weight of the items will drop to below .4 milligrams. If a sample of 10
+    items is produced and has the following weights, should the new method be
+    adopted?
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    \textbf{Solution} 
+
+    Test H0 : $\sigma \geq .4$
+
+    \[ \frac{9S^2}{0.4^2} &= 9.252 \times 10^4 \]       
+
+    \[p\text{-value} &= P(X^2_9 < .000925) < .0001 \]
+    
+    Null hypothesis is rejected. 
+    
+    New method should be adopted.
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[48]
+
+    The production of large electrical transformers and capacitators requires the use of
+    polychlorinated biphenyls (PCBs), which are extremely hazardous when released
+    into the environment. Two methods have been suggested to monitor the levels
+    of PCB in fish near a large plant. It is believed that each method will result in
+    a normal random variable that depends on the method. Test the hypothesis at
+    the $\alpha = .10$ level of significance that both methods have the same variance, if a
+    given fish is checked 8 times by each method with the following data (in parts per
+    million) recorded.
+
+    \begin{center}
+        TABLE GOES HERE
+    \end{center}
+
+    \textbf{Solution} 
+
+    \[ \frac{S_1^2}{S_2^2} = .5317 \]
+    \[ p\text{-value} = 2P(F_{7.7} < .5317) = .42 \]
+    
+    Hypothesis is accepted.
+    
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[49]
+
+    In Problem 31, test the hypothesis that the populations have the same variances.\\
+
+    \textbf{Solution} 
+
+    \[ \frac{S_1^2}{S_2^2} = 14.05 \]
+    \[ p\text{-value} = 2P(F_{5.6} > 14.05) = 0.006 \]
+    
+    Hypothesis is rejected.
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[58]
+
+    A standard drug is known to be effective in 75 percent of the cases in which it
+    is used to treat a certain infection. A new drug has been developed and has been
+    found to be effective in 42 cases out of 50. Based on this, would you accept, at
+    the 5 percent level of significance, the hypothesis that the two drugs are of equal
+    effectiveness? What is the p-value?\\
+
+    \textbf{Solution} 
+
+    \[ p\text{-value} = 2P(Bin(50, .75) \geq 42) = .183 \]
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[59]
+
+    Do Problem 58 by using a test based on the normal approximation to the
+    binomial.\\
+
+    \textbf{Solution} 
+
+    \[ p\text{-value} = 2P\left(Z > \frac{41.5 - \frac{150}{4}}{\sqrt{\frac{150}{16}}}\right) \geq 42) = .183 \]
+
+\end{homeworkProblem}
+
+\end{document}
