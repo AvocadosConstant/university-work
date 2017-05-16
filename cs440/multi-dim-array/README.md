@@ -89,7 +89,7 @@ You should throw an object of class type `cs540::OutOfRange` as an exception if 
 
 Your code must not have any fixed limits. You must be able to construct arrays with any number of elements and dimensions, etc.
 
-Your array implementation must be completely contained in `Array.hpp` and `Array.cpp`. Note that `Array.cpp` will likely be empty. Test code for your array is [here](../progs/Array/test_Array.cpp). The correct output is [here](../progs/Array/correct_output.txt). Your code must work with the test code without change. We reserve the right to add addtional tests to this as we see fit, but we will conform to the API used in the provided test code.
+Your array implementation must be completely contained in `Array.hpp` and `Array.cpp`. Note that `Array.cpp` will likely be empty. Test code for your array is [here](./test_Array.cpp). The correct output is [here](./correct_output.txt). Your code must work with the test code without change. We reserve the right to add addtional tests to this as we see fit, but we will conform to the API used in the provided test code.
 
 ### Template
 
