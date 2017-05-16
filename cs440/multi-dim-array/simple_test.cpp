@@ -31,7 +31,6 @@ int main() {
   } catch (cs540::OutOfRange) {
   }
 
-  /*
 
   a = a; // Self-assignment must be a no-op.
   b = a; // Okay, as long as dimensions and type match exactly.
@@ -55,6 +54,5 @@ int main() {
     std::cout << *it << std::endl;
   }
 
-  */
 }
 #pragma GCC diagnostic pop
