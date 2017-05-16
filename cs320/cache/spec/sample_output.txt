@@ -1,0 +1,10 @@
+x,y; x,y; x,y; x,y; <- Direct Mapped (x=number of cache hits, y=number of memory accesses)
+x,y; x,y; x,y; x,y; <- Set Associative 
+x,y; <- Fully Associative (LRU)
+x,y; <- Fully Associative (Hot-Cold LRU)
+x,y; x,y; x,y; x,y; <- Set Associative with No allocation on a write miss
+x,y; x,y; x,y; x,y; <- Set Associative with next-line prefetching
+x,y; x,y; x,y; x,y; <- Set Associative with next-line prefetching on every miss
+
+Note: This line any anything after the <- shouldn't actually be in the output,
+it is only given in this example to clarify what each line is. 
