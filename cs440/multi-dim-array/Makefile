@@ -2,7 +2,7 @@ CXX=g++
 CXXFLAGS=-g -std=c++11 -Wall -Wextra -pedantic -O3
 BIN=test
 
-SRC=$(wildcard *.cpp)
+SRC=$(wildcard simple_test.cpp)
 OBJ=$(SRC:%.cpp=%.o)
 
 all: $(OBJ)

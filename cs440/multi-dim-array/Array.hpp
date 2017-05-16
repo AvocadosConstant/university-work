@@ -3,6 +3,9 @@
 
 #include <iostream>
 #include <stdlib.h>
+#include <cstdarg>
+#include <vector>
+#include <cassert>
 
 namespace cs540 {
   class OutOfRange : public std::exception {
@@ -11,14 +14,25 @@ namespace cs540 {
     }
   }; // class OutOfRange
 
+
   template <typename T, std::size_t... Dims> class Array {
     public:
       typedef T ValueType;
       class FirstDimensionMajorIterator;
       class LastDimensionMajorIterator;
 
+      std::vector<std::size_t> dims;
+
       /** Default Constructor */
-      Array();
+      Array() : dims{Dims...} {
+        for(auto dim : dims) {
+          assert(dim != 0);
+          // TODO: Figure out how to do
+          // static_assert(dim != 0, "Dimension cannot be <= 0!");
+          std::cerr << dim << " ";
+        }
+        std::cerr << std::endl;
+      }
 
       /** Copy Constructor */
       Array(const Array&);
@@ -59,8 +73,6 @@ namespace cs540 {
         FirstDimensionMajorIterator();
         FirstDimensionMajorIterator(const FirstDimensionMajorIterator &other);
         FirstDimensionMajorIterator &operator=(const FirstDimensionMajorIterator &other);
-        bool operator==(const FirstDimensionMajorIterator &lhs, const FirstDimensionMajorIterator &rhs);
-        bool operator!=(const FirstDimensionMajorIterator &lhs, const FirstDimensionMajorIterator &rhs);
         FirstDimensionMajorIterator &operator++();
         FirstDimensionMajorIterator operator++(int);
         T &operator*() const;
@@ -70,13 +82,26 @@ namespace cs540 {
         LastDimensionMajorIterator();
         LastDimensionMajorIterator(const LastDimensionMajorIterator &other);
         LastDimensionMajorIterator &operator=(const LastDimensionMajorIterator &other);
-        bool operator==(const LastDimensionMajorIterator &lhs, const LastDimensionMajorIterator &rhs);
-        bool operator!=(const LastDimensionMajorIterator &lhs, const LastDimensionMajorIterator &rhs);
         LastDimensionMajorIterator &operator++();
         LastDimensionMajorIterator operator++(int);
         T &operator*() const;
       }; // class LastDimensionMajorIterator
 
   }; // class Array
+
+  /*
+  template <typename T, std::size_t... Dims>
+  bool operator==(const typename Array<T, Dims>::FirstDimensionMajorIterator &lhs, const Array<T, Dims>::FirstDimensionMajorIterator &rhs);
+
+  template <typename T, std::size_t... Dims>
+  bool operator!=(const Array<T, Dims>::FirstDimensionMajorIterator &lhs, const Array<T, Dims>::FirstDimensionMajorIterator &rhs);
+
+  template <typename T, std::size_t... Dims>
+  bool operator==(const Array<T, Dims>::LastDimensionMajorIterator &lhs, const Array<T, Dims>::LastDimensionMajorIterator &rhs);
+
+  template <typename T, std::size_t... Dims>
+  bool operator!=(const Array<T, Dims>::LastDimensionMajorIterator &lhs, const Array<T, Dims>::LastDimensionMajorIterator &rhs);
+  */
+
 } // namespace cs540
 #endif
