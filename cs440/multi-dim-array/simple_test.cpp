@@ -4,6 +4,7 @@
 #pragma GCC diagnostic ignored "-Wunused-variable"
 int main() {
   //Define a 2X3X4 array of integers.  Elements are uninitialized.
+
   cs540::Array<int, 2, 3, 4> a, b;
   cs540::Array<short, 2, 3, 4> c;
 
@@ -19,7 +20,6 @@ int main() {
       }
     }
   }
-  /*
 
   // Range-checked indexing.
   a[0][0][0] = 1234;
@@ -30,6 +30,8 @@ int main() {
     assert(false);
   } catch (cs540::OutOfRange) {
   }
+
+  /*
 
   a = a; // Self-assignment must be a no-op.
   b = a; // Okay, as long as dimensions and type match exactly.
