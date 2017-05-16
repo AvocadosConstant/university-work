@@ -355,7 +355,7 @@ This iterator is used to iterate through the array in row-major order. This iter
 
 <tr>
 
-<td class="prototype"><var>T</var> `&operator*() const;`</td>
+<td class="prototype"><var>T</var> &operator*() const;</td>
 
 <td class="description">Returns a reference to the <var>T</var> at this position in the array. If the iterator is pointing to the end of the list, the behavior is undefined.</td>
 
@@ -443,7 +443,7 @@ This iterator is used to iterate through the array in column-major order. This i
 
 <tr>
 
-<td class="prototype"><var>T</var> `&operator*() const;`</td>
+<td class="prototype"><var>T</var> &operator*() const;</td>
 
 <td class="description">Returns a reference to the <var>T</var> at this position in the array. If the iterator is pointing to the end of the list, the behavior is undefined.</td>
 
