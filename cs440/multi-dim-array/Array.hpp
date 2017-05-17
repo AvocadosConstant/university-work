@@ -32,12 +32,23 @@ namespace cs540 {
         static_assert(Dim1 != 0, "Dimension cannot be 0!");
       }
 
-      ///** Copy Constructor */
-      //Array(const Array&);
+      /** Copy Constructor */
+      Array(const Array &other) {
+        // Check that dims_ == other.dims_;
 
-      ///** Templated Copy Constructor */
-      //template <typename U>
-      //Array(const Array<U, Dims...> &);
+
+        // Copy elems_
+        for(std::size_t i = 0; i < Dim1; i++) {
+          elems_[i] = other.elems_[i];
+        }
+      }
+
+      /** Templated Copy Constructor */
+      template <typename U>
+      Array(const Array<U, Dim1, Dims...> &other) {
+        dims_ = other.dims_;
+        elems_ = other.elems_;
+      }
 
       /** Assignment Operator */
       Array &operator=(const Array &) {
@@ -239,34 +250,81 @@ namespace cs540 {
   template <typename T, std::size_t Dim1> class Array<T, Dim1> {
     public:
       using ValueType = T;
-      std::array<T, Dim1> elems_;
+      std::array<ValueType, Dim1> elems_;
+      using FirstDimensionMajorIterator = typename std::array<ValueType, Dim1>::iterator;
+      using LastDimensionMajorIterator = typename std::array<ValueType, Dim1>::iterator;
 
       Array() {
         static_assert(Dim1 != 0, "Dimension cannot be 0!");
       }
 
-      T &operator[](std::size_t i) {
+      /** Copy Constructor */
+      Array(const Array &other) {
+        elems_ = other.elems_;
+      }
+
+      /** Templated Copy Constructor */
+      template <typename U>
+      Array(const Array<U, Dim1> &other) {
+        elems_ = other.elems_;
+      }
+
+      /** Assignment Operator */
+      Array &operator=(const Array &) {
+        std::cerr << "Assignment Op" << std::endl;
+        return *this;
+      }
+
+      /** Templated Assignment Operator */
+      template <typename U>
+      Array &operator=(const Array<U, Dim1> &other) {
+        std::cerr << "Templated Assignment Op" << std::endl;
+
+        this->ValueType = other.ValueType;
+
+        this->elems_ = other.elems_;
+
+        return *this;
+      }
+
+      ValueType &operator[](std::size_t i) {
         if(i < 0 || i >= Dim1) throw cs540::OutOfRange();
         return elems_[i];
       }
 
-      const T &operator[](std::size_t i) const {
+      const ValueType &operator[](std::size_t i) const {
         if(i < 0 || i >= Dim1) throw cs540::OutOfRange();
         return elems_[i];
       }
 
-      T &get(std::array<std::size_t, 1> index) {
+      ValueType &get(std::array<std::size_t, 1> index) {
         if(index[0] < 0 || index[0] >= Dim1) {
           throw cs540::OutOfRange();
         }
         return elems_[index[0]];
       }
 
-      const T get(std::array<std::size_t, 1> index) const {
+      const ValueType get(std::array<std::size_t, 1> index) const {
         if(index[0] < 0 || index[0] >= Dim1) {
           throw cs540::OutOfRange();
         }
         return elems_[index[0]];
+      }
+
+      FirstDimensionMajorIterator &fmbegin() {
+        return elems_.begin();
+      }
+
+      FirstDimensionMajorIterator &fmend() {
+        return elems_.end();
+      }
+
+      LastDimensionMajorIterator &lmbegin() {
+        return elems_.begin();
+      }
+
+      LastDimensionMajorIterator &lmend() {
+        return elems_.end();
       }
   };
 } // namespace cs540
