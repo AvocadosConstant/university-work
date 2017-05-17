@@ -1,0 +1,23 @@
+g++ -g -std=c++11 -Wall -Wextra -pedantic   -c -o sum.o sum.cpp
+sum.cpp: In instantiation of ‘constexpr T sum(std::array<int, 5ul>, T) [with T = int]’:
+sum.cpp:45:13:   recursively required from ‘constexpr T sum(std::array<int, 5ul>, T, U, Ps ...) [with T = int; U = int; Ps = {int, int}]’
+sum.cpp:45:13:   required from ‘constexpr T sum(std::array<int, 5ul>, T, U, Ps ...) [with T = int; U = int; Ps = {int, int, int}]’
+sum.cpp:78:38:   required from here
+sum.cpp:21:36: warning: unused parameter ‘a’ [-Wunused-parameter]
+ constexpr T sum(std::array<int, 5> a, T first) {
+                                    ^
+sum.cpp: In function ‘int main()’:
+sum.cpp:84:50: error: call of overloaded ‘sum(std::array<int, 5ul>&, Index<4ul>, Index<3ul>, int)’ is ambiguous
+     std::cout << sum(a, Index<4>(), Index<3>(), 2) << std::endl;
+                                                  ^
+sum.cpp:33:13: note: candidate: constexpr T sum(std::array<int, 5ul>, T, Index<I>, Ps ...) [with T = Index<4ul>; long unsigned int I = 3ul; Ps = {int}]
+ constexpr T sum(std::array<int, 5> a, T first, Index<I> index, Ps... rest) {
+             ^
+sum.cpp:39:13: note: candidate: constexpr T sum(std::array<int, 5ul>, Index<I>, T, Ps ...) [with T = Index<3ul>; long unsigned int I = 4ul; Ps = {int}]
+ constexpr T sum(std::array<int, 5> a, Index<I> index, T second, Ps... rest) {
+             ^
+sum.cpp:44:13: note: candidate: constexpr T sum(std::array<int, 5ul>, T, U, Ps ...) [with T = Index<4ul>; U = Index<3ul>; Ps = {int}]
+ constexpr T sum(std::array<int, 5> a, T first, U second, Ps... rest) {
+             ^
+<builtin>: recipe for target 'sum.o' failed
+make: *** [sum.o] Error 1
