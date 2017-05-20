@@ -34,32 +34,57 @@ namespace cs540 {
 
       /** Copy Constructor */
       Array(const Array &other) {
-        // Check that dims_ == other.dims_;
-
-
-        // Copy elems_
-        for(std::size_t i = 0; i < Dim1; i++) {
-          elems_[i] = other.elems_[i];
+        // Check that dimension is the same
+        // Rest of the dimension checking is delegated in recursion
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
         }
       }
 
       /** Templated Copy Constructor */
       template <typename U>
       Array(const Array<U, Dim1, Dims...> &other) {
-        dims_ = other.dims_;
-        elems_ = other.elems_;
+        // Check that dimension is the same
+        // Rest of the dimension checking is delegated in recursion
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
+        }
       }
 
       /** Assignment Operator */
-      Array &operator=(const Array &) {
-        std::cerr << "Assignment Op" << std::endl;
+      Array &operator=(const Array &other) {
+        //std::cerr << "Assignment Op" << std::endl;
+
+        // Check that dimension is the same
+        // Rest of the dimension checking is delegated in recursion
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
+        }
         return *this;
       }
 
       /** Templated Assignment Operator */
       template <typename U>
-      Array &operator=(const Array<U, Dim1, Dims...> &) {
-        std::cerr << "Templated Assignment Op" << std::endl;
+      Array &operator=(const Array<U, Dim1, Dims...> &other) {
+        //std::cerr << "Templated Assignment Op" << std::endl;
+
+        // Check that dimension is the same
+        // Rest of the dimension checking is delegated in recursion
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
+        }
         return *this;
       }
 
@@ -250,9 +275,9 @@ namespace cs540 {
   template <typename T, std::size_t Dim1> class Array<T, Dim1> {
     public:
       using ValueType = T;
+      class FirstDimensionMajorIterator;
+      class LastDimensionMajorIterator;
       std::array<ValueType, Dim1> elems_;
-      using FirstDimensionMajorIterator = typename std::array<ValueType, Dim1>::iterator;
-      using LastDimensionMajorIterator = typename std::array<ValueType, Dim1>::iterator;
 
       Array() {
         static_assert(Dim1 != 0, "Dimension cannot be 0!");
@@ -260,35 +285,63 @@ namespace cs540 {
 
       /** Copy Constructor */
       Array(const Array &other) {
-        elems_ = other.elems_;
+        // Check that dimension is the same
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
+        }
       }
 
       /** Templated Copy Constructor */
       template <typename U>
       Array(const Array<U, Dim1> &other) {
-        elems_ = other.elems_;
+        // Check that dimension is the same
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
+        }
       }
 
       /** Assignment Operator */
-      Array &operator=(const Array &) {
-        std::cerr << "Assignment Op" << std::endl;
+      Array &operator=(const Array &other) {
+        //std::cerr << "Assignment Op Base" << std::endl;
+
+        // Check that dimension is the same
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            elems_[i] = other.elems_[i];
+          }
+        }
         return *this;
       }
 
       /** Templated Assignment Operator */
       template <typename U>
       Array &operator=(const Array<U, Dim1> &other) {
-        std::cerr << "Templated Assignment Op" << std::endl;
+        //std::cerr << "Templated Assignment Op Base" << std::endl;
 
-        this->ValueType = other.ValueType;
-
-        this->elems_ = other.elems_;
+        // Check that dimension is the same
+        if(Dim1 == other.elems_.size()) {
+          // Copy elems_
+          for(std::size_t i = 0; i < Dim1; i++) {
+            //std::cerr << elems_[i] << " set to " << other.elems_[i] << std::endl;
+            elems_[i] = other.elems_[i];
+          }
+        }
 
         return *this;
       }
 
       ValueType &operator[](std::size_t i) {
-        if(i < 0 || i >= Dim1) throw cs540::OutOfRange();
+        //std::cout << "Here???!?!?!" << std::endl;
+        if(i < 0 || i >= Dim1) {
+          throw cs540::OutOfRange();
+        }
         return elems_[i];
       }
 
@@ -311,21 +364,111 @@ namespace cs540 {
         return elems_[index[0]];
       }
 
-      FirstDimensionMajorIterator &fmbegin() {
-        return elems_.begin();
+      FirstDimensionMajorIterator fmbegin() {
+        return FirstDimensionMajorIterator(Dim1, 0, this);
       }
 
-      FirstDimensionMajorIterator &fmend() {
-        return elems_.end();
+      FirstDimensionMajorIterator fmend() {
+        return FirstDimensionMajorIterator(Dim1, Dim1, this);
       }
 
-      LastDimensionMajorIterator &lmbegin() {
-        return elems_.begin();
+      LastDimensionMajorIterator lmbegin() {
+        return LastDimensionMajorIterator(Dim1, 0, this);
       }
 
-      LastDimensionMajorIterator &lmend() {
-        return elems_.end();
+      LastDimensionMajorIterator lmend() {
+        return LastDimensionMajorIterator(Dim1, Dim1, this);
       }
+
+      struct FirstDimensionMajorIterator {
+        std::size_t dim_;
+        std::size_t index_;
+        Array<T, Dim1> *array_;
+
+        FirstDimensionMajorIterator(
+            std::size_t dim,
+            std::size_t index,
+            Array<T, Dim1> *array)
+          : dim_(dim), index_(index), array_(array) {} 
+
+        FirstDimensionMajorIterator(const FirstDimensionMajorIterator &other) : index_(other.index_) {}
+
+        FirstDimensionMajorIterator &operator=(const FirstDimensionMajorIterator &other) {
+          index_ = other.index_;
+          array_ = other.array_;
+          for(std::size_t i = 0; i < Dim1; i++) {
+            (*array_)[i] = (*(other.array_))[i];
+          }
+          return *this;
+        }
+
+        T &operator*() const { 
+          return (*array_)[index_];
+        }
+
+        FirstDimensionMajorIterator &operator++() {
+          index_++;
+          return *this;
+        }
+
+        FirstDimensionMajorIterator operator++(int) {
+          FirstDimensionMajorIterator tmp(*this);
+          operator++();
+          return tmp;
+        }
+
+        friend bool operator==(const FirstDimensionMajorIterator &lhs, const FirstDimensionMajorIterator &rhs) {
+          return lhs.index_ == rhs.index_ ;
+        }
+
+        friend bool operator!=(const FirstDimensionMajorIterator &lhs, const FirstDimensionMajorIterator &rhs) {
+          return !(lhs == rhs);
+        }
+      }; // struct FirstDimensionMajorIterator
+
+      struct LastDimensionMajorIterator {
+        std::size_t dim_;
+        std::size_t index_;
+        Array<T, Dim1> *array_;
+
+        LastDimensionMajorIterator(
+            std::size_t dim,
+            std::size_t index,
+            Array<T, Dim1> *array)
+          : dim_(dim), index_(index), array_(array) {}
+
+        LastDimensionMajorIterator(const LastDimensionMajorIterator &other) : index_(other.index_) {}
+
+        LastDimensionMajorIterator &operator=(const LastDimensionMajorIterator &other) {
+          index_ = other.index_;
+          array_ = other.array_;
+          for(std::size_t i = 0; i < Dim1; i++) {
+            (*array_)[i] = (*(other.array_))[i];
+          }
+          return *this;
+        }
+
+        T &operator*() const { return (*array_)[index_]; }
+
+        LastDimensionMajorIterator &operator++() {
+          index_++;
+          return *this;
+        }
+
+        LastDimensionMajorIterator operator++(int) {
+          LastDimensionMajorIterator tmp(*this);
+          operator++();
+          return tmp;
+        }
+
+        friend bool operator==(const LastDimensionMajorIterator &lhs, const LastDimensionMajorIterator &rhs) {
+          return lhs.index_ == rhs.index_;
+        }
+
+        friend bool operator!=(const LastDimensionMajorIterator &lhs, const LastDimensionMajorIterator &rhs) {
+          return !(lhs == rhs);
+        }
+      }; // struct LastDimensionMajorIterator
   };
 } // namespace cs540
 #endif

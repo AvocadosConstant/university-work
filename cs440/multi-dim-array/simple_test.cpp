@@ -3,12 +3,10 @@
 #pragma GCC diagnostic push
 #pragma GCC diagnostic ignored "-Wunused-variable"
 int main() {
-  //Define a 2X3X4 array of integers.  Elements are uninitialized.
-
+  // Define a 2X3X4 array of integers.  Elements are uninitialized.
   cs540::Array<int, 2, 3, 4> a, b;
   cs540::Array<short, 2, 3, 4> c;
-
-  //cs540::Array<int, 0> e1; // This line must cause a compile-time error.
+  // cs540::Array<int, 0> e1; // This line must cause a compile-time error.
   // Initialize.
   int counter = 0;
   for (int i = 0; i < 2; i++) {
@@ -31,7 +29,6 @@ int main() {
   } catch (cs540::OutOfRange) {
   }
 
-
   a = a; // Self-assignment must be a no-op.
   b = a; // Okay, as long as dimensions and type match exactly.
   a = c; // Member template constructor.
@@ -53,6 +50,5 @@ int main() {
   for (cs540::Array<int, 2, 3, 4>::LastDimensionMajorIterator it = a.lmbegin(); it != a.lmend(); ++it) {
     std::cout << *it << std::endl;
   }
-
 }
 #pragma GCC diagnostic pop
