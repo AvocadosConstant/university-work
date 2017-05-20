@@ -15,3 +15,5 @@ Computer system performance metrics and analysis; instruction set design; CPU or
 ### Projects
 
 #### - [Branch Predictor Analysis](./branch-predictor/)
+
+#### - [Cache Design Analysis](./cache/)
