@@ -152,6 +152,7 @@
     If you have two standard six-sided dice, each with uniform probability of landing on each counting number from 1 to 6. What is the probability of rolling doubles (both dice landing on the same number)?\\
 
     \textbf{Solution} 
+    \[\frac{1}{6}\]
 
 \end{homeworkProblem}
 
@@ -159,7 +160,11 @@
 
     Let X and Y be two independent random variables. P[X,Y]= 0.2 and P[X] =0.5. Find P[Y].\\
 
-    \textbf{Solution} 
+    \textbf{Solution}
+    
+    \[P[X,Y] = P[X] \cdot P[Y] \]
+
+    \[P[Y] = \frac{P[X,Y]}{P[X]} = \frac{0.2}{0.5} = 0.4 \]
 
 \end{homeworkProblem}
 
@@ -167,15 +172,24 @@
 
     A drunk person is walking on the road. With probability 0.6 he takes a step forward and with probability 0.4 he takes a step backward. After 10 steps, what is the probability that he is at his starting position? Just the expression is sufficient.\\
 
-    \textbf{Solution} 
+    \textbf{Solution} \\
+    If the person is at his starting position after 10 steps, then he must have taken 5 steps forward, and 5 steps backwards.\\
+
+    If we let a forward step count as a success and a backwards step as a failure, this is a binomial distribution: $X \sim \text{Binomial}(n = 10, p = 0.6)$\\
+
+    The probability mass function of X is $P(X = k) = {\binom{10}{k}} (0.6)^k (0.4)^{10-k}$ Since the man has to take 5 steps forward and 5 steps backwards to return to his starting position, we are searching for $P(X=5)$.
+
+    \[ P(X = 5) = \binom{10}{5} (0.6)^5 (0.4)^{5} = 252 \cdot 0.078... \cdot 0.010... = 0.20...\]
 
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[]
 
-    Let X, Y and Z be three random variables. E[X]= 2, Var(X) =1 and E[Y]=3. X and Y are independent of each other. Z = X2 Y. Find E[Z].\\
+    Let X, Y and Z be three random variables. E[X]= 2, Var(X) =1 and E[Y]=3. X and Y are independent of each other. $Z = X^2 Y$. Find E[Z].\\
 
     \textbf{Solution} 
+
+    \[ E[Z] = E[X^2 Y] = E[X]^2 \cdot E[Y] = 2^2 \cdot 3 = 12 \]
 
 \end{homeworkProblem}
 
@@ -184,6 +198,14 @@
     Find the mean, median and variance of the following numbers. 1, 6, -1, 4, 10.\\
 
     \textbf{Solution} 
+    \[\overline{x} = \frac{1 + 6 - 1 + 4 + 10}{5} = 4\]
+
+    \[\widetilde{x} = 4\]
+
+    \[s^2   = \frac{ \sum_i^n{x_i^2} - n\overline{x}^2 }{n-1}
+            = \frac{ (1 + 36 + 1 + 16 + 100) - 5\cdot 4^2 }{4}
+            = \frac{ 154 - 80 }{4}
+            = 18.5 \]
 
 \end{homeworkProblem}
 
@@ -193,6 +215,8 @@
 
     \textbf{Solution} 
 
+    \[ (10(.2) - 5(.8))n = (2 - 4)n = -2n\]
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[]
@@ -201,13 +225,27 @@
 
     \textbf{Solution} 
 
+    \[\frac{12}{51}\]
+
 \end{homeworkProblem}
+
+\pagebreak
 
 \begin{homeworkProblem}[]
 
     Consider two urns. The first contains two white and seven black balls, and the second contains five white and six black balls. We flip a fair coin and then draw a ball from the first urn or the second urn depending on whether the outcome was heads or tails. What is the conditional probability that the outcome of the toss was heads given that a white ball was selected?\\
 
     \textbf{Solution} 
+
+    \[ P(W) = \frac{2 + 5}{2+7+5+6} = \frac{7}{20}\]
+    \[ P(H) = P(H^c) = P(T) = \frac{1}{2} \]
+    \[ P(W | H) = \frac{2}{7} \]
+
+    \[ P(H | W)
+        = ?
+        = \frac{P(W | H) P(H)}{P(W)}
+        = \frac{\frac{2}{7} \frac{1}{2}}{\frac{7}{20}}
+        = \frac{20}{49} \]
 
 \end{homeworkProblem}
 
@@ -217,6 +255,10 @@
 
     \textbf{Solution} 
 
+    \[ X \sim \text{Binomial}(n = 10, p) \]
+
+    \[ P(X > 6) = 1 - P(X \leq 4) = 1 - \sum_{k=0}^4{ \binom{10}{k} p^k (1-p)^{10-k}} \]
+
 \end{homeworkProblem}
 
 \begin{homeworkProblem}[]
@@ -224,6 +266,11 @@
     A man enters a betting competition. Each time the man bets, the probability of winning is p. What is the probability that he wins for the first time after n bets? Name this distribution.\\
 
     \textbf{Solution} 
+
+    \[ X \sim \text{Binomial}(n + 1, p) \]
+
+    \[ p \cdot (1-p)^n \]
+    
     
 \end{homeworkProblem}
 
