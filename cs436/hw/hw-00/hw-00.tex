@@ -179,7 +179,7 @@
 
     The probability mass function of X is $P(X = k) = {\binom{10}{k}} (0.6)^k (0.4)^{10-k}$ Since the man has to take 5 steps forward and 5 steps backwards to return to his starting position, we are searching for $P(X=5)$.
 
-    \[ P(X = 5) = \binom{10}{5} (0.6)^5 (0.4)^{5} = 252 \cdot 0.078... \cdot 0.010... = 0.20...\]
+    \[ P(X = 5) = \binom{10}{5} (0.6)^5 (0.4)^{5} = (252) (0.078...) (0.010...) = 0.20...\]
 
 \end{homeworkProblem}
 
@@ -239,13 +239,13 @@
 
     \[ P(W) = \frac{2 + 5}{2+7+5+6} = \frac{7}{20}\]
     \[ P(H) = P(H^c) = P(T) = \frac{1}{2} \]
-    \[ P(W | H) = \frac{2}{7} \]
+    \[ P(W | H) = \frac{2}{9} \]
 
     \[ P(H | W)
         = ?
         = \frac{P(W | H) P(H)}{P(W)}
-        = \frac{\frac{2}{7} \frac{1}{2}}{\frac{7}{20}}
-        = \frac{20}{49} \]
+        = \frac{\frac{2}{9} \frac{1}{2}}{\frac{7}{20}}
+        = \frac{20}{63} \]
 
 \end{homeworkProblem}
 
@@ -257,7 +257,7 @@
 
     \[ X \sim \text{Binomial}(n = 10, p) \]
 
-    \[ P(X > 6) = 1 - P(X \leq 4) = 1 - \sum_{k=0}^4{ \binom{10}{k} p^k (1-p)^{10-k}} \]
+    \[ P(X > 6) = 1 - P(X \leq 6) = 1 - \sum_{k=0}^6{ \binom{10}{k} p^k (1-p)^{10-k}} \]
 
 \end{homeworkProblem}
 
