@@ -10,6 +10,8 @@
 import argparse
 import pandas as pd
 
+from decisiontree import DecisionTree as DT
+
 def main():
     parser = argparse.ArgumentParser(
         description='Classify some data using decision trees.')
@@ -21,10 +23,29 @@ def main():
     parser.add_argument('prune',          help='prunes tree', choices=['yes', 'no'])
 
     args = vars(parser.parse_args())
-    print(args)
 
-    df = pd.read_csv(args['training-set'])
-    print(df)
+    training_set = pd.read_csv(args['training-set'])
+
+    dtree = DT('wesley')
+    dtree['0'] = DT('honor')
+    dtree['0']['0'] = DT('barclay')
+    dtree['0']['0']['0'] = '1'
+    dtree['0']['0']['1'] = '0'
+    dtree['0']['1'] = DT('tea')
+    dtree['0']['1']['0'] = '0'
+    dtree['0']['1']['1'] = '1'
+    dtree['1'] = '0'
+    print(dtree, '\n')
+
+    dtree = DT('Outlook')
+    dtree['Sunny'] = DT('Humidity')
+    dtree['Sunny']['High'] = 'No'
+    dtree['Sunny']['Normal'] = 'Yes'
+    dtree['Overcast'] = 'Yes'
+    dtree['Rain'] = DT('Wind')
+    dtree['Rain']['Strong'] = 'No'
+    dtree['Rain']['Weak'] = 'Yes'
+    print(dtree)
 
 if __name__ == '__main__':
     main()
