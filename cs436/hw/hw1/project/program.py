@@ -8,6 +8,7 @@
 """
 
 import argparse
+import pandas as pd
 
 def main():
     parser = argparse.ArgumentParser(
@@ -19,8 +20,11 @@ def main():
     parser.add_argument('to-print',       help='prints tree', choices=['yes', 'no'])
     parser.add_argument('prune',          help='prunes tree', choices=['yes', 'no'])
 
-    args = parser.parse_args()
+    args = vars(parser.parse_args())
     print(args)
+
+    df = pd.read_csv(args['training-set'])
+    print(df)
 
 if __name__ == '__main__':
     main()
