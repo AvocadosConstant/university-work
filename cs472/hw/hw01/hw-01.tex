@@ -1,0 +1,300 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{diagbox}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+    }{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+% TODO: Replace with correct number and date
+\newcommand{\hmwkTitle}{Problem Set\ \#1}
+\newcommand{\hmwkDueDate}{September 18, 2017}
+\newcommand{\hmwkClass}{CS 427}
+\newcommand{\hmwkClassInstructor}{Professor Zerksis D. Umrigar}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 5:50pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+}
+
+\author{\textbf{\hmwkAuthorName}}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}[]
+
+    Discuss how you would extend the implementation of tl0 discussed
+    in class to support a unary minus operator to allow evalution of
+    expressions like `1 - -2`.  It is not necessary to show code but
+    sufficient to precisely describe how you would change the
+    implementation. ``15-points".\\
+
+    \textbf{Solution} 
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    I once used a proprietary programming language where the programming
+    language manual had a strange restriction.  It went something like:\\
+
+    \\
+
+    ``Integers can have a value between -2147483648 through 2147483647
+    inclusive.  However, the literal value -2147483648 cannot be
+    present in the program; all other integer literal values can
+    be present in the program."\\
+
+    Discuss possible reasons for this strange restriction.\\
+
+    \\
+
+    *Hint*: Our implementation of tl0 is subject to similar
+    restrictions but not our implementation of tl1 (the difference is
+    *not* due to our use of Ruby for implementing tl1). ``15-points"\\
+
+    \textbf{Solution} 
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Write regular expressions for each of the following: 
+
+    Your answers should use the regex syntax discussed in class. ``15-points"
+
+    \begin{enumerate}[label=(\alph*)]
+        \item Strings over $\{a, b, c\}$ with an even number of $a$'s.
+        \item
+            Strings delimited using double quote characters ", where a
+            string can contain any character except double quotes and can
+            even contain double quotes if such contained double quotes are
+            doubled.  Examples of legal strings include the string "" of
+            length 0, the string ``a" of length 1, and the string """"
+            of length 1 containing a single double-quote character.
+        \item
+            Positive binary numbers $n$ without leading zeros such that
+            there exist positive integers $a$, $b$ and $c$ with $a^n +
+            b^n = c^n$.  
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    In a string of length $n$, how many of the following are there?
+
+    \begin{enumerate}[label=(\alph*)]
+        \item prefixes
+        \item substrings
+        \item subsequences
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Why would it be a problem if a programming language had 2
+    different binary operators $\oplus$ and $\otimes$ having
+    the same precedence, but $\oplus$ was left associative
+    while $\otimes$ was right associative? ``0-points"\\
+
+    \textbf{Solution} 
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Write ``regular definitions" to describe the following languages:
+
+    Your answers should use the regex syntax discussed in class.  ``15-points"
+
+    \textbf{Solution} 
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+            All strings of balanced parentheses with a maximum nesting
+            depth of 2.  Examples include $\epsilon$, (), (())() and
+            (()())().
+        \item 
+            All strings of balanced parentheses.  Example include
+            $\epsilon$, (), (())() and (((()())))().
+
+        \item 
+            C floating point constants as defined on pg 194 of the
+            ``The C Programming Language" book:
+
+            A floating constant consists of an integer part, a decimal
+            point, a fraction part, an `e` or `E`, an optionally signed
+            integer exponent and an optional type suffix, one of `f`,
+            `F`, `l` or `L`.  The integer and fraction parts both
+            consist of a sequence of digits.  Either the integer part
+            or the fraction part (not both) may be missing; either the
+            decimal point or the `e` and the exponent (not both) may be
+            missing. 
+    \end{enumerate}
+    
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Consider the Java java.util.regex package:
+
+    \textbf{Solution} 
+
+    \begin{enumerate}[label=(\alph*)]
+        \item 
+            It provides 3 different kinds of quantifiers: ``greedy
+            quantifiers", ``reluctant quantifiers" and ``possesive
+            quantifiers".  Give situations where each of these different
+            types of quantifiers may be useful.
+        \item 
+            # How would you use this package to write a scanner for a
+            programming language.  Consider as an example, a language
+            which contains tokens for numbers, identifiers and strings,
+            with whitespace.and comments ignored (the exact details of
+            the lexical syntax being unimportant).  Your proposal should
+            specifically address the following:
+
+            \begin{itemize}
+            \item 
+                How would you set things up so that for each recognized
+                lexeme you would only make a single call to the Java RE
+                engine?
+
+            \item
+                After the call to the Java RE engine completes, how would
+                you identify which kind of token has been matched?
+
+            \item 
+                Which of the several calls in the `Matcher` class would you
+                use to do the matching?
+
+            \item
+                How would you structure a `nextToken()` function?
+            \end{itemize}
+    \end{enumerate}
+    ``15-points"
+\end{homeworkProblem}
+
+\end{document}
