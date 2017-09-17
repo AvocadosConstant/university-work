@@ -10,7 +10,7 @@
 import argparse
 import pandas as pd
 
-from decisiontree import DecisionTree as DT
+import decisiontree
 
 def main():
     parser = argparse.ArgumentParser(
@@ -25,7 +25,10 @@ def main():
     args = vars(parser.parse_args())
 
     training_set = pd.read_csv(args['training-set'])
+    print(decisiontree.fit(training_set, 'Class', heuristic='entropy'))
+    print(decisiontree.fit(training_set, 'Class', heuristic='variance_impurity'))
 
+    """
     dtree = DT('wesley')
     dtree['0'] = DT('honor')
     dtree['0']['0'] = DT('barclay')
@@ -46,6 +49,7 @@ def main():
     dtree['Rain']['Strong'] = 'No'
     dtree['Rain']['Weak'] = 'Yes'
     print(dtree)
+    """
 
 if __name__ == '__main__':
     main()
