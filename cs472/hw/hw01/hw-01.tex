@@ -206,8 +206,22 @@
 
     \begin{enumerate}[label=(\alph*)]
         \item prefixes
+
+            Every substring that starts at index 0 and ends at index $i\in \{1, n\}$ is a prefix.
+            \[n\]
         \item substrings
+
+            For each substring, we choose a start index and an end index.
+
+            There are $n\choose{2}$ ways to choose two indices from n characters.
+
+            \[n\choose{2}\]
         \item subsequences
+
+            A subsequence is comprised of any element of the powerset of the string.
+
+            The size of the powerset of a set of size n is
+            \[2^n\]
     \end{enumerate}
     
 \end{homeworkProblem}
@@ -227,7 +241,7 @@
 
     Write ``regular definitions" to describe the following languages:
 
-    Your answers should use the regex syntax discussed in class.  ``15-points"
+    Your answers should use the regex syntax discussed in class.  ``15-points"\\
 
     \textbf{Solution} 
 
@@ -258,7 +272,7 @@
 
 \begin{homeworkProblem}[]
 
-    Consider the Java java.util.regex package:
+    Consider the Java java.util.regex package:\\
 
     \textbf{Solution} 
 
