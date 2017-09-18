@@ -1,5 +1,6 @@
 import math
 import operator
+from numpy.random import choice
 from functools import reduce
 
 def entropy(probs_list):
@@ -15,8 +16,9 @@ def best_attribute(data, class_label, heuristic):
 
     # valid attribute generator
     attributes = (attr for attr in data if attr != class_label)
+    all_have_same_impurity = True
 
-    #print('testing {} candidate attributes'.format(len(data.columns)))
+    #print('\n----------------\ntesting {} candidate attributes'.format(len(data.columns) - 1))
     for attr in attributes:
         weighted_impurity = 0
         #print('testing candidate attribute', attr)
@@ -44,9 +46,13 @@ def best_attribute(data, class_label, heuristic):
         #print('Attribute {} has a weighted impurity of {}'.format(attr, weighted_impurity))
 
         # best attribute has lowest impurity
+        if best_attr and lowest_impurity != weighted_impurity:
+            all_have_same_impurity = False
         if weighted_impurity < lowest_impurity:
             lowest_impurity = weighted_impurity
             best_attr = attr
+    if all_have_same_impurity:
+        return None
     return best_attr
 
 def fit(data, class_label, heuristic='entropy', print_details=True):
@@ -64,6 +70,14 @@ def fit(data, class_label, heuristic='entropy', print_details=True):
 
     # find best attribute to split on
     best_attr = best_attribute(data, class_label, heuristic)
+
+    if best_attr == None:
+        # cannot find an attribute to split on => there is noise in the data!
+        total_size = len(data)
+        freq = data[class_label].value_counts()
+        return RandomDecision(
+            freq.index.tolist(),
+            [count / total_size for count in freq.tolist()])
 
     # build child for each value of best attribute
     node = DecisionTree(best_attr)
@@ -91,3 +105,18 @@ class DecisionTree:
             branches.append('{} = {} : {}'.format(
                 self._attr, transition, sub_val))
         return '\n' + '\n'.join(branches)
+
+class RandomDecision:
+    def __init__(self, values, weights):
+        if len(values) != len(weights):
+            raise ValueError('values and weights must be lists of the same length')
+        self.values = values
+        self.weights = weights
+
+    def __repr__(self):
+        return 'weighted choices: '
+        ' '.join([str((self.values[i], self.weights[i]))
+                for i in range(len(self.values))])
+
+    def sample():
+        return random.choices(self.values, p=self.weights)
