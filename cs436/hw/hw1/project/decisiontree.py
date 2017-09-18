@@ -87,6 +87,37 @@ def fit(data, class_label, heuristic='entropy', print_details=True):
     # return node with all children
     return node
 
+def predict(tree, data, class_label):
+    print( '\nPredicting {} data points on class "{}" with '
+           'a decision tree...'.format(
+            len(data), class_label))
+
+    predictions = []
+    # for each datapoint
+    for i, datapoint in data.iterrows():
+        node = tree
+        # traverse down tree until hitting a leaf
+        while type(node) == DecisionTree:
+            node = node[datapoint[node._attr]]
+
+        # take a random sample if leaf is is a RandomDecision
+        if type(node) == RandomDecision:
+            predictions.append(node.sample())
+        else:
+            predictions.append(node)
+
+    return predictions
+
+def measure_accuracy(correct_classes, predicted_classes):
+    if len(correct_classes) != len(predicted_classes):
+        raise ValueError('both lists must be the same length')
+    num_total = len(correct_classes)
+    num_match = 0
+    for i in range(num_total):
+        if correct_classes[i] == predicted_classes[i]:
+            num_match += 1
+    return num_match / num_total
+
 class DecisionTree:
     def __init__(self, attribute):
         self._attr = attribute
@@ -106,6 +137,7 @@ class DecisionTree:
                 self._attr, transition, sub_val))
         return '\n' + '\n'.join(branches)
 
+
 class RandomDecision:
     def __init__(self, values, weights):
         if len(values) != len(weights):
@@ -114,8 +146,8 @@ class RandomDecision:
         self.weights = weights
 
     def __repr__(self):
-        return 'weighted choices: '
-        ' '.join([str((self.values[i], self.weights[i]))
+        return 'weighted choices: ' + ' '.join(
+                [str((self.values[i], self.weights[i]))
                 for i in range(len(self.values))])
 
     def sample():

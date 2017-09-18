@@ -25,8 +25,23 @@ def main():
     args = vars(parser.parse_args())
 
     training_set = pd.read_csv(args['training-set'])
-    print(decisiontree.fit(training_set, 'Class', heuristic='entropy'))
-    print(decisiontree.fit(training_set, 'Class', heuristic='variance_impurity'))
+    validation_set = pd.read_csv(args['validation-set'])
+    test_set = pd.read_csv(args['test-set'])
+
+    for heuristic in ['entropy', 'variance_impurity']:
+        print('\n--------------------------')
+        tree = decisiontree.fit(
+                training_set,
+                'Class',
+                heuristic=heuristic)
+
+        if args['to-print'] == 'yes':
+            print(tree)
+
+        predictions = decisiontree.predict(tree, test_set, 'Class')
+
+        print('Accuracy:', decisiontree.measure_accuracy(test_set['Class'], predictions))
+    print('\n--------------------------')
 
     """
     dtree = DT('wesley')
