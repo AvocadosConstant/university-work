@@ -150,5 +150,5 @@ class RandomDecision:
                 [str((self.values[i], self.weights[i]))
                 for i in range(len(self.values))])
 
-    def sample():
-        return random.choices(self.values, p=self.weights)
+    def sample(self):
+        return choice(self.values, p=self.weights)
