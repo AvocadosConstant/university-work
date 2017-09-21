@@ -71,16 +71,17 @@ def fit(data, class_label, heuristic='entropy', print_details=True):
     # find best attribute to split on
     best_attr = best_attribute(data, class_label, heuristic)
 
+    freqs = data[class_label].value_counts()
+
     if best_attr == None:
         # cannot find an attribute to split on => there is noise in the data!
         total_size = len(data)
-        freq = data[class_label].value_counts()
         return RandomDecision(
-            freq.index.tolist(),
-            [count / total_size for count in freq.tolist()])
+            freqs.index.tolist(),
+            [count / total_size for count in freqs.tolist()])
 
     # build child for each value of best attribute
-    node = DecisionTree(best_attr)
+    node = DecisionTree(best_attr, freqs)
     for value, subset in data.groupby(best_attr):
         node[value] = fit(subset.drop(best_attr, axis=1), class_label, heuristic, False)
 
@@ -119,9 +120,10 @@ def measure_accuracy(correct_classes, predicted_classes):
     return num_match / num_total
 
 class DecisionTree:
-    def __init__(self, attribute):
+    def __init__(self, attribute, freqs):
         self._attr = attribute
         self._children = {}
+        self._class_freqs = freqs
 
     def __getitem__(self, key):
         return self._children[key]
@@ -142,13 +144,13 @@ class RandomDecision:
     def __init__(self, values, weights):
         if len(values) != len(weights):
             raise ValueError('values and weights must be lists of the same length')
-        self.values = values
-        self.weights = weights
+        self._values = values
+        self._weights = weights
 
     def __repr__(self):
         return 'weighted choices: ' + ' '.join(
-                [str((self.values[i], self.weights[i]))
-                for i in range(len(self.values))])
+                [str((self._values[i], self._weights[i]))
+                for i in range(len(self._values))])
 
     def sample(self):
-        return choice(self.values, p=self.weights)
+        return choice(self._values, p=self._weights)
