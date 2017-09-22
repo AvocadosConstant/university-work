@@ -3,11 +3,14 @@ import operator
 from numpy.random import choice
 from functools import reduce
 
+
 def entropy(probs_list):
     return sum(-p * math.log(p, 2) for p in probs_list if p)
 
+
 def variance_impurity(probs_list):
     return reduce(operator.mul, probs_list)
+
 
 def best_attribute(data, class_label, heuristic):
     best_attr = ''
@@ -55,11 +58,12 @@ def best_attribute(data, class_label, heuristic):
         return None
     return best_attr
 
-def fit(data, class_label, heuristic='entropy', print_details=True):
+
+def fit(data, class_label, heuristic='entropy', print_details=False):
 
     if print_details:
         print( '\nFitting {} data points on class "{}" with '
-               'a decision tree using the {} heuristic...'.format(
+               'a decision tree using the {} heuristic...\n'.format(
                 len(data), class_label, heuristic))
 
     # check for purity
@@ -84,14 +88,19 @@ def fit(data, class_label, heuristic='entropy', print_details=True):
     node = DecisionTree(best_attr, freqs)
     for value, subset in data.groupby(best_attr):
         node[value] = fit(subset.drop(best_attr, axis=1), class_label, heuristic, False)
+        if type(node[value]) == DecisionTree:
+            node[value]._parent = node
+            node[value]._from_value = value
 
     # return node with all children
     return node
 
-def predict(tree, data, class_label):
-    print( '\nPredicting {} data points on class "{}" with '
-           'a decision tree...'.format(
-            len(data), class_label))
+
+def predict(tree, data, class_label, print_details=False):
+    if print_details:
+        print( '\nPredicting {} data points on class "{}" with '
+               'a decision tree...\n'.format(
+                len(data), class_label))
 
     predictions = []
     # for each datapoint
@@ -109,6 +118,46 @@ def predict(tree, data, class_label):
 
     return predictions
 
+
+def prune_node(node):
+    # prune and set node to majority vote
+    majority_vote = node._class_freqs.index[0]
+    node._parent._children[node._from_value] = majority_vote
+
+
+def restore_pruned_node(node):
+    node._parent._children[node._from_value] = node
+
+
+def reduced_error_pruning(tree, valid_data, class_label):
+    print('\nPruning tree...\n')
+
+    # measure original accuracy on validation data
+    best_accuracy = measure_accuracy(
+        valid_data[class_label],
+        predict(tree, valid_data, class_label, False))
+
+    # bfs to visit all nodes
+    queue = [tree]
+    while queue:
+        cur = queue.pop(0)
+        for attr_value, child_node in cur._children.items():
+            if type(child_node) == DecisionTree:
+                queue.append(child_node)
+
+        if cur is not tree:
+            prune_node(cur)
+            accuracy = measure_accuracy(
+                valid_data[class_label],
+                predict(tree, valid_data, class_label, False))
+
+            # if pruning the current node doesn't improve accuracy, restore it
+            if accuracy > best_accuracy:
+                best_accuracy = accuracy
+            else:
+                restore_pruned_node(cur)
+
+
 def measure_accuracy(correct_classes, predicted_classes):
     if len(correct_classes) != len(predicted_classes):
         raise ValueError('both lists must be the same length')
@@ -119,11 +168,14 @@ def measure_accuracy(correct_classes, predicted_classes):
             num_match += 1
     return num_match / num_total
 
+
 class DecisionTree:
     def __init__(self, attribute, freqs):
         self._attr = attribute
         self._children = {}
         self._class_freqs = freqs
+        self._parent = None
+        self._from_value = None
 
     def __getitem__(self, key):
         return self._children[key]

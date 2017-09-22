@@ -33,14 +33,20 @@ def main():
         tree = decisiontree.fit(
                 training_set,
                 'Class',
-                heuristic=heuristic)
+                heuristic=heuristic,
+                print_details=True)
 
         if args['to-print'] == 'yes':
             print(tree)
 
         predictions = decisiontree.predict(tree, test_set, 'Class')
+        print('Accuracy before pruning:', decisiontree.measure_accuracy(test_set['Class'], predictions))
 
-        print('Accuracy:', decisiontree.measure_accuracy(test_set['Class'], predictions))
+        decisiontree.reduced_error_pruning(tree, validation_set, 'Class')
+
+        predictions = decisiontree.predict(tree, test_set, 'Class')
+        print('Accuracy after pruning:', decisiontree.measure_accuracy(test_set['Class'], predictions))
+
     print('\n--------------------------')
 
     """
