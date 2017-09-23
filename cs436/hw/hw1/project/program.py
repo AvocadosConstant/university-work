@@ -28,49 +28,45 @@ def main():
     validation_set = pd.read_csv(args['validation-set'])
     test_set = pd.read_csv(args['test-set'])
 
+    class_label = 'Class'
+
+    # Train and predict on both heuristics
     for heuristic in ['entropy', 'variance_impurity']:
         print('\n--------------------------')
+
         tree = decisiontree.fit(
                 training_set,
-                'Class',
+                class_label,
                 heuristic=heuristic,
                 print_details=True)
+
+        # measure accuracy on test set
+        orig_accuracy = decisiontree.measure_accuracy(
+            tree, test_set, class_label)
+
+        if args['prune'] == 'yes':
+            print('Accuracy before pruning: {}%'.format(
+                round(100 * orig_accuracy, 2)))
+
+            # prune on validation set
+            decisiontree.reduced_error_pruning(tree, validation_set, class_label)
+
+            # measure pruned accuracy and display improvement
+            pruned_accuracy = decisiontree.measure_accuracy(
+                tree, test_set, class_label)
+            print('Accuracy after pruning:  {}%'.format(
+                round(100 * pruned_accuracy, 2)))
+
+            print('\nThere was a {}% improvement in accuracy after pruning.'.format(
+                round((100 * (pruned_accuracy - orig_accuracy) / orig_accuracy), 2)))
+        else:
+            print('Accuracy: {}%'.format(round(100 * orig_accuracy, 2)))
 
         if args['to-print'] == 'yes':
             print(tree)
 
-        predictions = decisiontree.predict(tree, test_set, 'Class')
-        print('Accuracy before pruning:', decisiontree.measure_accuracy(test_set['Class'], predictions))
-
-        decisiontree.reduced_error_pruning(tree, validation_set, 'Class')
-
-        predictions = decisiontree.predict(tree, test_set, 'Class')
-        print('Accuracy after pruning:', decisiontree.measure_accuracy(test_set['Class'], predictions))
 
     print('\n--------------------------')
-
-    """
-    dtree = DT('wesley')
-    dtree['0'] = DT('honor')
-    dtree['0']['0'] = DT('barclay')
-    dtree['0']['0']['0'] = '1'
-    dtree['0']['0']['1'] = '0'
-    dtree['0']['1'] = DT('tea')
-    dtree['0']['1']['0'] = '0'
-    dtree['0']['1']['1'] = '1'
-    dtree['1'] = '0'
-    print(dtree, '\n')
-
-    dtree = DT('Outlook')
-    dtree['Sunny'] = DT('Humidity')
-    dtree['Sunny']['High'] = 'No'
-    dtree['Sunny']['Normal'] = 'Yes'
-    dtree['Overcast'] = 'Yes'
-    dtree['Rain'] = DT('Wind')
-    dtree['Rain']['Strong'] = 'No'
-    dtree['Rain']['Weak'] = 'Yes'
-    print(dtree)
-    """
 
 if __name__ == '__main__':
     main()

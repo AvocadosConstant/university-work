@@ -62,9 +62,9 @@ def best_attribute(data, class_label, heuristic):
 def fit(data, class_label, heuristic='entropy', print_details=False):
 
     if print_details:
-        print( '\nFitting {} data points on class "{}" with '
-               'a decision tree using the {} heuristic...\n'.format(
-                len(data), class_label, heuristic))
+        print( '\nFitting {} data points onto a decision '
+                'tree using the {} heuristic...\n'.format(
+                len(data), heuristic))
 
     # check for purity
     class_values = data[class_label].unique()
@@ -98,9 +98,9 @@ def fit(data, class_label, heuristic='entropy', print_details=False):
 
 def predict(tree, data, class_label, print_details=False):
     if print_details:
-        print( '\nPredicting {} data points on class "{}" with '
+        print( '\nPredicting {} data points with '
                'a decision tree...\n'.format(
-                len(data), class_label))
+                len(data)))
 
     predictions = []
     # for each datapoint
@@ -133,9 +133,7 @@ def reduced_error_pruning(tree, valid_data, class_label):
     print('\nPruning tree...\n')
 
     # measure original accuracy on validation data
-    best_accuracy = measure_accuracy(
-        valid_data[class_label],
-        predict(tree, valid_data, class_label, False))
+    best_accuracy = measure_accuracy(tree, valid_data, class_label)
 
     # bfs to visit all nodes
     queue = [tree]
@@ -147,9 +145,7 @@ def reduced_error_pruning(tree, valid_data, class_label):
 
         if cur is not tree:
             prune_node(cur)
-            accuracy = measure_accuracy(
-                valid_data[class_label],
-                predict(tree, valid_data, class_label, False))
+            accuracy = measure_accuracy(tree, valid_data, class_label)
 
             # if pruning the current node doesn't improve accuracy, restore it
             if accuracy > best_accuracy:
@@ -158,9 +154,10 @@ def reduced_error_pruning(tree, valid_data, class_label):
                 restore_pruned_node(cur)
 
 
-def measure_accuracy(correct_classes, predicted_classes):
-    if len(correct_classes) != len(predicted_classes):
-        raise ValueError('both lists must be the same length')
+def measure_accuracy(tree, data, class_label):
+    correct_classes = data[class_label]
+    predicted_classes = predict(tree, data, class_label)
+
     num_total = len(correct_classes)
     num_match = 0
     for i in range(num_total):
