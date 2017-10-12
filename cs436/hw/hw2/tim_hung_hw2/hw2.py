@@ -9,29 +9,27 @@
 import os
 import string
 import argparse
-import pandas as pd
+from classytext import NaiveBayes
 
-def gen_words(filename):
-    remove = dict.fromkeys(map(ord, '\n' + string.punctuation))
-    with open(filename, 'rb+') as f:
-        for line in f:
-            for word in str(line).lower().translate(remove).split():
-                yield word
+def train(model, path):
+    labels_paths = [
+        (label, path + label + '/')
+        for label in ['spam', 'ham']]
+    model.train(labels_paths)
 
 def main():
     parser = argparse.ArgumentParser(
-        description='Classify some text as spam or ham using a multinomial Naive Bayes classifier.')
+        description='Classify some text as spam or ham'\
+            ' using a multinomial Naive Bayes classifier.')
 
-    parser.add_argument('stop_dir',     help='Directory containing stopWords.txt')
-    parser.add_argument('train_dir',    help='Directory containing training data')
-    parser.add_argument('test_dir',     help='Directory containing testing data')
+    parser.add_argument('stop_dir',  help='Directory containing stopWords.txt')
+    parser.add_argument('train_dir', help='Directory containing training data')
+    parser.add_argument('test_dir',  help='Directory containing testing data')
 
     args = vars(parser.parse_args())
 
-    for directory in [args['train_dir'] + spamham for spamham in ['spam/', 'ham/']]:
-        for filename in os.listdir(directory):
-            #print(directory + filename)
-            [print(word) for word in gen_words(directory+filename)]
+    model = NaiveBayes()
+    train(model, args['train_dir'])
 
 
 if __name__ == '__main__':
