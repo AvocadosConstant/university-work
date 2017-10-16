@@ -1,0 +1,210 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{diagbox}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+    }{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+% TODO: Replace with correct number and date
+\newcommand{\hmwkTitle}{Homework\ \#0}
+\newcommand{\hmwkDueDate}{October 13, 2017}
+\newcommand{\hmwkClass}{CS 436}
+\newcommand{\hmwkClassInstructor}{Professor Arti Ramesh}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+\newcommand{\hmwkBNumber}{B00518486}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \vspace{0.5in}\textbf{Academic Honesty Pledge}\\
+    I have done this assignment completely on my own. I have not copied it, nor have I given my solution to anyone else. I understand that if I am involved in plagiarism or cheating I will have to sign an official form that I have cheated and that this form will be stored in my official university record. I also understand that I will receive a grade of 0 for the involved assignment for my first offense and that I will receive a grade of “F” for the course for any additional offense.\\
+    \vspace{0.4in}\\
+}
+
+\author{
+    \textbf{\hmwkAuthorName}\\
+    \hmwkBNumber
+}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+
+\begin{homeworkProblem}[]
+
+    Derive maximum likelihood estimators for parameter p based on a Bernoulli(p) sample of size n. \\
+
+    \textbf{Solution} 
+    \[ \hat{p} = \bar{X}\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Derive maximum likelihood estimators for parameter p based on a Binomial(N, p) sample of size n. Compute your estimators if the observed sample is (3, 6, 2, 0, 0, 3) and N = 10.\\
+
+    \textbf{Solution} 
+    \[ \hat{p} = \frac{\bar{X}}{N}\]
+
+    \[ \hat{p} = \frac{\frac{3+6+2+0+0+3}{6}}{10} = \frac{\frac{14}{6}}{10} = \frac{140}{6} = \frac{140}{6} = 23.33...\]
+
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Derive maximum likelihood estimators for parameters a and b based on a Uniform (a, b) sample of size n. \\
+
+    \textbf{Solution} 
+    \[ \hat{a} = \text{smallest } X_1\]
+    \[ \hat{b} = \text{largest } X_1\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Derive maximum likelihood estimators for parameter $\mu$ based on a $Normal(\mu, \sigma^2)$ sample of size n with known variance $\sigma^2$ and unknown mean $\mu$.\\
+
+    \textbf{Solution} 
+    \[ \hat{\mu} = \frac{\sum{X_i}}{N}\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Derive maximum likelihood estimators for parameter $\sigma$ based on a $Normal(\mu, \sigma^2)$ sample of size n with known mean $\mu$ and unknown variance $\sigma^2$.\\
+
+    \textbf{Solution} 
+    \[ \hat{\sigma} = \sqrt{\frac{\sum{X_i - \mu}}{n}}\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Derive maximum likelihood estimators for parameters $(\mu, \sigma^2)$ based on a $Normal(\mu, \sigma^2)$ sample of size n with unknown mean $\mu$ and variance $\sigma^2$.\\
+
+    \textbf{Solution} 
+    \[ \hat{\mu} = \text{Sample mean}\]
+    \[ \hat{\sigma} = \text{Sample standard deviation}\]
+
+\end{homeworkProblem}
+
+\end{document}

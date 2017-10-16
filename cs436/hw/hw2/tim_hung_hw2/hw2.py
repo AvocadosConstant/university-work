@@ -41,15 +41,15 @@ def main():
 
     no_stops_model = NaiveBayes()
     train(no_stops_model, args['train_dir'])
-    #no_stops_model.sitrep()
-    print('No stop words model accuracy: {}%'.format(
+    no_stops_model.sitrep()
+    print('\tNo stop words model accuracy: {}%\n\n\n\n'.format(
           round(100*classify_accuracy(no_stops_model, args['test_dir']), 2)))
 
     model = NaiveBayes()
     model.set_stop_words(args['stop_dir'] + 'stopWords.txt')
     train(model, args['train_dir'])
-    #model.sitrep()
-    print('Removing stop words model accuracy: {}%'.format(
+    model.sitrep()
+    print('\tRemoving stop words model accuracy: {}%\n\n\n'.format(
           round(100*classify_accuracy(model, args['test_dir']), 2)))
 
 if __name__ == '__main__':
