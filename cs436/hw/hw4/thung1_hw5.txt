@@ -1,0 +1,52 @@
+Tim Hung
+CS 436 HW 5
+
+I have done this assignment completely on my own. I have not copied it, nor have I given my solution to anyone else. I understand that if I am involved in plagiarism or cheating I will have to sign an official form that I have cheated and that this form will be stored in my official university record. I also understand that I will receive a grade of 0 for the involved assignment for my first offense and that I will receive a grade of “F” for the course for any additional offense.
+
+
+Base learner    ||  Vanilla     Bagging30   Bagging100  Bagging150  Boosting30  Boosting100 Boosting150
+=======================================================================================================
+Tic Tac Toe     ||
+Naive Bayes     ||  .4319       .4322       .4320       .4320       .2889       .2879       .2880
+Decision Stump  ||  .4477       .4476       .4476       .4469       .4166       .4048       .4044
+Hoeffding Tree  ||  .4319       .4317       .4322       .4321       .3438       .3429       .3430
+-------------------------------------------------------------------------------------------------------
+Zoo             ||
+Naive Bayes     ||  .098        .0986       .0982       .099        .075        .071        .067    
+Decision Stump  ||  .259        .2557       .255        .2542       .2984       .302        .29
+Hoeffding Tree  ||  .1633       .1575       .1578       .1560       .159        .1593       .1580
+----------------||-------------------------------------------------------------------------------------
+Iris            ||
+Naive Bayes     ||  .155        .1684       .1612       .1676       .1803       .1812       .1653
+Decision Stump  ||  .3333       .3261       .321        .3182       .1715       .147        .153
+Hoeffding Tree  ||  .1543       .1542       .1542       .1542       .1618       .1528       .1502
+
+                                                        * Errors displayed are root-mean-squared error
+
+
+Questions
+
+
+1. Which algorithms+data set combination is improved by Bagging?
+
+    The only dataset that had a significant improvement with bagging
+        was seen with the zoo dataset and the hoeffding tree.
+
+
+2. Which algorithms+data set combination is improved by Boosting?
+
+    Tic Tac Toe + Naive Bayes
+    Tic Tac Toe + Hoeffding
+    Zoo + Naive Bayes
+    Zoo + Hoeffding
+    Iris + Decision Stump
+
+
+3. Can you explain these results in terms of the bias and variance of
+    the learning algorithms applied to these domains? Are some of the
+    learning algorithms unbiased for some of the domains? Which ones?
+
+    It makes sense that Bagging is relatively uneffective on the classifiers
+        I chose, because those techniques are partially inherent in the
+        classifiers themselves. For most of the examples, variance is relatively
+        low and bias is pretty high.
