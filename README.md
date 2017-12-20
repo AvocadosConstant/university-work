@@ -15,6 +15,8 @@ Tim Hung | Binghamton University | 2014-2018
 
 #### - [CS 455: Visual Information Processing](./cs455/)
 
+#### - [CS 441: Game Development for Mobile Platforms](./cs441/)
+
 #### - [CS 320: Computer Systems 2 - Computer Architecture](.//)
 
 #### - [MATH 327: Probability and Statistics](./math327/)
@@ -33,6 +35,10 @@ Tim Hung | Binghamton University | 2014-2018
 
 ## Freshman Year
 
+#### - [CS 240: Data Structures and Algorithms](https://github.com/AvocadosConstant/splay-tree)
+
 #### - [CS 220: Computer Systems 2 - Computer Architecture](./cs220/)
+
+#### - [CS 140: Object Oriented Programming](https://github.com/MaxTracks/Pippin)
 
 #### - [CS 120: Computer Systems 1 - Machine Organization](./cs120/)
