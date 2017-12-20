@@ -1,0 +1,277 @@
+\documentclass{article}
+
+\usepackage{fancyhdr}
+\usepackage{extramarks}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{amsfonts}
+\usepackage{tikz}
+\usepackage{enumerate}
+\usepackage{mathtools}
+\usepackage{enumitem}
+\usepackage{pgfplots}
+\usepackage{diagbox}
+
+%
+% Basic Document Settings
+%
+
+\topmargin=-0.45in
+\evensidemargin=0in
+\oddsidemargin=0in
+\textwidth=6.5in
+\textheight=9.0in
+\headsep=0.25in
+
+\linespread{1.1}
+
+\pagestyle{fancy}
+\lhead{\hmwkAuthorName}
+\chead{\hmwkClass\ (\hmwkClassInstructor\ \hmwkClassTime): \hmwkTitle}
+\rhead{\firstxmark}
+\lfoot{\lastxmark}
+\cfoot{\thepage}
+
+\renewcommand\headrulewidth{0.4pt}
+\renewcommand\footrulewidth{0.4pt}
+
+\setlength\parindent{0pt}
+
+%
+% Create Problem Sections
+%
+
+\newcommand{\enterProblemHeader}[1]{
+    \nobreak\extramarks{}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+}
+
+\newcommand{\exitProblemHeader}[1]{
+    \nobreak\extramarks{Problem \arabic{#1} (continued)}{Problem \arabic{#1} continued on next page\ldots}\nobreak{}
+    \stepcounter{#1}
+    \nobreak\extramarks{Problem \arabic{#1}}{}\nobreak{}
+}
+
+\setcounter{secnumdepth}{0}
+\newcounter{partCounter}
+\newcounter{homeworkProblemCounter}
+\setcounter{homeworkProblemCounter}{1}
+\nobreak\extramarks{Problem \arabic{homeworkProblemCounter}}{}\nobreak{}
+
+%
+% Homework Problem Environment
+%
+% This environment takes an optional argument. When given, it will adjust the
+% problem counter. This is useful for when the problems given for your
+% assignment aren't sequential. See the last 3 problems of this template for an
+% example.
+%
+\newenvironment{homeworkProblem}[1][-1]{
+    \ifnum#1>0
+    \setcounter{homeworkProblemCounter}{#1}
+    \fi
+    \section{Problem \arabic{homeworkProblemCounter}}
+    \setcounter{partCounter}{1}
+    \enterProblemHeader{homeworkProblemCounter}
+    }{
+    \exitProblemHeader{homeworkProblemCounter}
+}
+
+%
+% Homework Details
+%   - Title
+%   - Due date
+%   - Class
+%   - Section/Time
+%   - Instructor
+%   - Author
+%
+
+% TODO: Replace with correct number and date
+\newcommand{\hmwkTitle}{Problem Set\ \#0}
+\newcommand{\hmwkDueDate}{September 5, 2017}
+\newcommand{\hmwkClass}{CS 436}
+\newcommand{\hmwkClassInstructor}{Professor Arti Ramesh}
+\newcommand{\hmwkAuthorName}{Tim Hung}
+\newcommand{\hmwkBNumber}{B00518486}
+
+%
+% Title Page
+%
+
+\title{
+    \vspace{2in}
+    \textmd{\textbf{\hmwkClass:\ \hmwkTitle}}\\
+    \normalsize\vspace{0.1in}\small{Due\ on\ \hmwkDueDate\ at 1:15pm}\\
+    \vspace{0.1in}\large{\textit{\hmwkClassInstructor\ \hmwkClassTime}}\\
+    \vspace{0.5in}\textbf{Academic Honesty Pledge}\\
+    I have done this assignment completely on my own. I have not copied it, nor have I given my solution to anyone else. I understand that if I am involved in plagiarism or cheating I will have to sign an official form that I have cheated and that this form will be stored in my official university record. I also understand that I will receive a grade of 0 for the involved assignment for my first offense and that I will receive a grade of “F” for the course for any additional offense.\\
+    \vspace{0.4in}\\
+}
+
+\author{
+    \textbf{\hmwkAuthorName}\\
+    \hmwkBNumber
+}
+\date{}
+
+\renewcommand{\part}[1]{\textbf{\large Part \Alph{partCounter}}\stepcounter{partCounter}\\}
+
+%
+% Various Helper Commands
+%
+
+% Useful for algorithms
+\newcommand{\alg}[1]{\textsc{\bfseries \footnotesize #1}}
+
+% For derivatives
+\newcommand{\deriv}[1]{\frac{\mathrm{d}}{\mathrm{d}x} (#1)}
+
+% For partial derivatives
+\newcommand{\pderiv}[2]{\frac{\partial}{\partial #1} (#2)}
+
+% Integral dx
+\newcommand{\dx}{\mathrm{d}x}
+
+% Alias for the Solution section header
+\newcommand{\solution}{\textbf{\large Solution}}
+
+% Probability commands: Expectation, Variance, Covariance, Bias
+\newcommand{\E}{\mathrm{E}}
+\newcommand{\Var}{\mathrm{Var}}
+\newcommand{\Cov}{\mathrm{Cov}}
+\newcommand{\Bias}{\mathrm{Bias}}
+
+\begin{document}
+
+\maketitle
+
+\pagebreak
+
+\begin{homeworkProblem}[]
+    If you have two standard six-sided dice, each with uniform probability of landing on each counting number from 1 to 6. What is the probability of rolling doubles (both dice landing on the same number)?\\
+
+    \textbf{Solution} 
+    \[\frac{1}{6}\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Let X and Y be two independent random variables. P[X,Y]= 0.2 and P[X] =0.5. Find P[Y].\\
+
+    \textbf{Solution}
+    
+    \[P[X,Y] = P[X] \cdot P[Y] \]
+
+    \[P[Y] = \frac{P[X,Y]}{P[X]} = \frac{0.2}{0.5} = 0.4 \]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    A drunk person is walking on the road. With probability 0.6 he takes a step forward and with probability 0.4 he takes a step backward. After 10 steps, what is the probability that he is at his starting position? Just the expression is sufficient.\\
+
+    \textbf{Solution} \\
+    If the person is at his starting position after 10 steps, then he must have taken 5 steps forward, and 5 steps backwards.\\
+
+    If we let a forward step count as a success and a backwards step as a failure, this is a binomial distribution: $X \sim \text{Binomial}(n = 10, p = 0.6)$\\
+
+    The probability mass function of X is $P(X = k) = {\binom{10}{k}} (0.6)^k (0.4)^{10-k}$ Since the man has to take 5 steps forward and 5 steps backwards to return to his starting position, we are searching for $P(X=5)$.
+
+    \[ P(X = 5) = \binom{10}{5} (0.6)^5 (0.4)^{5} = (252) (0.078...) (0.010...) = 0.20...\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Let X, Y and Z be three random variables. E[X]= 2, Var(X) =1 and E[Y]=3. X and Y are independent of each other. $Z = X^2 Y$. Find E[Z].\\
+
+    \textbf{Solution} 
+
+    \[ E[Z] = E[X^2 Y] = E[X]^2 \cdot E[Y] = 2^2 \cdot 3 = 12 \]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Find the mean, median and variance of the following numbers. 1, 6, -1, 4, 10.\\
+
+    \textbf{Solution} 
+    \[\overline{x} = \frac{1 + 6 - 1 + 4 + 10}{5} = 4\]
+
+    \[\widetilde{x} = 4\]
+
+    \[s^2   = \frac{ \sum_i^n{x_i^2} - n\overline{x}^2 }{n-1}
+            = \frac{ (1 + 36 + 1 + 16 + 100) - 5\cdot 4^2 }{4}
+            = \frac{ 154 - 80 }{4}
+            = 18.5 \]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    A gambler bets n times. Each time the gambler bets, 20\% of the time he wins \$10 and 80\% of the time he loses \$5. What is expected gain (which can be negative) after n bets?\\
+
+    \textbf{Solution} 
+
+    \[ (10(.2) - 5(.8))n = (2 - 4)n = -2n\]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    You are drawing cards from a deck (consisting of the standard 52 cards) one at a time without replacement. Let X and Y denote the first and second cards you draw from the deck. You observe that the first card is a spade. What is the probability that the second card you draw is also a spade?\\
+
+    \textbf{Solution} 
+
+    \[\frac{12}{51}\]
+
+\end{homeworkProblem}
+
+\pagebreak
+
+\begin{homeworkProblem}[]
+
+    Consider two urns. The first contains two white and seven black balls, and the second contains five white and six black balls. We flip a fair coin and then draw a ball from the first urn or the second urn depending on whether the outcome was heads or tails. What is the conditional probability that the outcome of the toss was heads given that a white ball was selected?\\
+
+    \textbf{Solution} 
+
+    \[ P(W) = \frac{2 + 5}{2+7+5+6} = \frac{7}{20}\]
+    \[ P(H) = P(H^c) = P(T) = \frac{1}{2} \]
+    \[ P(W | H) = \frac{2}{9} \]
+
+    \[ P(H | W)
+        = ?
+        = \frac{P(W | H) P(H)}{P(W)}
+        = \frac{\frac{2}{9} \frac{1}{2}}{\frac{7}{20}}
+        = \frac{20}{63} \]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    Suppose you toss a coin 10 times. The probability of getting a head in each toss is p. What is the probability that you get more than 6 heads in the 10 coin tosses. Just the expression is sufficient.\\
+
+    \textbf{Solution} 
+
+    \[ X \sim \text{Binomial}(n = 10, p) \]
+
+    \[ P(X > 6) = 1 - P(X \leq 6) = 1 - \sum_{k=0}^6{ \binom{10}{k} p^k (1-p)^{10-k}} \]
+
+\end{homeworkProblem}
+
+\begin{homeworkProblem}[]
+
+    A man enters a betting competition. Each time the man bets, the probability of winning is p. What is the probability that he wins for the first time after n bets? Name this distribution.\\
+
+    \textbf{Solution} 
+
+    \[ X \sim \text{Binomial}(n + 1, p) \]
+
+    \[ p \cdot (1-p)^n \]
+    
+    
+\end{homeworkProblem}
+
+\end{document}

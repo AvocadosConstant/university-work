@@ -1,0 +1,26 @@
+D1
+H1 NP Training 1.0
+H1 NP Validation .97
+H1 NP Test .96
+H1 P Training 1.0
+H1 P Validation .97
+H1 P Test .96
+H2 NP Training 1.0
+H2 NP Validation .97
+H2 NP Test .95
+H2 P Training 1.0
+H2 P Validation .97
+H2 P Test .95
+D2
+H1 NP Training 1.0
+H1 NP Validation .77
+H1 NP Test .72
+H1 P Training .89
+H1 P Validation .83
+H1 P Test .77
+H2 NP Training 1.0
+H2 NP Validation .77
+H2 NP Test .73
+H2 P Training .89
+H2 P Validation .82
+H2 P Test .78
