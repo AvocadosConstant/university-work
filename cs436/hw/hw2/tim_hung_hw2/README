@@ -1,0 +1,31 @@
+Tim Hung
+B00518486
+CS 436: Naive Bayes Spam Classifier
+
+Usage:
+    Just run in the command line as follows
+    
+        python3 hw2.py training-set validation-set test-set {yes,no} {yes,no}
+
+Writeup is in /writeup in both .tex and .pdf format.
+
+results.txt is in this directory and has the accuracy without removing stopwords and with removing stopwords.
+
+I had a slight improvement in accuracy after removing stopwords. There was a significant change in my denominator for my calculations after removing stop words (52k to 38k), but there was only a 0.2% improvement in accuracy. I think that is because stop words are used heavily in both spam and ham, so there was not much improvement.
+
+
+
+My stemmer code is also in this directory.
+
+Usage:
+    Just run in the command line as follows
+    
+        python3 stemmer.py source_dir out_dir
+
+    The script will stem all the files in the source_dir, and output them to out_dir.
+    source_dir must contain a /spam and /ham directory.
+
+
+
+
+I have done this assignment completely on my own. I have not copied it, nor have I given my solution to anyone else. I understand that if I am involved in plagiarism or cheating I will have to sign an official form that I have cheated and that this form will be stored in my official university record. I also understand that I will receive a grade of 0 for the involved assignment for my first offense and that I will receive a grade of “F” for the course for any additional offense.
