@@ -1,0 +1,47 @@
+Tim Hung
+CS471 Assignment 1
+
+  1)    Label each error as either: lexical, syntactical, static semantic,
+        dynamic semantic, uncheckable error or logical error.
+
+        To compile type: gcc -Wall -std=c99 YOU NEED TO JUSTIFY
+        YOUR ANSWER IN 1 OR 2 SENTENCES.
+
+
+        #include <stdio.h>
+        int a1, char b2;    // error
+        INT arr[10];        // error
+        long fr; nx;        // error
+        long i#rate = 99;   // error
+        int * p;
+        
+        int main (void) {
+          int struct = 8 ;  // error
+          int x;
+          arr[1] = x;
+          *p = 100;         // error
+          struct = chg(a);  // error
+          return struct;    // error 
+        }
+        int chg(long  fr) {
+          if (fr = 0) {     // error
+            x = 10; //error 
+            arr[10] = 10;   // error
+          } else {
+            arr[1] = 1;
+          }
+          return arr[1];
+        }
+  2)
+  3)
+  4)
+  5)
+  6)
+  7)
+  8)
+  9)
+        a)  ack(1,0) = 2
+        b)  ack(0,3) = 4
+        c)
+        d)  ack(2,753000) = 1506003
+        e)
