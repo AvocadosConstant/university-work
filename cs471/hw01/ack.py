@@ -18,5 +18,5 @@ print('ack(0,3) =', ack(0,3))
 
 print('\nWould you like to attempt to calculate large Ackermann numbers?')
 if input().lower()[0] == 'y':
-    for i in range(500, 1000000, 500):
-        print('ack(2,{}) = {}'.format(i, ack(2,i)))
+    for i in range(9):
+        print('ack(3,{}) = {}'.format(i, ack(3,i)))
