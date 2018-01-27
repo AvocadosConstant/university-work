@@ -12,7 +12,9 @@ char token; /* holds the current input character for the parse */
 /* declarations to allow arbitrary recursion */
 void command(void);
 int expr(void);
+int sub(void);
 int term(void);
+int avg(void);
 int factor(void);
 int number(void);
 int digit(void);
@@ -52,7 +54,7 @@ void command(void) {
 }
 
 int expr(void) { 
-  int result = term();
+  int result = sub();
   if (token == '+') {
     match('+');
     result += expr();
@@ -60,11 +62,30 @@ int expr(void) {
   return result;
 }
 
+int sub(void) {
+  int result = term();
+  if (token == '-') {
+    match('-');
+    result -= sub();
+  }
+  return result;
+}
+
 int term(void) { 
-  int result = factor();
+  int result = avg();
   if (token == '*') {
     match('*');
     result *= term();
+  } 
+  return result;
+}
+
+int avg(void) { 
+  int result = factor();
+  if (token == '@') {
+    match('@');
+    result += avg();
+    result /= 2;
   } 
   return result;
 }
