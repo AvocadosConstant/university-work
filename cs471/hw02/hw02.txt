@@ -108,6 +108,40 @@ CS471 Assignment 2
    7)
    8)
    9)
+        1) C Identifiers
+            /[a-zA-Z_][a-zA-Z0-9_]*/
+
+        2) Strings
+            /"((\\{2})*|(.*?[^\\](\\{2})*))"/
+
+        3) Strings over {a,b} with even b's.
+            /(a*ba*ba*)*/
+
+        4) Strings over {a,b,c} with odd number c's.
+            /[ab]*c([ab]*c[ab]*c)*[ab]*/
+
+
+
   10)
+        (1) What are they used for?
+
+            _Bool has been a builtin type since C99, stores a 0 or a 1.
+            By including stdbool.h, you can use bool with its constants true and false.
+
+        (2) Why do both exist?
+
+            _Bool exists for backwards compatibility, and bool exists as syntactic sugar.
+
+        (3) Is one better than the other? Why?
+
+            Objectively no, but from an ease of coding perspective, bool is more natural to use. I prefer to use bool.
+
+
+  11)
+
+
+
+
+
   12)
   13)
