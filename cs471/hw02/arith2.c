@@ -11,8 +11,10 @@ char token; /* holds the current input character for the parse */
 /* declarations to allow arbitrary recursion */
 void command(void);
 int expr(void);
+int sub(void);
 int term(void);
 int factor(void);
+int avg(void);
 int number(void);
 int digit(void);
 
@@ -50,26 +52,45 @@ void command(void)
 }
 
 int expr(void) { 
-  int result = term();
+  int result = sub();
   while (token == '+') { 
     match('+');
-    result += term();
+    result += sub();
   }
   return result;
 }
 
-int term(void) { 
-  int result = factor();
-  while (token == '*') { 
+int sub(void) {
+  int result = term();
+  while (token == '-') {
+    match('-');
+    result -= term();
+  }
+  return result;
+}
+
+int term(void) {
+  int result = avg();
+  while (token == '*') {
     match('*');
-    result *= factor();
+    result *= avg();
   }
   return result;
 }
 
-int factor(void) { 
+int avg(void) {
+  int result = factor();
+  while (token == '@') {
+    match('@');
+    result += factor();
+    result /= 2;
+  }
+  return result;
+}
+
+int factor(void) {
   int result;
-  if (token == '(') { 
+  if (token == '(') {
     match('(');
     result = expr();
     match(')');
@@ -79,7 +100,7 @@ int factor(void) {
   return result;
 }
 
-int number(void) { 
+int number(void) {
   int result = digit();
   while (isadigit(token)) {
   /* the value of a number with a new trailing digit
@@ -91,9 +112,9 @@ int number(void) {
   return result;
 }
 
-int digit(void) { 
+int digit(void) {
   int result = 0;
-  if (isadigit(token)) { 
+  if (isadigit(token)) {
     /* the numeric value of a digit character
        is the difference between its ascii value and the
        ascii value of the character '0'
@@ -106,7 +127,7 @@ int digit(void) {
   return result;
 }
 
-void parse(void) { 
+void parse(void) {
   getToken(); /* get the first token */
   command(); /* call the parsing procedure for the start symbol */
 }
