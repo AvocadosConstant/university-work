@@ -137,11 +137,28 @@ CS471 Assignment 2
             Objectively no, but from an ease of coding perspective, bool is more natural to use. I prefer to use bool.
 
 
-  11)
+  11) Pragmas or directives allow the programmer to specify specific instructions to the compiler. They need to be scanned so the rest of compilation can go according to the pragmas. It allows programmers to have more control.
 
 
 
+------------------------
+
+  Parenthesized infix for 12 and 13
+        a)  ((z ^ w) ^ x) + y
+        b)  w + (x + (y * z))
+        c)  (w * x) * (y ^ z)
+        d)  (((w * x) / y) * z)
 
 
-  12)
-  13)
+  12) Prefix
+        a)  + ^ ^ z w x y
+        b)  + w + x * y z
+        c)  * * w x ^ y z
+        d)  * / * w x y z
+
+
+  13) Postfix
+        a)  z w ^ x ^ y +
+        b)  w x y z * + +
+        c)  w x * y z ^ *
+        d)  w x * y / z *
