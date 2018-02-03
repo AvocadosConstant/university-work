@@ -136,17 +136,15 @@ NOTE: Don't worry about the error cases: i.e, N greater than the length of Y.  *
 /* Problem 5 Answer: */
 
 insert_at(X, L, 0, [X|L]).
-% TODO
-insert_at(X, L, I, []) :- I > 0.
+insert_at(X, [_|Rest], I, [_|Z]) :- I > 0, NewI is I - 1,
+                                    insert_at(X, Rest, NewI, Z).
 
 /* Problem 5 Test: */
-:- insert_at(9, [], 0, [9]).
-
-%:- insert_at(3,[1,2,3],2,[1,2,3,3]).  % SUCCEED
-%:- insert_at(1,[1,2,3],0,[1,1,2,3]).  % SUCCEED
-%:- insert_at(a,[1,2,3],1,[1,a,2,3]).  % SUCCEED
-
-%:- insert_at(1,[1,2,3],0,[1,2,3]).    % FAIL
+%%%%:- insert_at(3,[1,2,3],2,[1,2,3,3]).  % SUCCEED
+%%%%:- insert_at(1,[1,2,3],0,[1,1,2,3]).  % SUCCEED
+%%%%:- insert_at(a,[1,2,3],1,[1,a,2,3]).  % SUCCEED
+%%%%
+%%%%:- insert_at(1,[1,2,3],0,[1,2,3]).    % FAIL
 
 
 
@@ -161,14 +159,19 @@ zip([1],[a],Zs) should give Zs = [(1,a)]
 NOTE: You may assume X and Y have the same length. */
 
 /* Problem 6 Answer: */
+zip([], [], []).
+zip([X|Xs], [Y|Ys], [(X, Y)|Zs]) :- zip(Xs, Ys, Zs).
 
 /* Problem 6 Test: */
-%:- zip([1,2,3],[a,b,c],[(1,a),(2,b),(3,c)]). % SUCCEED
-%:- zip([],[],[]).                      % SUCCEED
-%:- zip([1],[2],[(1,2)]).               % SUCCEED
+%%%%:- zip([1,2,3],[a,b,c],[(1,a),(2,b),(3,c)]). % SUCCEED
+%%%%:- zip([],[],[]).                      % SUCCEED
+%%%%:- zip([1],[2],[(1,2)]).               % SUCCEED
+%%%%
+%%%%:- zip([1],[2],[(2,3)]).               % FAIL
+%%%%:- zip([1],[2,3],[(1,2)]).             % FAIL
 
-%:- zip([1],[2],[(2,3)]).               % FAIL
-%:- zip([1],[2,3],[(1,2)]).             % FAIL
+
+
 
 /* Problem 7:
 
@@ -179,15 +182,26 @@ zip2([1,2,3,4],[a,b,c],Zs) should give Zs = [(1,a),(2,b),(3,c)]
 zip2([1],[a,b],Zs) should give Zs = [(1,a)] */
 
 /* Problem 7 Answer: */
+zip2([], _, []).
+zip2(_, [], []).
+
+zip2([X|_], [Y|[]], [(X, Y)|[]]).
+zip2([X|[]], [Y|_], [(X, Y)|[]]).
+
+zip2([X|Xs], [Y|Ys], [(X, Y)|Zs]) :- zip(Xs, Ys, Zs).
+
 
 /* Problem 7 Test: */
-%:- zip2([1,2,3],[a,b,c],[(1,a),(2,b),(3,c)]). % SUCCEED
-%:- zip2([],[a,b,c],[]).                  % SUCCEED
-%:- zip2([1,3],[],[]).                    % SUCCEED
-%:- zip2([1,3],[2],[(1,2)]).              % SUCCEED
+%%%%:- zip2([1,2,3],[a,b,c],[(1,a),(2,b),(3,c)]). % SUCCEED
+%%%%:- zip2([],[a,b,c],[]).                  % SUCCEED
+%%%%:- zip2([1,3],[],[]).                    % SUCCEED
+%%%%:- zip2([1,3],[2],[(1,2)]).              % SUCCEED
+%%%%
+%%%%:- zip2([1],[2],[(2,3)]).                 % FAIL
+%%%%:- zip2([1],[a,b],[(1,a),(1,b)]).         % FAIL
 
-%:- zip2([1],[2],[(2,3)]).                 % FAIL
-%:- zip2([1],[a,b],[(1,a),(1,b)]).         % FAIL
+
+
 
 /* Problem 8:
 Write a predicate merge(A,B,M) that succeed if the list M has all the items from lists A and B in decreasing order.  Assume that A and B are sorted in decreasing order.  Items do not need to be unique.
@@ -198,13 +212,20 @@ merge([10,3,2], [11,5,2], M) should give M =[11,10,5,3,2,2].
  */
 
 /* Problem 8 Answer: */
+merge([], Ys, Ys).
+merge(Xs, [], Xs).
+merge([X|Xs], [Y|Ys], [X|Zs]) :- X >= Y, merge(Xs, [Y|Ys], Zs).
+merge([X|Xs], [Y|Ys], [Y|Zs]) :- Y >= X, merge([X|Xs], Ys, Zs).
 
 /* Problem 8 Test: */
-%:- merge([10,3,2],[11,5,2],[11,10,5,3,2,2]) .       % SUCCEED
-%:- merge([0],[],[0]).                               % SUCCEED
-%:- merge([],[3],[3]).                               % SUCCEED
+%%%%:- merge([10,3,2],[11,5,2],[11,10,5,3,2,2]) .       % SUCCEED
+%%%%:- merge([0],[],[0]).                               % SUCCEED
+%%%%:- merge([],[3],[3]).                               % SUCCEED
+%%%%
+%%%%:- merge([4,3],[3],[3]).                            % FAIL
 
-%:- merge([4,3],[3],[3]).                            % FAIL
+
+
 
 /* Problem 9:
    See Problem 0B above for the knowledge base used for defining greater_than/2 .
@@ -215,10 +236,12 @@ merge([10,3,2], [11,5,2], M) should give M =[11,10,5,3,2,2].
 */
 
 /* Problem 9 Answer: */
+greater_than(succ(_), 0).
+greater_than(succ(X), succ(Y)) :- greater_than(X, Y).
 
 /* Problem 9 Test: */
-% :- greater_than(succ(succ(succ(0))),succ(0)).        % SUCCEED
-% :- greater_than(succ(succ(0)),succ(succ(succ(0)))).  % FAIL
+%%%%:- greater_than(succ(succ(succ(0))),succ(0)).        % SUCCEED
+%%%%:- greater_than(succ(succ(0)),succ(succ(succ(0)))).  % FAIL
 
 
 
@@ -235,13 +258,18 @@ merge([10,3,2], [11,5,2], M) should give M =[11,10,5,3,2,2].
 
 
 /* Problem 10 Answer: */
+subtract(X, 0, X).
+subtract(succ(X), succ(Y), Z) :- subtract(X, Y, Z).
 
 /* Problem 10 Test: */
-% :- subtract(succ(succ(0)), succ(0), succ(0)).       % SUCCEED
-% :- subtract(succ(succ(0)), 0, succ(succ(0))).       % SUCCEED
-% :- subtract(succ(succ(0)), succ(succ(0)), 0).       % SUCCEED
-% :- subtract(succ(succ(0)), 0, 0).	            % FAIL
-% :- subtract(succ(succ(0)), succ(0), succ(succ(0))). % FAIL
+%%%%:- subtract(succ(succ(0)), succ(0), succ(0)).       % SUCCEED
+%%%%:- subtract(succ(succ(0)), 0, succ(succ(0))).       % SUCCEED
+%%%%:- subtract(succ(succ(0)), succ(succ(0)), 0).       % SUCCEED
+%%%%:- subtract(succ(succ(0)), 0, 0).	            % FAIL
+%%%%:- subtract(succ(succ(0)), succ(0), succ(succ(0))). % FAIL
+
+
+
 
 /* Problem 11:
 (From Learn Prolog NOW!) Binary trees are trees where all internal nodes have exactly two children. The smallest binary trees consist of only one leaf node. We will represent leaf nodes as leaf(Label). For instance, leaf(3) and leaf(7) are leaf nodes, and therefore small binary trees. Given two binary trees B1 and B2 we can combine them into one binary tree using the predicate tree: tree(B1,B2). So, from the leaves leaf(1) and leaf(2) we can build the binary tree tree(leaf(1), leaf(2)). And from the binary trees tree(leaf(1), leaf(2)) and leaf(4) we can build the binary tree tree(tree(leaf(1), leaf(2)), leaf(4)).
@@ -253,12 +281,17 @@ If BT = tree( leaf(1), tree( leaf(2),leaf(4)) ), then isBinaryTree(BT) succeeds.
 */
 
 /* Problem 11 Answer: */
+leaf(_).
+tree(leaf(_), leaf(_)).
+
+isBinaryTree(leaf(_)).
+isBinaryTree(tree(_,_)).
 
 /* Problem 11 Test: */
-%:- isBinaryTree(leaf(1)).                                           %SUCCEED
-%:- isBinaryTree(tree(leaf(a),leaf(b))).                             %SUCCEED
-%:- BT = tree( leaf(b), tree( leaf(x),leaf(y)) ), isBinaryTree(BT).  %SUCCEED
-%:- BT = tree(tree(leaf(1), leaf(2)), tree(leaf(10), tree(leaf(4), leaf(11)))), isBinaryTree(BT).  %SUCCEED
-
-%:- isBinaryTree( tree(leaf(1)) ).                                   % FAIL
-%:- isBinaryTree( tree() ).                                          % FAIL
+%%%%:- isBinaryTree(leaf(1)).                                           %SUCCEED
+%%%%:- isBinaryTree(tree(leaf(a),leaf(b))).                             %SUCCEED
+%%%%:- BT = tree( leaf(b), tree( leaf(x),leaf(y)) ), isBinaryTree(BT).  %SUCCEED
+%%%%:- BT = tree(tree(leaf(1), leaf(2)), tree(leaf(10), tree(leaf(4), leaf(11)))), isBinaryTree(BT).  %SUCCEED
+%%%%
+%%%%:- isBinaryTree( tree(leaf(1)) ).                                   % FAIL
+%%%%:- isBinaryTree( tree() ).                                          % FAIL
