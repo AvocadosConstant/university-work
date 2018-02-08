@@ -281,17 +281,17 @@ If BT = tree( leaf(1), tree( leaf(2),leaf(4)) ), then isBinaryTree(BT) succeeds.
 */
 
 /* Problem 11 Answer: */
-leaf(_).
-tree(leaf(_), leaf(_)).
+%leaf(_).
+%tree(leaf(_), leaf(_)).
 
 isBinaryTree(leaf(_)).
-isBinaryTree(tree(_,_)).
+isBinaryTree(tree(L,R)) :- isBinaryTree(L), isBinaryTree(R).
 
 /* Problem 11 Test: */
-%%%%:- isBinaryTree(leaf(1)).                                           %SUCCEED
-%%%%:- isBinaryTree(tree(leaf(a),leaf(b))).                             %SUCCEED
-%%%%:- BT = tree( leaf(b), tree( leaf(x),leaf(y)) ), isBinaryTree(BT).  %SUCCEED
-%%%%:- BT = tree(tree(leaf(1), leaf(2)), tree(leaf(10), tree(leaf(4), leaf(11)))), isBinaryTree(BT).  %SUCCEED
-%%%%
-%%%%:- isBinaryTree( tree(leaf(1)) ).                                   % FAIL
-%%%%:- isBinaryTree( tree() ).                                          % FAIL
+:- isBinaryTree(leaf(1)).                                           %SUCCEED
+:- isBinaryTree(tree(leaf(a),leaf(b))).                             %SUCCEED
+:- BT = tree( leaf(b), tree( leaf(x),leaf(y)) ), isBinaryTree(BT).  %SUCCEED
+:- BT = tree(tree(leaf(1), leaf(2)), tree(leaf(10), tree(leaf(4), leaf(11)))), isBinaryTree(BT).  %SUCCEED
+
+:- isBinaryTree( tree(leaf(1)) ).                                   % FAIL
+:- isBinaryTree( tree() ).                                          % FAIL
