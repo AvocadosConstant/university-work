@@ -26,15 +26,17 @@
 /* Problem 1 Answer */
 
 sumlist([], 0).
+sumlist([Cur|Tail], Sum) :- sumlist(Tail, TailSum),
+                            Sum is TailSum + Cur.
 
 /* Problem 1 Test */
 /* There should be no warnings when compiling,
    tests which are supposed to fail are written as such */
 
-% :- sumlist([], 0).
-% :- sumlist([], 1) -> fail ; true.
-% :- sumlist([1,2,3,4], 10).
-% :- sumlist([1], 1).
+%%:- sumlist([], 0).
+%%:- sumlist([], 1) -> fail ; true.
+%%:- sumlist([1,2,3,4], 10).
+%%:- sumlist([1], 1).
 
 /* Problem 2:
    Write the predicate sumlist2(List,Sum) which succeeds if Sum is the sum total
@@ -55,13 +57,15 @@ sumlist([], 0).
 
 sumlist2(List,Sum) :- sumlist2(List, 0, Sum).
 sumlist2([], Sum, Sum).
+sumlist2([Cur|Tail], Partial, Sum) :- NewPartial is Partial + Cur,
+                                      sumlist2(Tail, NewPartial, Sum).
 
 /* Problem 2 Test */
 
-% :- sumlist2([], 0).
-% :- sumlist2([], 1) -> fail ; true.
-% :- sumlist2([1,2,3,4], 10).
-% :- sumlist2([1], 1).
+%%:- sumlist2([], 0).
+%%:- sumlist2([], 1) -> fail ; true.
+%%:- sumlist2([1,2,3,4], 10).
+%%:- sumlist2([1], 1).
 
 /* Problem 3:
    Write the predicate sumPartialR(N, SumLst), which succeeds as follows:
@@ -80,13 +84,19 @@ sumlist2([], Sum, Sum).
 
 /* Problem 3 Answer */
 
+sumPartialR(1, [1]).
+sumPartialR(N, [Partial|Tail]) :- M is N - 1,
+                                  [First|_] = Tail,
+                                  Partial is N + First,
+                                  sumPartialR(M, Tail).
+
 
 /* Problem 3 Test */
 
-% :- sumPartialR(1, [1]).
-% :- sumPartialR(1, []) -> fail ; true.
-% :- sumPartialR(2, [3, 1]).
-% :- sumPartialR(6, [21, 15, 10, 6, 3, 1]).
+%%:- sumPartialR(1, [1]).
+%%:- sumPartialR(1, []) -> fail ; true.
+%%:- sumPartialR(2, [3, 1]).
+%%:- sumPartialR(6, [21, 15, 10, 6, 3, 1]).
 
 
 
@@ -111,11 +121,17 @@ sumlist2([], Sum, Sum).
 /* Problem 4 Answer */
 
 
+sumPartialL(N, Lst) :- sumPartialL(N, N, Lst).
+sumPartialL(1, P, [P]).
+sumPartialL(N, Partial, [Partial|Tail]) :- M is N - 1,
+                                           NewPartial is Partial + M,
+                                           sumPartialL(M, NewPartial, Tail).
+
 /* Problem 4 Test */
 
-% :- sumPartialL(1, [1]).
-% :- sumPartialL(1, []) -> fail ; true.
-% :- sumPartialL(6, [6, 11, 15, 18, 20, 21]).
+%%:- sumPartialL(1, [1]).
+%%:- sumPartialL(1, []) -> fail ; true.
+%%:- sumPartialL(6, [6, 11, 15, 18, 20, 21]).
 
 
 /* Problem 5:
@@ -126,6 +142,14 @@ sumlist2([], Sum, Sum).
    C) Is every relation a function? If false, give a counter example. */
 
 /* Problem 5 Answer: */
+
+/*
+    A)
+        a) A relation between two sets is any subset of the cartesian product of those sets.
+        b) A function is a binary relation where each input has exactly one output.
+    B) Yes.
+    C) No. \[ y = \sqrt(x) \] is not a function, because for each x, there are two outputs.
+*/
 
 
 
@@ -154,15 +178,19 @@ edge(f,e).
 
 /* Problem 6 Answer */
 
-/* Problem 6 Test */
-% :- outgoing(a,X), X = [b,e,c].
-% :- outgoing(e,X), X = [].
-% :- outgoing(a,X), X = [b,e,c].
-% :- incoming(a,X), X = [b].
-% :- incoming(f,X), X = [].
+outgoing(X, Y) :- findall(Z, edge(X, Z), Y).
+incoming(X, Y) :- findall(Z, edge(Z, X), Y).
 
-% :- outgoing(e,X), X = [a] -> fail ; true.
-% :- incoming(e,X), X = [] -> fail ; true.
+
+/* Problem 6 Test */
+%%:- outgoing(a,X), X = [b,e,c].
+%%:- outgoing(e,X), X = [].
+%%:- outgoing(a,X), X = [b,e,c].
+%%:- incoming(a,X), X = [b].
+%%:- incoming(f,X), X = [].
+%%
+%%:- outgoing(e,X), X = [a] -> fail ; true.
+%%:- incoming(e,X), X = [] -> fail ; true.
 
 
 
@@ -177,6 +205,18 @@ edge(f,e).
 
 /* Problem 7 Answer: */
 
+/*
+
+    Homoiconic programming languages have program structure similar to their syntax,
+        and therefore their program's internal representations can be inferred by reading the code.
+    Yes.
+    A fully reflective programming language has the ability to examine,
+        introspect, and modify its own structure and behavior at runtime.
+    No.
+
+
+
+*/
 
 
 /* Problem 8:
@@ -187,13 +227,18 @@ edge(f,e).
 
 /* Problem 8 Answer: */
 
-/* Problem 8 Test: */
-% :- computeS(-, 19, 7, 12).
-% :- computeS(div, 19, 7, 2).
-% :- computeS(div, 19, 7, R), R = 2.
+computeS(Op, Arg1, Arg2, Result) :- Terms =.. [Op, Arg1, Arg2],
+                                    Result is Terms.
 
-% :- computeS(/, 19, 7, 2) -> fail ; true.
-% :- catch((computeS(sin, 90, 1, _), fail), error(_Err, _Context), true).
+
+/* Problem 8 Test: */
+%%:- computeS(-, 19, 7, 12).
+%%:- computeS(div, 19, 7, 2).
+%%:- computeS(div, 19, 7, R), R = 2.
+%%
+%%:- computeS(/, 19, 7, 2) -> fail ; true.
+%%:- catch((computeS(sin, 90, 1, _), fail), error(_Err, _Context), true).
+
 
 
 
@@ -206,12 +251,17 @@ edge(f,e).
 
 /* Problem 9 Answer: */
 
-/* Problem 9 Test */
-% :- result([],[]).
-% :- result([+(3,7), mod(104,7),-(5)],[10, 6, -5]).
-% :- result([+(3,7), +(15, -(3,11))],X), X = [10, 7].
+result([], []).
+result([Expr|ETail], [Result|RTail]) :- Result is Expr,
+                                        result(ETail, RTail).
 
-% :- result([+(3,7), mod(104,7)],[10,13]) -> fail ; true.
+
+/* Problem 9 Test */
+%%:- result([],[]).
+%%:- result([+(3,7), mod(104,7),-(5)],[10, 6, -5]).
+%%:- result([+(3,7), +(15, -(3,11))],X), X = [10, 7].
+%%
+%%:- result([+(3,7), mod(104,7)],[10,13]) -> fail ; true.
 
 
 
@@ -236,12 +286,24 @@ edge(f,e).
 
 /* Problem 10 Answer: */
 
+d(x,x,1).
+d(C,x,0) :- number(C).
+d(C*x,x,C) :- number(C).
+d(-U, X, -DU) :- d(U, X, DU).
+d( U + V, x, RU + RV ) :- d(U, x, RU), d(V, x, RV).
+d( U - V, x, RU - RV ) :- d(U, x, RU), d(V, x, RV).
+d(U * V,x, U * DV + V * DU):- d(U, x, DU), d(V, x, DV).
+d(U ^ N, x, N * (U^M) * DU) :- M is N-1, d(U, x, DU).
+
+
+
 /* Problem 10 Test: */
-% :- d(x,x,R), R = 1 .
-% :- d(7*x,x,R), R = 7 .
-% :- d(x +2*(x^3 + x*x),x,Result), Result = 1+ (2* (3*x^2*1+ (x*1+x*1))+ (x^3+x*x)*0) .
-% :- d(-(1.24*x -x^3),x,Result), Result = - (1.24-3*x^2*1) .
-% :- d(-(1.24*x -2*x^3),x,Result), Result = - (1.24- (2* (3*x^2*1)+x^3*0)) .
+%%:- d(x,x,R), R = 1 .
+%%:- d(7,x,R), R = 0 .
+%%:- d(7*x,x,R), R = 7 .
+%%:- d(x +2*(x^3 + x*x),x,Result), Result = 1+ (2* (3*x^2*1+ (x*1+x*1))+ (x^3+x*x)*0) .
+%%:- d(-(1.24*x -x^3),x,Result), Result = - (1.24-3*x^2*1) .
+%%:- d(-(1.24*x -2*x^3),x,Result), Result = - (1.24- (2* (3*x^2*1)+x^3*0)) .
 
 % Pay careful attention to why this fails.
 % :- d(x +2*(x^3 + x*x),x,Result), Result = 1+ (2* (3*x^(3-1)*1+ (x*1+x*1))+ (x^3+x*x)*0) -> fail ; true.
@@ -271,11 +333,14 @@ edge(f,e).
 
 /* Problem 11 Answer: */
 
+swap(leaf(A), leaf(A)).
+swap(tree(A, B), tree(SB, SA)) :- swap(B, SB), swap(A, SA).
+
 
 /* Problem 11 Test: */
-% :- swap( tree( tree(leaf(1), leaf(2)), leaf(4)), T), T  =  tree( leaf(4), tree(leaf(2), leaf(1))).
-% :- swap(leaf(1), leaf(1)).
-% :- swap(tree(leaf(1), leaf(2)), tree(leaf(1), leaf(2))) -> fail ; true.
+%%:- swap( tree( tree(leaf(1), leaf(2)), leaf(4)), T), T  =  tree( leaf(4), tree(leaf(2), leaf(1))).
+%%:- swap(leaf(1), leaf(1)).
+%%:- swap(tree(leaf(1), leaf(2)), tree(leaf(1), leaf(2))) -> fail ; true.
 
 
 
