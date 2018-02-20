@@ -23,18 +23,30 @@ In class we discussed that we can encode a binary search tree in Prolog using co
 
 can be encoded as node(5,node(3,node(1,nil,nil),node(4,nil,nil)),node(7,nil,nil)).
 
-Write a predicate insert(X,Y,Z) that succeeds if Z is the tree Y with X inserted (insert X into Y). You may assume you have a binary search tree. */
+Write a predicate insert(X,Y,Z) that succeeds if Z is the tree Y with X inserted (insert X into Y).
+You may assume you have a binary search tree. */
 
 /* Problem 1 Answer: */
 
-/* Problem 1 Test: */
-% :- insert(5,node(5,nil,nil),X), X = node(5,nil,nil).                                                                            %SUCCEED
-% :- insert(3,node(5,nil,nil),X), X = node(5,node(3,nil,nil),nil).                                                                %SUCCEED
-% :- insert(7,node(5,nil,nil),X), X = node(5,nil,node(7,nil,nil)).                                                                %SUCCEED
-% :- insert(1,node(5,node(3,nil,nil),node(7,nil,nil)),X), X = node(5,node(3,node(1,nil,nil),nil),node(7,nil,nil)).                 %SUCCEED
-% :- insert(1,node(5,node(3,node(2,nil,nil),nil),node(7,nil,nil)),X), X = node(5,node(3,node(2,node(1,nil,nil),nil),nil),node(7,nil,nil)). %SUCCEED
+% Base cases
+insert(E, node(E, nil, nil), node(E, nil, nil)).
+insert(E, nil, node(E, nil, nil)).
 
-% :- (insert(3,node(5,node(3,node(2,nil,nil),nil),node(7,nil,nil)),X), X = node(5,node(3,node(2,node(3,nil,nil),nil)),node(7,nil,nil))) -> fail ; true.
+insert(E, node(V, L, R), node(V, LInserted, R)) :- E < V, insert(E, L, LInserted).
+insert(E, node(V, L, R), node(V, L, RInserted)) :- E > V, insert(E, R, RInserted).
+
+
+
+/* Problem 1 Test: */
+:- insert(5,node(5,nil,nil),X), X = node(5,nil,nil).                      %SUCCEED
+:- insert(3,node(5,nil,nil),X), X = node(5,node(3,nil,nil),nil).          %SUCCEED
+:- insert(7,node(5,nil,nil),X), X = node(5,nil,node(7,nil,nil)).          %SUCCEED
+:- insert(1,node(5,node(3,nil,nil),node(7,nil,nil)),X), X = node(5,node(3,node(1,nil,nil),nil),node(7,nil,nil)).                 %SUCCEED
+:- insert(1,node(5,node(3,node(2,nil,nil),nil),node(7,nil,nil)),X), X = node(5,node(3,node(2,node(1,nil,nil),nil),nil),node(7,nil,nil)). %SUCCEED
+
+:- (insert(3,node(5,node(3,node(2,nil,nil),nil),node(7,nil,nil)),X), X = node(5,node(3,node(2,node(3,nil,nil),nil)),node(7,nil,nil))) -> fail ; true.
+
+
 
 
 /* Problem 2:
@@ -45,12 +57,27 @@ to_list(node(5,node(3,node(1,nil,nil),node(4,nil,nil)),node(7,nil,nil)),X) will 
 
 /* Problem 2 Answer:  */
 
-/* Problem 2 Tests:  */
-%:- to_list(node(3,nil,nil),L), L = [3]. %SUCCEED
-%:- to_list(node(5,node(3,nil,nil),nil),L), L = [3,5].  %SUCCEED
-%:- to_list(node(5,node(3,node(1,nil,nil),node(4,nil,nil)),node(7,nil,nil)),L), L = [1,3,4,5,7]. %SUCCEED
+to_list(nil, []).
+to_list(node(V, LTree, RTree), L) :- to_list(LTree, LList),
+                                     to_list(RTree, RList),
+                                     append(LList, [V|RList], L).
 
-%:- (to_list(node(3,nil,nil),L), L = [5]) -> fail ; true.
+
+
+/* Problem 2 Tests:  */
+:- to_list(node(3,nil,nil),L), L = [3]. %SUCCEED
+:- to_list(node(5,node(3,nil,nil),nil),L), L = [3,5].  %SUCCEED
+:- to_list(node(5,node(3,node(1,nil,nil),node(4,nil,nil)),node(7,nil,nil)),L), L = [1,3,4,5,7]. %SUCCEED
+
+:- (to_list(node(3,nil,nil),L), L = [5]) -> fail ; true.
+
+
+
+
+
+
+
+
 
 
 /* Problem 3:
@@ -68,12 +95,32 @@ For example, the following shows a right rotation at the root.
 
 /* Problem 3 Answer: */
 
-/* Problem 3 Test: */
-%:- right_rotate(node(5,node(3,node(2,nil,nil),node(4,nil,nil)),node(7,nil,nil)),X), X = node(3, node(2, nil, nil), node(5, node(4, nil, nil), node(7, nil, nil))). %SUCCEED
-%:- right_rotate(node(5,node(3,nil,node(4,nil,nil)),node(7,nil,nil)),X), X = node(3, nil, node(5, node(4, nil, nil), node(7, nil, nil))). %SUCCEED
-%:- right_rotate(node(3,node(2,node(1,nil,nil),nil),nil),X), right_rotate(X,Y), Y = node(1,nil,node(2,nil,node(3,nil,nil))). %SUCCEED
+/*
+           Root                      LValue             
+           / \                         / \              
+     LValue   RightNode    -->   LLNode  Root           
+         / \                              / \           
+    LLNode  Floater                 Floater  RightNode  
+*/
+right_rotate(node(Root, node(LValue, LLNode, Floater), RightNode),
+             node(LValue, LLNode, node(Root, Floater, RightNode))).
 
-%:- right_rotate(node(5,nil,node(7,nil,nil)),_) -> fail ; true. %FAIL
+
+
+/* Problem 3 Test: */
+:- right_rotate(node(5,node(3,node(2,nil,nil),node(4,nil,nil)),node(7,nil,nil)),X), X = node(3, node(2, nil, nil), node(5, node(4, nil, nil), node(7, nil, nil))). %SUCCEED
+:- right_rotate(node(5,node(3,nil,node(4,nil,nil)),node(7,nil,nil)),X), X = node(3, nil, node(5, node(4, nil, nil), node(7, nil, nil))). %SUCCEED
+:- right_rotate(node(3,node(2,node(1,nil,nil),nil),nil),X), right_rotate(X,Y), Y = node(1,nil,node(2,nil,node(3,nil,nil))). %SUCCEED
+
+:- right_rotate(node(5,nil,node(7,nil,nil)),_) -> fail ; true. %FAIL
+
+
+
+
+
+
+
+
 
 
 /* Problem 4:
@@ -132,6 +179,12 @@ d(U ^ N, x, N*U ^ N1*DU) :- integer(N), N1 is N-1, d(U, x, DU).
 %     Value = 2592.
 
 
+
+
+
+
+
+
 /* Problem 5:
 We will encode a mini-AST in Prolog using complex data structures. A "node" will consist of either a nb(Functor,LeftExpr,RightExpr), nu(Functor,Expr) or nn(Number).
 
@@ -163,6 +216,12 @@ Write a predicate run(X,Y) that succeeds if Y is the result obtained from "runni
 %:- (run(nb(+,nb(*,nn(2),nn(3)),nb(-,nn(6),nn(3))),E), E=8) -> fail ; true.
 
 
+
+
+
+
+
+
 /* Problem 6:
 Using the AST described in problem 5, write a predicate binaryAP/2.  binaryAP(AST, BPlst) succeeds if all the binary arithmetic predicates that occur in AST are collected into BPlst.  Use an inorder traversal of AST.  */
 
@@ -175,6 +234,12 @@ Using the AST described in problem 5, write a predicate binaryAP/2.  binaryAP(AS
 
 %:- (T = nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))), binaryAP(T,L), L = [+,*]) -> fail ; true.      %FAIL
 %
+
+
+
+
+
+
 
 
 /* Problem 7:
@@ -201,6 +266,12 @@ Using the AST described in problem 5, write a predicate binaryAP/2.  binaryAP(AS
 % :- noAtoms([[[r]]], 1).
 
 
+
+
+
+
+
+
 /* Problem 8:
 
 In class we discussed difference lists and how to append two of them in "constant" time.
@@ -216,6 +287,12 @@ Write a predicate, append3DL(A,B,C,D) that succeeds if D is the difference lists
 
 
 %:- (append3DL([1,2|A]-A,[3,4|B]-B,[5,6|[]]-[],L), L = [1,2,3,4,5]-[]) -> fail ; true.   % FAIL
+
+
+
+
+
+
 
 
 
@@ -243,6 +320,12 @@ my_max1(X,_,X).
 
 /* Problem 9 Test */
 % You're own your own for this one :) */
+
+
+
+
+
+
 
 
 /* Problem 10:
@@ -274,6 +357,11 @@ my_max1(X,_,X).
 /* Problem 10 Test: */
 
 % :- M = 1, sendMoreMoney( [D,E,M,N,O,R,S,Y]), M = 1, D = 7, E = 5, N = 6, O = 0, R = 8, S = 9, Y = 2.
+
+
+
+
+
 
 /* Problem 11:
 
