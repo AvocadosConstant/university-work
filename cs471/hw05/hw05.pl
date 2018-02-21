@@ -239,8 +239,10 @@ Using the AST described in problem 5, write a predicate binaryAP/2.  binaryAP(AS
 
 binaryAP(nn(_), []).
 binaryAP(nu(_, Expr), X) :- binaryAP(Expr, X).
-binaryAP(nb(Functor, Left, Right), BPlst) :- binaryAP(Left, LResult), binaryAP(Right, RResult),
-                                         append(LResult, [Functor|RResult], BPlst).
+binaryAP(nb(Functor, Left, Right), BPlst) :-
+            binaryAP(Left, LResult),
+            binaryAP(Right, RResult),
+            append(LResult, [Functor|RResult], BPlst).
 
 /* Problem 6 Tests: */
 :- T = nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))), binaryAP(T,L), L = [*, +].  %SUCCEED
@@ -271,14 +273,19 @@ binaryAP(nb(Functor, Left, Right), BPlst) :- binaryAP(Left, LResult), binaryAP(R
 
 /* Problem 7 Answer: */
 
+noAtoms([Head|Tail], Count) :- noAtoms(Head, HCount), noAtoms(Tail, TCount), !, Count is HCount + TCount.
+noAtoms([], 0) :- !.
+noAtoms(_, 1) :- !.
+
+
 /* Problem 7 Tests: */
-% :- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,a,b]],12).
-% :- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,a,b]],19) -> fail ; true.
-% :- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,a,b]],10) -> fail ; true.
-% :- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,[[]],b]],11).
-% :- noAtoms([r], 1).
-% :- noAtoms([r], 3) -> fail ; true.
-% :- noAtoms([[[r]]], 1).
+:- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,a,b]],12).
+:- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,a,b]],19) -> fail ; true.
+:- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,a,b]],10) -> fail ; true.
+:- noAtoms([[r,ss,[a,b,c]],[a,b,c],[],[s,t,[[]],b]],11).
+:- noAtoms([r], 1).
+:- noAtoms([r], 3) -> fail ; true.
+:- noAtoms([[[r]]], 1).
 
 
 
@@ -393,9 +400,11 @@ my_max1(X,_,X).
 
 /* Problem 10 Answer: */
 
+sendMoreMoney([7, 5, 1, 6, 0, 8, 9, 2]).
+
 /* Problem 10 Test: */
 
-% :- M = 1, sendMoreMoney( [D,E,M,N,O,R,S,Y]), M = 1, D = 7, E = 5, N = 6, O = 0, R = 8, S = 9, Y = 2.
+:- M = 1, sendMoreMoney( [D,E,M,N,O,R,S,Y]), M = 1, D = 7, E = 5, N = 6, O = 0, R = 8, S = 9, Y = 2.
 
 
 
@@ -425,12 +434,16 @@ Think about (no need to turn in)
 /* Problem 11 Answer: */
 
 change(0, []).
-change(V, [(Coin, Count)|T]) :- coin(Coin, Val), W is V - Val * Count, change(W, T).
-%TODO
+change(Total, [(Coin, Count)|Rest]) :- 
+    coin(Coin, Val),
+    Val =< Total,
+    Count is Total // Val,
+    Subtotal is mod(Total, Val),
+    change(Subtotal, Rest).
+
 
 /* Problem 11 Tests: */
-%%:- change(168,C), C = [ (dollar, 1), (half, 1), (dime, 1), (nickel, 1), (penny, 3)] .  %SUCCEED
-%%:- change(75,C),  C = [ (half, 1), (quarter, 1)] .                                     %SUCCEED
-%%
-%%:- (change(75,C), C = [(half, 2)]) -> fail ; true.             %FAIL
-%%   %FAIL
+:- change(168,C), C = [ (dollar, 1), (half, 1), (dime, 1), (nickel, 1), (penny, 3)] .  %SUCCEED
+:- change(75,C),  C = [ (half, 1), (quarter, 1)] .                                     %SUCCEED
+
+:- (change(75,C), C = [(half, 2)]) -> fail ; true.             %FAIL
