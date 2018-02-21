@@ -160,6 +160,7 @@ d( U - V, x, RU - RV ):-d(U,x,RU), d(V,x,RV).
 d(U * V,x, U * DV + V * DU):- d(U,x,DU), d(V,x,DV).
 d(U ^ N, x, N*U ^ N1*DU) :- integer(N), N1 is N-1, d(U, x, DU).
 
+evaluate().
 /* Problem 4 Tests:  */
 % :- evaluate(x*y, 6, [x:2, y:3]).
 % :- evaluate(x*y, 8, [x:2, y:3]) -> fail ; true.
@@ -206,14 +207,23 @@ Write a predicate run(X,Y) that succeeds if Y is the result obtained from "runni
 
 /* Problem 5 Answer: */
 
-/* Problem 5 Tests: */
-%:- run(nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))),_).
-%:- run(nb(+,nb(*,nn(2),nn(3)),nn(3)),E), E=9.
-%:- run(nb(+,nb(*,nn(2),nn(3)),nb(-,nn(6),nn(3))),E), E=9.
-%:- run(nn(2),E), E=2.
-%:- run(nu(abs,nn(-2)),E), E=2.
+run(nn(V), V) :- number(V).
+run(nu(Functor, Expr), Result) :- run(Expr, Subresult),
+                                  Eval =.. [Functor, Subresult],
+                                  Result is Eval.
+run(nb(Functor, Left, Right), Result) :- run(Left, LResult),
+                                         run(Right, RResult),
+                                         Eval =.. [Functor, LResult, RResult],
+                                         Result is Eval.
 
-%:- (run(nb(+,nb(*,nn(2),nn(3)),nb(-,nn(6),nn(3))),E), E=8) -> fail ; true.
+/* Problem 5 Tests: */
+:- run(nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))),_).
+:- run(nb(+,nb(*,nn(2),nn(3)),nn(3)),E), E=9.
+:- run(nb(+,nb(*,nn(2),nn(3)),nb(-,nn(6),nn(3))),E), E=9.
+:- run(nn(2),E), E=2.
+:- run(nu(abs,nn(-2)),E), E=2.
+
+:- (run(nb(+,nb(*,nn(2),nn(3)),nb(-,nn(6),nn(3))),E), E=8) -> fail ; true.
 
 
 
@@ -227,13 +237,18 @@ Using the AST described in problem 5, write a predicate binaryAP/2.  binaryAP(AS
 
 /* Problem 6 Answer: */
 
-/* Problem 6 Tests: */
-%:- T = nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))), binaryAP(T,L), L = [*, +].  %SUCCEED
-%:- T = nb(+, nb(*, nn(2), nn(3)), nb(-,nn(3), nn(5))),  binaryAP(T,L), L = [*, +, -]. %SUCCEED
-%:- T = nb(+, nb(*, nn(2),  nb(-,nn(3), nb(//, nn(2), nn(5)))),nn(9)) ,  binaryAP(T,L), L = [*, -, //, +]. %SUCCEED
+binaryAP(nn(_), []).
+binaryAP(nu(_, Expr), X) :- binaryAP(Expr, X).
+binaryAP(nb(Functor, Left, Right), BPlst) :- binaryAP(Left, LResult), binaryAP(Right, RResult),
+                                         append(LResult, [Functor|RResult], BPlst).
 
-%:- (T = nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))), binaryAP(T,L), L = [+,*]) -> fail ; true.      %FAIL
-%
+/* Problem 6 Tests: */
+:- T = nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))), binaryAP(T,L), L = [*, +].  %SUCCEED
+:- T = nb(+, nb(*, nn(2), nn(3)), nb(-,nn(3), nn(5))),  binaryAP(T,L), L = [*, +, -]. %SUCCEED
+:- T = nb(+, nb(*, nn(2),  nb(-,nn(3), nb(//, nn(2), nn(5)))),nn(9)) ,  binaryAP(T,L), L = [*, -, //, +]. %SUCCEED
+
+:- (T = nb(+,nb(*,nn(2),nn(3)),nu(random,nn(5))), binaryAP(T,L), L = [+,*]) -> fail ; true.      %FAIL
+
 
 
 
@@ -281,12 +296,16 @@ Write a predicate, append3DL(A,B,C,D) that succeeds if D is the difference lists
 
 /* Problem 8 Answer: */
 
+append3DL(A-B, B-C, C-D, A-D).
+
+
+
 /* Problem 8 Tests: */
-%:- append3DL([1,2|A]-A,[3,4|B]-B,[5,6|[]]-[],L), L = [1,2,3,4,5,6]-[]. % SUCCEED
-%:- append3DL([a,b|A]-A,[b,1,2|B]-B,[3|C]-C,L), L = [a, b, b, 1, 2, 3|C]-C. % SUCCEED
+:- append3DL([1,2|A]-A,[3,4|B]-B,[5,6|[]]-[],L), L = [1,2,3,4,5,6]-[]. % SUCCEED
+:- append3DL([a,b|A]-A,[b,1,2|B]-B,[3|C]-C,L), L = [a, b, b, 1, 2, 3|C]-C. % SUCCEED
 
 
-%:- (append3DL([1,2|A]-A,[3,4|B]-B,[5,6|[]]-[],L), L = [1,2,3,4,5]-[]) -> fail ; true.   % FAIL
+:- (append3DL([1,2|A]-A,[3,4|B]-B,[5,6|[]]-[],L), L = [1,2,3,4,5]-[]) -> fail ; true.   % FAIL
 
 
 
@@ -312,15 +331,35 @@ Write a predicate, append3DL(A,B,C,D) that succeeds if D is the difference lists
 /* Problem 9 Answer */
 
 
-my_max(X,Y,Y) :- X =< Y.
+my_max(X,Y,Y) :- X =< Y, !.
 my_max(X,Y,X) :- X > Y.
 
-my_max1(X,Y,Z) :- X =< Y, Y = Z.
+my_max1(X,Y,Z) :- X =< Y, !, Y = Z.
 my_max1(X,_,X).
 
 /* Problem 9 Test */
 % You're own your own for this one :) */
 
+:- my_max(0, 1, 1). % SUCCEED
+:- my_max(1, 0, 1). % SUCCEED
+:- my_max(1, 1, 1). % SUCCEED
+:- my_max(0, 0, 0). % SUCCEED
+
+:- my_max(0, 1, 0) -> fail; true. % FAIL
+:- my_max(1, 0, 0) -> fail; true. % FAIL
+:- my_max(1, 1, 0) -> fail; true. % FAIL
+:- my_max(0, 0, 1) -> fail; true. % FAIL
+
+
+:- my_max1(0, 1, 1). % SUCCEED
+:- my_max1(1, 0, 1). % SUCCEED
+:- my_max1(1, 1, 1). % SUCCEED
+:- my_max1(0, 0, 0). % SUCCEED
+
+:- my_max1(0, 1, 0) -> fail; true. % FAIL
+:- my_max1(1, 0, 0) -> fail; true. % FAIL
+:- my_max1(1, 1, 0) -> fail; true. % FAIL
+:- my_max1(0, 0, 1) -> fail; true. % FAIL
 
 
 
@@ -385,9 +424,13 @@ Think about (no need to turn in)
 
 /* Problem 11 Answer: */
 
-/* Problem 11 Tests: */
-%:- change(168,C), C = [ (dollar, 1), (half, 1), (dime, 1), (nickel, 1), (penny, 3)] .  %SUCCEED
-%:- change(75,C),  C = [ (half, 1), (quarter, 1)] .                                     %SUCCEED
+change(0, []).
+change(V, [(Coin, Count)|T]) :- coin(Coin, Val), W is V - Val * Count, change(W, T).
+%TODO
 
-%:- (change(75,C), C = [(half, 2)]) -> fail ; true.             %FAIL
-   %FAIL
+/* Problem 11 Tests: */
+%%:- change(168,C), C = [ (dollar, 1), (half, 1), (dime, 1), (nickel, 1), (penny, 3)] .  %SUCCEED
+%%:- change(75,C),  C = [ (half, 1), (quarter, 1)] .                                     %SUCCEED
+%%
+%%:- (change(75,C), C = [(half, 2)]) -> fail ; true.             %FAIL
+%%   %FAIL
