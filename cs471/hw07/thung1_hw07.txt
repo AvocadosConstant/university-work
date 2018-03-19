@@ -1,0 +1,173 @@
+Michael Correale
+Tim Hung
+Andrew Chellis
+
+Homework Assignment 7
+Assignment due Thur  -- March 8  end of day 
+You may work groups of 1, 2 or 3 members.  EACH team member must submit the assignment. 
+  
+1)
+  pg. 286 exercise 6.1
+  These statements are not contradictory. Taking these to be contradictory would be inferring that because the compiler is free to evaluate binary operands in either order, it will evaluate them towards an incorrect result. The statement in section 6.1.4 is only meant to say that while correctly evaluating an arithmetic expression using binary operators, it may reorder their operand execution to be more performant.
+
+
+--------------
+
+
+2)
+  pg. 287 exercise 6.7
+  No, there is no case in C where this could be valid. & gets the address of a variable, so the result of the parenthesized expression is the address of i. The outside & operator would then get the address of an address. This is impossible as an address is an absolute locator, not a variable, and thus this code is never valid.
+
+
+--------------
+
+
+3)
+  pg. 287 exercise 6.9 (Be concise.)
+  I think that while it is true that assignment is used more than equality testing and that this design would save some keystrokes, it is barely passable as a reason. I would guess that the real reason behind this design decision was to be syntactically similar to prior languages.
+
+  Evaluate following program fragment in C:
+  int a = 0;       
+  int b = (a++ || ++a) >= (a++ && ++a);
+  printf( "%d %d", a, b );
+
+
+
+--------------
+
+
+4)
+  In the table below show each evaluation step  and include the value of a and b.  Finally, display the output. Remember in Java, C and C++, && is a short circuit operator which is always evaluated left to right.  Assume all side effects occur immediately.  The '++' and '--' operators have higher precedence than '+' . The '+', additive operator, has higher precedence than '&&'. '=' operator has lowest precedence.
+
+  a. Assume that, wherever there is an option, operands are evaluated left to right:     
+
+  int b = (a++ || ++a) >= (a++ && ++a);
+  a = 0, b = ?
+  a++ 
+  a = 0, b = ?
+  ++a
+  a = 1, b = ?
+  (a++ || ++a)
+  TRUE, a  = 2, b = ?
+  a++
+  a = 2, b = ?
+  ++a
+  a = 3, b = ?
+  (a++ && ++a)
+  TRUE, a  = 3, b = ? 
+  int b = (a++ || ++a) >= (a++ && ++a)
+  TRUE, a = 4, b = 1
+
+  b. Assume that, wherever there is an option, operands are evaluated right to left:                   
+
+  int b = (a++ || ++a) >= (a++ && ++a);
+  a = 0, b = ?
+  ++a
+  a = 1, b = ?
+  a++
+  a = 1, b = ?
+  (a++ && ++a)
+  TRUE, a = 2, b = ?
+  ++a
+  a = 3, b = ?
+  a++
+  a = 3, b = ?
+  (a++ || ++a)
+  TRUE, a = 4,  b = ?
+  int b = (a++ || ++a) >= (a++ && ++a);
+  a = 4, b = 1
+
+
+
+--------------
+
+
+5)
+   C++ and Java loops are often written with empty bodies by placing all side effects into the tests, such as in the following two examples
+   i = 0;
+   while (a[i++] != 0);
+   for (i = 0; a[i] != 0; i++);  
+   Are these loops equivalent? Explain.
+   These two loops are not equivalent. In the while loop, i is incremented at the start of each iteration, but in the for loop, i is incremented at the end of each iteration. 
+
+
+--------------
+
+
+6)
+   Write a script using a number object 1 to build a list where the first element is 1 and the next elements are the product of n!. 
+   lst = Array.new
+   (0..5).each do |i|
+       lst[i] = (1..i).reduce(:*) || 1
+       end
+       puts "puts lst"
+       puts lst
+
+
+
+--------------
+
+
+7. Variation of  exercises 6.17 and 6.18.  Add two iterator methods to the Tree class in TreeModule.py. preorder() is an iterator that traverses the tree object in preorder and postorder() is an iterator that traverses the tree object in postorder. 
+
+    Implemented in TreeModule.py
+
+
+
+--------------
+
+
+8. Page 289 exercise 6.22 .  TreeModule.py contains a class definition of a binary tree. UsingTrees.py contains code to illustrate how to create and use Tree objects.  You can use "def prettyPrint(trees)" in UsingTrees to printout a collection of trees. .   A copy of section 2 of Finkel referred to in the problem is on shared Google Drive. )
+            
+    Implemented in TreeModule.py
+
+
+
+--------------
+
+
+9. Page 291 exercise 6.33
+
+    6.33 Give an example in C in which an in-line subroutine may be significantly faster than a functionally equivalent macro. Give another example in which the macro is likely to be faster. (Hint: Think about applicative vs normal order evaluation of arguments.)
+
+    ```c
+
+    #define cube1(x) x * x * x
+    int cube2(int x) { return x * x * x; }
+
+    cube1(2 * 3)
+    cube2(2 * 3)
+    // cube2 (subroutine) is faster
+
+    cube1(6)
+    cube2(6)
+    // cube1 (macro) is faster
+
+    ```
+
+
+--------------
+
+
+10.  Page 311/12 CYU 2, 9, 10
+
+    2. What does it mean for a language to be strongly typed? Statically typed? What prevents, say, C from being strongly typed?
+
+        Strongly typed: type discipline is enforced by the compiler
+        Statically typed: types known at compile time
+        In C, you can cast pointers to whatever type you want, so it is very weakly typed.
+
+
+    9. What is polymorphism? What distinguishes its parametric and subtype varieties? What are generics? 
+
+        Polymorphism is the provision of an interface to entities of different types or configurations.
+        Parametric poly can be used transparently with multiple different types, while subtyped poly enforces the types have to share a common superclass.
+        Generic programming allows for development of modules where the types can be substituted in and determined later. It’s useful for writing containers.
+
+
+    10. What is the difference between discrete and scalar types?
+
+        Discrete types are countable numeric types (ints, etc).
+        Scalar types encompass discrete types in addition to other numeric types such as floats and rationals.
+
+
