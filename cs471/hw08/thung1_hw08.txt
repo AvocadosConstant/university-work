@@ -1,0 +1,242 @@
+Michael Correale
+Tim Hung
+Andrew Chellis
+CS471 - Programming Language
+Homework Assignment 8
+Assignment due Friday, March 16
+
+1. page 331 cyu 25
+
+    Unification is the process of determining what solutions can possibly fit the problem,
+    as opposed to evaluating the problem and calculating a solution.
+    Unifying can come up with many answers, while evaluation would come up with 1 at a time,
+    depending on implementation.
+
+    In ML languages, unification is used for type checking to determine the types of parameters.
+    The compiler/interpreter uses context clues to determine what kind of type the object can be,
+    and then infers the type based on what combinations of types work.
+
+
+--------
+
+
+2. page 342 cyu 26
+
+    Implicit parameter polymorphism is when the types of the parameters of a function are
+    implicitly defined by the compiler, or the types themselves are unimportant to the function.
+    The explicit, on the other hand, is when the programmer must tell the compiler exactly
+    what type the object is.
+    The programmer can use generic types to capture any object, but the types must be known at compile time.
+
+    Implicit polymorphism occurs at runtime, and explicit at compile time.
+    Depending on the goal of your program, it might be better to know the type at one point or another.
+    Compile time might result in quicker run times, but runtime might result in better generalization.
+
+
+--------
+
+
+3. page 342 cyu 33
+
+    In C++, int’s are considered an object type, as all objects in C++ can be
+    instantiated on either the stack or the heap.
+
+    In java, int, float, and other basic variable types are considered primitives
+    because as opposed to java objects which store a reference on the heap, primitives
+    store their values directly onto the stack.
+    This would break generics in java, as the generic type contains an object reference, not a direct value.
+
+
+--------
+
+
+4. Here are some type and variable declarations in C syntax:
+
+    typedef char* String1;
+    typedef char* String2:
+
+    String1 a;
+    String2 b, c;
+    String2 d;
+
+    State which variables are type equivalent under
+        (a) structural equivalence,
+        (b) strict name equivalence, and
+        (c) the actual C equivalence algorithm.
+
+
+    All variables here are structurally equivalent as they all have the base type of a char*.
+
+    b, c, and d are name equivalent as the are declared as the same type name of String2.
+    a is not name equivalent to anything as there are no other String1 ‘s declared.
+
+    All variables here are equivalent to C as they are all typedef’d to the same type of a char*.
+
+
+--------
+
+
+5. Given the following C++ declaration,
+
+    double* dp = new double(3);
+    void* vp;
+    int* ip;
+
+    which of the following assignments does the compiler complain about?
+
+    vp = dp;
+    dp = vp;
+    p = dp;
+    dp = ip;
+    ip = vp;
+
+    ip = (int*) vp;
+    ip = static_cast<int*>(vp);
+    ip = static_cast<int*>(dp);
+    ip = reinterpret_cast<int*>(dp);
+
+
+    Briefly explain the behavior of the compiler.
+    Will *ip ever have the value 3 after one of the assignments to ip ?
+
+
+
+    error: invalid conversion from ‘void*’ to ‘double*’ [-fpermissive]
+    dp = vp;
+    error: cannot convert ‘double*’ to ‘int*’ in assignment
+    ip = dp;
+    error: cannot convert ‘int*’ to ‘double*’ in assignment
+    dp = ip;
+    error: invalid conversion from ‘void*’ to ‘int*’ [-fpermissive]
+    ip = vp;
+    error: invalid static_cast from type ‘double*’ to type ‘int*’
+    ip = static_cast<int*>(dp);
+
+    The two types double* and int* have nothing in common: They are completely different types.
+    The vp = dp assignment works fine because void pointers have less information than double*,
+    but double* and int* cannot be assigned to each other because again,
+    they are completely different types.
+
+    *ip will never have the value 3.
+
+
+--------
+
+
+6. page 346 exercise 7.17
+
+    Consider the following code skeleton in C++:
+
+            #include <list> using std::list;
+            class foo { ...
+            class bar : public foo { ...
+
+            static void print_all(list<foo*> &L) { …
+
+            list<foo*> LF;
+            list<bar*> LB;
+            ...
+            print_all(LF); // works fine
+            print_all(LB); // static semantic error
+
+        Explain why the compiler won’t allow the second call. Give an example of
+        bad things that could happen if it did.
+
+
+        Bar inherits from foo, but list<bar*> and list<foo*> are incomparable.
+        Collections of different types are different types. list<bar*> should only
+        contain elements of type bar*, if the print_all function considered it as a
+        collection of foo*, it could do something like push_back a foo* into the
+        list and that would not make sense.
+
+
+--------
+
+7. page 346 exercise 7.18
+
+    Bjarne Stroustrup, the original designer of C++, once described templates as
+    “a clever kind of macro that obeys the scope, naming, and type rules of C++” [Str13, 2nd ed., p. 257].
+    How close is the similarity?
+    What can templates do that macros can’t?
+    What do macros do that templates don’t?
+
+
+        Templates enforce type safety, macros don’t.
+        Templates allow for metaprogramming. (e.g. compile time decisions)
+        Templates have scope, macros don’t
+        In macros, parameters the same parameter may be evaluated multiple times
+        Templates are much easier to debug than macros (for macros errors refer to unclear line numbers)
+
+        Macros can do raw substitution without worrying about any of the
+        aforementioned stuff (type, scope, etc.)
+
+        In usage though, they can be used in very similar ways,
+        but templates are more “powerful” and safe.
+
+
+--------
+
+
+8. page 358 CYU 1
+
+    In C, struct tags are a way to designate a relationship between several
+    pieces of data and have them stored adjacently in memory. For structs,
+    the name is “struct x” and the type requires both struct and x to be
+    present. To have x as a type, you would have to use “typedef struct x x”. In
+    C++, structs are now true types and are an alias for a class where members are
+    public by default. This also means that there is no need to use typedef.
+
+
+
+--------
+
+
+9. page 405 exercise 8.12
+    Given padding for alignment, the size of the struct is 8 bytes.
+
+    Index 3, 7 means ((3 x10) +7)*8 is the offset from the beginning of the A memory block.
+    This means the address is 1000+296 or 1296 in decimal.
+
+
+--------
+
+
+10. page 407 exercise 8.16 (Reading C type declarations)
+
+    double *a[n]; This is a pointer to an array of doubles.
+    double (*b)[n]; This is a pointer to an array of doubles.
+    double (*c[n])(); This is an array of n function pointers
+                        to a function return a double, taking no parameters.
+    double (*d())[n]; This is an array of n function pointers
+                        to a function that takes no parameters and returns a double.
+
+
+--------
+
+
+11. Suppose this C++ code
+
+        const int k = ???; // you need to figure out the value of ???
+        int * i = 0;
+        struct A {
+            int x[k];
+        };
+        A* a = 0;
+        printf( "%d  %d  %d %d  %d  %d  ",
+                i+1, i+k, k, a+k, &(a[9]), &(a[9]) - (a+1)  );
+
+    outputs the values for the first two expressions
+        4  12
+
+    What are its remaining outputs?
+    Briefly explain how the output is obtained.  (Hint: pay attention to coercion.)
+
+
+        k must have value of 3. We know i = 0 to start. When adding to a pointer, you
+        add the size of the type it is referencing to the memory address. Because i+1
+        prints 4, we know the size of an int is 4. This means for 12 to print, k must
+        be 3. This also means our size for A is now 12. So for a+k we output 36. For
+        &(a[9]) we output 12*9 or 108. For the last expression, we output 8 as this is
+        the difference from a[9] and a+1 (a[1]). It returns the number of indices these
+        points are apart as they are of the same type. This result is then coerced to
+        an integer to print.
