@@ -1,0 +1,256 @@
+Tim Hung
+CS471 Assignment 2
+
+   1)
+    <expr>      ::= <term> + <expr>
+                  | <term>
+    <term>      ::= <factor> * <term>
+                  | <factor>
+    <factor>    ::= ( <expr> )
+                  | <number>
+    <number>    ::= NUMBER
+
+    In this grammar, the production rules are all right recursive.
+    Plus and multiply are both right-associative in this grammar.
+
+   2)
+    <expr>      ::= <sub> + <expr>
+                  | <sub>
+    <sub>       ::= <term> - <sub>
+                  | <term>
+    <term>      ::= <avg> * <term>
+                  | <avg>
+    <avg>       ::= <factor> @ <avg>
+                  | <factor>
+    <factor>    ::= ( <expr> )
+                  | <number>
+    <number>    ::= NUMBER
+
+   3)
+        <expr>
+        <sub> + <expr>
+        <term> + <expr>
+        <avg> + <expr>
+        <factor> + <expr>
+        <number> + <expr>
+        1 + <expr>
+        1 + <sub>
+        1 + <term> - <sub>
+        1 + <avg> - <sub>
+        1 + <factor> - <sub>
+        1 + <number> - <sub>
+        1 + 2 - <sub>
+        1 + 2 - <term>
+        1 + 2 - <avg>
+        1 + 2 - <factor>
+        1 + 2 - <number>
+        1 + 2 - 2
+
+        <expr>
+        <sub>
+        <term> - <sub>
+        <avg> - <sub>
+        <factor> - <sub>
+        <number> - <sub>
+        2 - <sub>
+        2 - <term>
+        2 - <avg> * <term>
+        2 - <factor> * <term>
+        2 - <number> * <term>
+        2 - 3 * <term>
+        2 - 3 * <avg>
+        2 - 3 * <factor>
+        2 - 3 * <number>
+        2 - 3 * 5
+
+        <expr>
+        <sub>
+        <term> - <sub>
+        <avg> - <sub>
+        <factor> - <sub>
+        <number> - <sub>
+        10 - <sub>
+        10 - <term>
+        10 - <avg>
+        10 - <factor> @ <avg>
+        10 - <number> @ <avg>
+        10 - 5 @ <avg>
+        10 - 5 @ <factor>
+        10 - 5 @ <number>
+        10 - 5 @ 2
+
+
+        <expr>
+        <sub>
+        <term> - <sub>
+        <avg> - <sub>
+        <factor> - <sub>
+        <number> - <sub>
+        10 - <sub>
+        10 - <term> - <sub>
+        10 - <avg> - <sub>
+        10 - <factor> - <sub>
+        10 - <number> - <sub>
+        10 - 7 - <sub>
+        10 - 7 - <term>
+        10 - 7 - <avg>
+        10 - 7 - <factor>
+        10 - 7 - <number>
+        10 - 7 - 2
+
+   4)
+        Code modified in ./arith1.c
+
+   5)
+        <expr>      := { <term> + } <term>
+        <term>      := { <factor> * } <factor>
+        <factor>    := ( <expr> )
+                     | <number>
+        <number>    := NUMBER
+
+        In this grammar, the production rules are all left recursive.
+        Plus and multiply are both left-associative in this grammar.
+
+        
+   6)
+        <expr>      := { <sub> + } <sub>
+        <sub>       := { <term> + } <term>
+        <term>      := { <avg> * } <avg>
+        <avg>       := { <factor> * } <factor>
+        <factor>    := ( <expr> )
+                     | <number>
+        <number>    := NUMBER
+
+   7)
+        <expr>
+        <sub> + <expr>
+        <term> + <expr>
+        <avg> + <expr>
+        <factor> + <expr>
+        <number> + <expr>
+        1 + <expr>
+        1 + <sub>
+        1 + <term> - <sub>
+        1 + <avg> - <sub>
+        1 + <factor> - <sub>
+        1 + <number> - <sub>
+        1 + 2 - <sub>
+        1 + 2 - <term>
+        1 + 2 - <avg>
+        1 + 2 - <factor>
+        1 + 2 - <number>
+        1 + 2 - 2
+
+        <expr>
+        <sub>
+        <term> - <sub>
+        <avg> - <sub>
+        <factor> - <sub>
+        <number> - <sub>
+        2 - <sub>
+        2 - <term>
+        2 - <avg> * <term>
+        2 - <factor> * <term>
+        2 - <number> * <term>
+        2 - 3 * <term>
+        2 - 3 * <avg>
+        2 - 3 * <factor>
+        2 - 3 * <number>
+        2 - 3 * 5
+
+        <expr>
+        <sub>
+        <term> - <sub>
+        <avg> - <sub>
+        <factor> - <sub>
+        <number> - <sub>
+        10 - <sub>
+        10 - <term>
+        10 - <avg>
+        10 - <factor> @ <avg>
+        10 - <number> @ <avg>
+        10 - 5 @ <avg>
+        10 - 5 @ <factor>
+        10 - 5 @ <number>
+        10 - 5 @ 2
+
+
+        <expr>
+        <sub>
+        <term> - <sub>
+        <avg> - <sub>
+        <factor> - <sub>
+        <number> - <sub>
+        10 - <sub>
+        10 - <term> - <sub>
+        10 - <avg> - <sub>
+        10 - <factor> - <sub>
+        10 - <number> - <sub>
+        10 - 7 - <sub>
+        10 - 7 - <term>
+        10 - 7 - <avg>
+        10 - 7 - <factor>
+        10 - 7 - <number>
+        10 - 7 - 2
+
+
+   8)
+        Changes made in ./arith2.c
+
+
+
+   9)
+        1) C Identifiers
+            /[a-zA-Z_][a-zA-Z0-9_]*/
+
+        2) Strings
+            /"((\\{2})*|(.*?[^\\](\\{2})*))"/
+
+        3) Strings over {a,b} with even b's.
+            /(a*ba*ba*)*/
+
+        4) Strings over {a,b,c} with odd number c's.
+            /[ab]*c([ab]*c[ab]*c)*[ab]*/
+
+
+
+  10)
+        (1) What are they used for?
+
+            _Bool has been a builtin type since C99, stores a 0 or a 1.
+            By including stdbool.h, you can use bool with its constants true and false.
+
+        (2) Why do both exist?
+
+            _Bool exists for backwards compatibility, and bool exists as syntactic sugar.
+
+        (3) Is one better than the other? Why?
+
+            Objectively no, but from an ease of coding perspective, bool is more natural to use. I prefer to use bool.
+
+
+  11) Pragmas or directives allow the programmer to specify specific instructions to the compiler. They need to be scanned so the rest of compilation can go according to the pragmas. It allows programmers to have more control.
+
+
+
+------------------------
+
+  Parenthesized infix for 12 and 13
+        a)  ((z ^ w) ^ x) + y
+        b)  w + (x + (y * z))
+        c)  (w * x) * (y ^ z)
+        d)  (((w * x) / y) * z)
+
+
+  12) Prefix
+        a)  + ^ ^ z w x y
+        b)  + w + x * y z
+        c)  * * w x ^ y z
+        d)  * / * w x y z
+
+
+  13) Postfix
+        a)  z w ^ x ^ y +
+        b)  w x y z * + +
+        c)  w x * y z ^ *
+        d)  w x * y / z *
