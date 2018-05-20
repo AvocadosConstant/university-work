@@ -1,0 +1,211 @@
+Michael Correale
+Tim Hung
+Andrew Chellis
+CS471 Homework 9
+
+1. Page 421 (chapter 9) CYU 11,12
+
+    11. An inline subroutine operates as a suggestion to the compiler that the
+    function code should be substituted in where that function is called.
+    A macro, on the other hand, is always a substitution.
+
+    12. If a subroutine is short and simple, such that the time to call the
+    function would be significant compared to the function execution time,
+    then it a benefit to move the code inline and avoid the function call overhead.
+
+
+
+
+2. Page 440 CYU 19
+
+    An r-value reference allows you to pass an r-value by reference to a
+    function and still use it through r value syntax.
+    This was a boon for c++ as you can pass objects by reference without the pain of using and dereferencing pointers.
+    It’s less error prone than pointers while providing equivalent functionality.
+
+
+
+3. Page 461 CYU 36
+    A coroutine is a parallel operating stream that control can be shifted to and from.
+    Only one coroutine may run at a time.
+    A thread is a parallel operating stream that operates independently and multiple may run at once.
+
+
+
+
+
+4. Page 461 CYU 43
+
+    Anonymous delegates and anonymous inner classes are great for handling events as they are
+    very simple and make it easy to write quick, clear handlers with little syntactical overhead.
+
+    This direction towards small handlers is also good as it drives a smooth user
+    experience where the program does not spend too long handling errors as opposed to running the main program.
+
+
+
+
+5. Page 463 exercise 9.4
+
+    9.4 Consider the following (erroneous) program in C: 
+    void foo() {
+    int i;
+    printf("%d ", i++);
+    }
+    int main() {
+    int j;
+    for (j = 1; j <= 10; j++) foo();
+    }
+
+    Local variable i in subroutine foo is never initialized.
+    On many systems, however, the program will display repeatable behavior, printing 01234 56789.
+    Suggest an explanation.
+    Also explain why the behavior on other systems might be different, or nondeterministic.
+
+
+
+    Since i is never initialized, it contains some garbage value.
+
+    This can result in wacky behavior that completely depends on that memory location where i is held, 
+    possible displaying the aforementioned repeatable behavior.
+    
+    In some systems, the OS might have cleared the value, resulting in different behavior.
+
+
+
+6. page 465 exercise 9.15
+
+    9.15 Consider the following declaration in C: 
+    double(*foo(double (*)(double, double[]), double)) (double, ...);
+    Describe in English the type of foo.
+
+    foo is the declaration of a function that returns a function pointer to another function that takes a double, then 0 or more variable arguments.
+    foo has 2 parameters,
+    The first is a pointer to a function that takes 2 arguments: a double and a double array.
+    The second is a double
+
+
+
+7. Consider the following function/macro definition in C:
+
+    #define SQUARE(x) x*x
+        int squaref (int x) {
+        return x * x;
+    }
+
+    Assume a = 5. 
+    What is the result of the invocation of squaref(a) ? (Assume pass by value semantics.)
+
+        25
+
+    What is the computed result  of SQUARE(a)?   (Macro expansion.)
+
+        5*5
+
+    Give an example where squaref(x) and SQUARE(x) compute different values.
+
+    squaref(1+2)    ->      9
+    SQUARE(1+2)     ->      1+2*1+2     ->      5
+
+
+
+
+8. Consider the following code snippet in C-like syntax:
+
+    int a[3];
+
+    int runit() {
+        i = 1;
+        a[0] = 2;
+        a[1] = 1;
+        a[2] = 0;
+        mys(i,a[i]);
+        print(i, a[0], a[1], a[2]);
+        mys(a[1],a[i]);
+        print(i, a[0], a[1], a[2]);
+        return 0;
+    }
+    void mys(int x, int y) {
+        x = x + y;
+        y = x - y;
+        x = x - y;
+    }
+
+    What is the printout of runit()  assuming each of the following parameter-passing mechanisms.  Show how you determined the answer.   There may be more than one correct answer.
+
+    a. By value.
+        1 2 1 0
+        1 2 1 0
+
+        Since these are passed by value, the original variables are never altered.
+
+    b. By reference.
+        1 2 1 0
+        1 2 0 0
+
+        After the first mys(), nothing is altered, but in the second one, since both parameters
+        have references to a[1], it ends up becoming 0 in the line y = x-y.
+
+    c. By value-result.
+        1 2 1 0
+        1 2 1 0
+
+        The values are essentially copied by value, and at the termination of mys,
+        the values of the copies are written back into the original variables.
+        
+        This doesn’t effect the print output for this example. (Same as pass-by-value in this case)
+
+    d. By macro expansion.
+        0 2 1 0
+        2 2 0 1
+
+        Essentially same as pass by name, see e. Below
+
+    e. By name.
+
+        0 2 1 0
+        2 2 0 1
+
+        In mys(), a[i] will depend on the current value of i in the function,
+        essentially doing this:
+
+        void mys(i, a[i]) {
+            i = i + a[i];       // i = 2
+            a[i] = i - a[i];    // a[2] = 2 - a[2] = 2 - 0 = 2
+            i = i - a[i];       // i = 2 - a[2] = 2 - 2 = 0
+        }
+
+        void mys(a[1], a[i]) {      // i = 2
+            a[1] = a[1] + a[i];     // a[1] = 1 + 0 = 1
+            a[i] = a[1] - a[i];     // a[2] = 1 - a[2] = 1 - 0 = 1
+            a[1] = a[1] - a[i];     // a[1] = 1 - a[2] = 1 - 1 = 0
+        }
+
+
+
+
+9. Page 526 exercise 10.14
+
+    Java final methods cannot be overridden, but can override a method in the parent
+    class of the same name that isn’t declared as final, and are dynamically dispatched for inheritance.
+
+    C++ non-virtual methods also cannot be overridden, but do not override
+    anything and cannot be dynamically dispatched.
+
+
+
+
+10. Page 527 exercise 10.16
+    
+    A bar object would contain both ‘b’ fields.
+    To access foo’s b, you would need to call bar::foo::b, while accessing bar’s b would just be bar::b.
+
+11. Page 527 exercise 10.20. In addition, explain why this isn't an issue for Java.
+    
+    You can declare a pointer of a abstract class in c++ as you aren’t instantiating any data 
+    from the abstract class, just declaring that the data at the address that’s being pointed
+    to should have access to the methods declared in the abstract class.
+
+    In java this isn't an issue because there aren't any pointers, so declaring an object like,
+    AbstractClass obj = new OtherClass() would dispatch on the methods declared in the AbstractClass.
+

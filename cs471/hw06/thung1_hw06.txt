@@ -1,0 +1,194 @@
+﻿Michael Correale
+Tim Hung
+Andrew Chellis
+Homework Assignment 6
+DUE 5:00PM on Fri (March 2)
+
+
+________________
+
+
+1. For C++, I will answer based on the gnu compiler and the overall spec of the language.
+The number of built-in functions (math, type queries, etc.) - At language implementation by the specific compiler.
+The variable declaration that corresponds to a particular variable reference (use) - At programming writing time, we say what a variables value will be. Or, thinking of the actual memory reference, at compile time as variables are linked to the memory they use.
+The maximum length allowed for a constant (literal) character string - Compile time. This is based on the maximum value for size_t which is determined by the system architecture at compile time.
+The referencing environment for a subroutine that is passed as a parameter - Run time and compile time. Run time as the values within that referencing environment will be different depending on how it is originally instantiated, but compile time as the subroutine is always defined in one environment, even if the values that are put into that environment change.
+The address of a particular library routine - linking time
+The total amount of space occupied by program code and data - For code and stack, compile time. For heap data, run time as given external arguments, you cannot guarantee space usage values
+
+
+
+________________
+
+
+
+2.         
+        +16 return address  (pushed at start as 8 bytes)
+        +12 ← rbp
+        +8 int i
+        +4 - int j
+        0 ← rsp
+
+Which way does the program stack grow? (i.e. towards higher addresses or lower addresses?)
+    It allocates space by moving a pointer to the bottom of the frame then grows downward from the top by
+    pushing the reference to the previous stack frame and the function parameters.
+
+
+
+________________
+
+
+
+3. Now compile gcdR.c to assembly code on your machine using the command "gcc -O2 -S gcdR.c". Compare the assembly file created using optimization switch, -O2, with the assembly file created without optimization(above #2).  Pay attention to how gcd's recursion is "implemented".  How are they different?
+        It no longer ever makes another call to gcdR. Instead it now jumps between the two subtraction statements until our i and j are finally equal at which points it returns. It has actually optimized the recursion out and is working iteratively.
+
+
+
+
+________________
+
+
+
+
+4. Many storage-management algorithms maintain a list of free blocks.  Here are two different algorithms, first fit and best fit, used to search this list and return a block of the appropriate size.  Which strategy, if either, will result in lower external fragmentation?  What does external fragmentation depend on?
+Best fit will cause less external fragmentation. External fragmentation is having little blocks of free space between allocated blocks. In the case of first fit, large blocks will continually be divided into small block and as these are freed and reused, external fragmentation will begin to build up. Best fit will choose blocks that waste less space and will result in less external fragmentation.
+
+
+________________
+
+
+
+
+5. What is the complexity of using first fit algorithm to allocate blocks?  Briefly explain an algorithm to speed up the allocation. What is the complexity of this modification?
+
+    First fit has a complexity of O(n) because it must linearly traverse the free list to find the first free space. 
+    A technique to improve first fit, involves using separate free lists for different sized blocks.
+    Each different block size is rounded to the next standard size, therefore, there are effectively pools of free space.
+    This makes first fit constant time O(1), because it can just access the free list of the correct size.
+
+
+________________
+
+
+6. What are two principal tradeoff between reference counts and tracing strategy used in garbage collecting?
+        
+    Reference counting cannot handle cycles, and tracing must “stop the world” periodically to reclaim space.
+
+
+________________
+
+
+
+7. Page 398 cyu # 26.  YOU ANSWER should be short and concise but complete.
+
+
+    26. What is the principal purpose of generics? In what sense do generics serve a broader purpose in C++ and Ada than they do in Java and C#?
+        The principal purpose of generics is to allow operations for a variety of different object (parameter) values.
+        This is especially useful when it comes to implementing containers.
+        In C++ and Ada, generics are intended for almost any programming task that requires substantially similar but not identical copies of an abstraction. 
+        However, in Java and C#, generics are provided solely for the sake of polymorphism.
+
+
+________________
+
+
+
+8. Page 124 CYU( check your understand) #4, page 135 CYU #12 and page 167 exercise 3.4.
+
+        4. Explain the distinction between the lifetime of a name-to-object binding and its visibility
+        Lifetime denotes the time between the creation and destruction of a name-to-object binding. It is visible where and when it can be accessed.
+
+
+        12. What do we mean by the scope of a name-to-object binding?
+        The scope of a name-to-object binding is the textual region of the program in which a binding is active. 
+
+
+        3.4 Give three concrete examples drawn from programming languages with which you are familiar in which a variable is live but not in scope.
+
+            1) Python: There is a global variable but in a function, the “global” keyword is not used when defining a variable of the same name.
+            2) C: Same as the python example, if a local variable of the same name as a global is declared, then the global is still live but not in scope.
+            3) C++: private member variables of a class aren’t in scope if execution isn’t in a member function.
+
+
+________________
+
+
+
+9. Page 169 exercise 3.7.
+   1. When Brad calls L = reverse(L), L is so large that attempting to reverse it requires too much memory than the system provides by default, leading to a crash
+   2. Because T and L point to the same address, when brad calls delete_list(L), the memory location at L will be wiped, which since T points to as well, will contain garbage data.
+
+
+________________
+
+
+
+10. Page 172 Exercise 3.16
+   1. “5”, “7”
+   2. a is likely to be statically allocated, since its marked as static in the program
+   3. n can be allocated on the stack since its function is a delegate, meaning it’s known to the compiler before its used.
+   4. c, d would be on the heap, as they are created by the object instantiation, which would be done on the heap
+
+
+________________
+
+
+
+11. Consider the following pseudo code:
+    x : integer := 1
+    y : integer := 20
+    procedure add()
+                x := x + y
+    procedure second(P : procedure)
+                x : integer := 2
+          P()
+    procedure first()
+          y : integer := 3
+          second(add)
+    first()
+    write integer(x)
+
+    What does this program print if the language uses static scoping?
+            With static scoping, 1 would be printed out as x was defined in this scope.
+
+    Explain why 4 is printed out if the language uses dynamic scoping with deep binding.
+            4 is printed out as add() inherits the stack of first(), in which x = 1, and y = 3
+
+    Explain why 1 is printed out if the language uses dynamic scoping with shallow binding.
+            1 is printed out as add() inherits the stack of second(), where x was written to separately from the one in the overall program.
+
+
+
+________________
+
+
+
+
+12. Page 768 exercise 14.11 (perl program)
+
+    sub foo {
+        my $lex = $_[0];
+        my $bar = sub {
+            print "$lex\n";
+            $lex = 5;
+        };
+        print "Call to foo ";
+        print "$lex\n";
+        $bar->();
+    }
+    foo(2);
+    foo(3);
+
+
+
+________________
+
+
+
+
+13. pg. 768 ex 14.13.   I have slightly modified the code for this problem (ruby code)
+   
+   Since the scoping of ruby is by the block, the y referenced by the bar Proc is the same as the one at the top of Foo.
+   Commenting out the y = 2 at the top of Foo removes the reference to Y in that block. 
+   When bar is called, it creates a new y and assigns it to 99, but once it finishes its call, the y is removed from the stack.
+   When you try to print it out at the bottom of foo, the reference to y doesn’t exist, causing an error.

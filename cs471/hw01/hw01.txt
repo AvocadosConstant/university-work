@@ -1,0 +1,116 @@
+Tim Hung
+CS471 Assignment 1
+
+  1)    Label each error as either: lexical, syntactical, static semantic,
+        dynamic semantic, uncheckable error or logical error.
+
+        To compile type: gcc -Wall -std=c99 YOU NEED TO JUSTIFY
+        YOUR ANSWER IN 1 OR 2 SENTENCES.
+
+
+        #include <stdio.h>
+        int a1, char b2;    // syntactical error
+        INT arr[10];        // static semantic error
+        long fr; nx;        // syntactical error
+        long i#rate = 99;   // lexical error
+        int * p;
+        
+        int main (void) {
+          int struct = 8 ;  // static semantic error
+          int x;
+          arr[1] = x;
+          *p = 100;         // static semantic error
+          struct = chg(a);  // static semantic error
+          return struct;    // static semantic error 
+        }
+        int chg(long  fr) {
+          if (fr = 0) {     // logical error
+            x = 10;         // static semantic error
+            arr[10] = 10;   // dynamic semantic error
+          } else {
+            arr[1] = 1;
+          }
+          return arr[1];
+        }
+
+  2)
+            .file	"gcd.c"
+            .text
+            .globl	gcdI
+            .type	gcdI, @function
+        gcdI:
+        .LFB0:
+            .cfi_startproc
+            pushq	%rbp                # Save %rbp (Create stack frame)
+            .cfi_def_cfa_offset 16
+            .cfi_offset 6, -16
+            movq	%rsp, %rbp          # Point %rbp to top of stack
+            .cfi_def_cfa_register 6
+            movl	%edi, -4(%rbp)      # paramater i
+            movl	%esi, -8(%rbp)      # parameter j
+            jmp	.L2
+        .L4:
+            movl	-4(%rbp), %eax      # Load i into %eax
+            cmpl	-8(%rbp), %eax      # Compare j and %eax (i)
+            jle	.L3                     # if (i > j) GOTO L3
+            movl	-8(%rbp), %eax
+            subl	%eax, -4(%rbp)      # j = j - i
+            jmp	.L2                     # Continues loop back to L2
+        .L3:
+            movl	-4(%rbp), %eax
+            subl	%eax, -8(%rbp)      # i = i - j
+        .L2:
+            movl	-4(%rbp), %eax      # Load i into %eax
+            cmpl	-8(%rbp), %eax      # Comparing i and j
+            jne	.L4                     # if (i!=j) GOTO L4
+            movl	-4(%rbp), %eax      # Broke from loop
+            popq	%rbp
+            .cfi_def_cfa 7, 8
+            ret                         # Returning i
+            .cfi_endproc
+        .LFE0:
+            .size	gcdI, .-gcdI
+            .ident	"GCC: (Ubuntu 4.8.4-2ubuntu1~14.04.3) 4.8.4"
+            .section	.note.GNU-stack,"",@progbits
+
+
+  3)
+        No, gcdM() is not correct, because it will cause a modulus by 0 error.
+        The fixed gcdM() will usually be faster, because gcdI has to perform repeated subtraction, whereas gcdM will have to modulus once.
+
+
+  4)
+        1. Can be seen in ./gcd_full.c
+        2. O(n)
+        3. Iteratively because recursion is more costly
+
+
+  5)
+        Implemented in gcd_full.py and gcd_full.rb
+
+
+  6)
+        -32,768 to 32,767 or -2,147,483,648 to 2,147,483,647
+        During overflow, the value will wrap in the direction it is changing.
+
+
+  7)
+        Errors in python3
+
+        a) ho&IHN*&hoiuH
+        b) if if if if
+        c) 1 = 0
+        d) b[out_of_bounds_i] = 10
+        e) import fakelib
+
+
+  8)
+        True, depending on which metric of powerful you use, languages can be faster, more readable, more deployable, etc compared to each other.
+
+
+  9)
+        a)  ack(1,0) = 2
+        b)  ack(0,3) = 4
+        c)  ack.c           ack(3, 14) = 131069
+        d)  ack.py          ack(3, 8) = 2045
+        e)  ack.rb          ack(3, 9) = 4093
