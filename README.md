@@ -4,9 +4,17 @@ Tim Hung | Binghamton University | 2014-2018
 
 ## Senior Year
 
+#### - [CS 480F: High Performance Computing]()
+
+#### - [CS 471: Programming Languages](./cs471/)
+
+#### - [CS 435: Data Mining](./cs435/)
+
 #### - [CS 436: Machine Learning](./cs436/)
 
 #### - [CS 472: Compiler Design](./cs472/)
+
+#### - [MUS 115: Pop, Rock, and Soul Musics](./mus115/)
 
 
 ## Junior Year
