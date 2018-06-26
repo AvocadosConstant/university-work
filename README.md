@@ -25,7 +25,7 @@ Tim Hung | Binghamton University | 2014-2018
 
 #### - [CS 441: Game Development for Mobile Platforms](./courses/cs441/)
 
-#### - [CS 320: Computer Systems 2 - Computer Architecture](./courses//)
+#### - [CS 320: Computer Systems 2 - Computer Architecture](./courses/cs320/)
 
 #### - [MATH 327: Probability and Statistics](./courses/math327/)
 
